@@ -1,0 +1,1100 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="了解Spring Boot概念和Spring Cloud概念，掌握Spring Boot和Spring Cloud的区别。">
+  <meta name="author" content="Mike">
+  <meta name="keywords" content="">
+  <meta name="description" content="了解Spring Boot概念和Spring Cloud概念，掌握Spring Boot和Spring Cloud的区别。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="二、Spring Cloud基础入门">
+<meta property="og:url" content="http://example.com/2021/11/08/%E4%BA%8C%E3%80%81Spring-Cloud%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8/index.html">
+<meta property="og:site_name" content="KeepDive">
+<meta property="og:description" content="了解Spring Boot概念和Spring Cloud概念，掌握Spring Boot和Spring Cloud的区别。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/202111081719032.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/202111081729025.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/202111091641559.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/202111091643315.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/202111091647471.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/202111091759215.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/202111091838730.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/202111091841057.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/202111091843364.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/202111091845246.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/202111101100206.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/202111101117483.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/202111101124218.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/202111101133316.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/202111101134519.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/202111101137419.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/202111101141230.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/202111101151996.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/202111101205892.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/202111101209103.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/202111101211886.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/202111101214110.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/202111101725262.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/202111101806261.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/202111101821055.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/202111101838838.png">
+<meta property="article:published_time" content="2021-11-08T09:05:38.000Z">
+<meta property="article:modified_time" content="2021-11-11T14:24:47.665Z">
+<meta property="article:author" content="Mike">
+<meta property="article:tag" content="Spring Boot">
+<meta property="article:tag" content="Spring Cloud">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://gitee.com/divemaven/git-project/raw/master/202111081719032.png">
+  
+  <title>二、Spring Cloud基础入门 - KeepDive</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>KeepDive</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="二、Spring Cloud基础入门">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-author" aria-hidden="true"></i>
+      Mike
+    </span>
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-11-08 17:05" pubdate>
+        2021年11月8日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      19k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      59 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">二、Spring Cloud基础入门</h1>
+            
+            <div class="markdown-body">
+              <h3 id="二、Spring-Cloud基础入门"><a href="#二、Spring-Cloud基础入门" class="headerlink" title="二、Spring Cloud基础入门"></a>二、Spring Cloud基础入门</h3><h4 id="学习目录"><a href="#学习目录" class="headerlink" title="学习目录"></a>学习目录</h4><ul>
+<li>通过本文的学习，您将可以: </li>
+<li>了解Spring Boot概念和Spring Cloud概念 </li>
+<li>掌握Spring Boot和Spring Cloud的区别 </li>
+<li>了解Spring Cloud常用组件 </li>
+<li>学会开发一个Spring Cloud程序 </li>
+<li>了解服务间的通信方式</li>
+</ul>
+<h4 id="第一章-Spring-Boot的介绍"><a href="#第一章-Spring-Boot的介绍" class="headerlink" title="第一章  Spring Boot的介绍"></a>第一章  Spring Boot的介绍</h4><p>在明白了微服务是什么的基础上，我们接下来看一下到底什么是Spring Boot? Spring Boot跟微服务又有些什么联系？让我们带着这些问题进入Spring Boot的内容学习。</p>
+<h5 id="1-1-什么是Spring-Boot"><a href="#1-1-什么是Spring-Boot" class="headerlink" title="1.1 什么是Spring Boot"></a>1.1 什么是Spring Boot</h5><ul>
+<li><p>开发团队：是由Pivotal团队提供的全新框架。</p>
+</li>
+<li><p>设计目标：简化新Spring应用的初始搭建以及开发过程。</p>
+<ul>
+<li><p>Spring Boot框架使用了特定的方式来进行配置，使开发人员不再需要定义样板化的配置。</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/202111081719032.png" srcset="/img/loading.gif" lazyload alt="image-20211108171933988"></p>
+</li>
+<li><p>简单来说：Spring Boot整合了许多优秀的框架，不需要用户手动的去写一堆xml配置 ，再进行配置。</p>
+</li>
+</ul>
+</li>
+<li><p> 首先我们看一下什么是Spring Boot。</p>
+</li>
+<li><p>Spring Boot致力于在蓬勃发展的快速应用开发领域(rapid application development)成为领导者。</p>
+</li>
+<li><p>Spring Boot相当于Java开发中使用的Maven。</p>
+</li>
+<li><p><strong>Spring Boot的四个核心：</strong></p>
+<ol>
+<li><strong>自动配置</strong></li>
+<li> <strong>起步依赖</strong></li>
+<li> <strong>命令行界面</strong></li>
+<li> <strong>Actuator监控</strong></li>
+</ol>
+</li>
+<li><p>Spring Boot将很多魔法带入了Spring应用程序的开发之中，其中最重要的是以下四个核心。</p>
+<ul>
+<li><p><strong>自动配置</strong>：针对很多Spring应用程序常见的应用功能，Spring Boot能自动提供相关配置，对于开发人员还需要添加相应jar包，不再需要复杂的xml配置就可以实现功能。</p>
+</li>
+<li><p><strong>起步依赖</strong>：告诉Spring Boot需要什么功能，它就能引入需要的库。开发人员不再需要把依赖一个个添加进来，只需要添加对应的starter包依赖就可以解决复杂的依赖问题。</p>
+</li>
+<li><p><strong>命令行界面</strong>：这是Spring Boot的可选特性，借此你只需写代码就能完成完整的应用程序，无需传统项目构建，可以在命令行界面快速构建应用。</p>
+</li>
+<li><p><strong>Actuator监控</strong>：让你能够深入运行中的Spring Boot应用程序，一探究竟。添加actuator依赖后，通过在actuator包中预定义好的url，可以很快速的获取应用的运行信息，比如通过 “/autoconfig”可以查看自动配置的使用情况，“/health” 查看应用健康指标，“/env” 查看所有环境变量。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="1-2-开发第一个Spring-Boot应用程序"><a href="#1-2-开发第一个Spring-Boot应用程序" class="headerlink" title="1.2 开发第一个Spring Boot应用程序"></a>1.2 开发第一个Spring Boot应用程序</h5><ul>
+<li><p>开发的基本流程和步骤：</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/202111081729025.png" srcset="/img/loading.gif" lazyload alt="image-20211108172952981"></p>
+</li>
+<li><p>接下来我将带领大家开发第一个Spring Boot的应用程序</p>
+</li>
+</ul>
+<h6 id="1-2-1-环境准备"><a href="#1-2-1-环境准备" class="headerlink" title="1.2.1 环境准备"></a>1.2.1 环境准备</h6><ul>
+<li><p>环境准备：</p>
+<ul>
+<li><p>JDK1.8</p>
+</li>
+<li><p> Maven版本：3.3.9</p>
+</li>
+<li><p>修改setting配置为国内下载镜像</p>
+</li>
+<li><p>Maven编码过程中需要下载依赖，需要网络环境</p>
+</li>
+<li><p>Eclipse或者IDEA</p>
+<ul>
+<li>字符集编码：UTF-8</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>在真正开发Spring Boot项目之前我们要确保我们的环境是一致，以免中途发生一些意想不到的问题；</p>
+<ul>
+<li>首先我们是用的是jdk1.8版本，使用Eclipse或者IDEA作为开发工具（我们演示的使用采用 Eclipse Oxygen 作为开发工具），目前新版的开发工具中已经集成了Maven，我们只需要修 改Maven的Setting配置文件（主要是修改本地仓库位置，国内下载镜像）。</li>
+<li>默认情况下Maven的下载地址为国外的站点，依赖包的下载非常缓慢。当然由于要下载相关的依赖包，所以需要有网络环境</li>
+<li>使用Eclipse或者IDEA时建议大家把编码都改为UTF-8，以避免一些乱码问题。</li>
+</ul>
+</li>
+</ul>
+<h6 id="1-2-2创建Maven工程并添加依赖"><a href="#1-2-2创建Maven工程并添加依赖" class="headerlink" title="1.2.2创建Maven工程并添加依赖"></a>1.2.2创建Maven工程并添加依赖</h6><ul>
+<li>步骤一：<ul>
+<li>使用IDEA创建Maven项目工程<ul>
+<li><p>file -&gt; new -&gt; project -&gt; Maven</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/202111091641559.png" srcset="/img/loading.gif" lazyload alt="image-20211109164143370"></p>
+</li>
+<li><p>详细信息<img src="https://gitee.com/divemaven/git-project/raw/master/202111091643315.png" srcset="/img/loading.gif" lazyload alt="image-20211109164356217"></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>项目创建成功后结构如下图，图中的最后一个文件pom.xml就是maven的核心配置文件，后面我们大量的依赖配置都需要在这个配置文件中进行。<img src="https://gitee.com/divemaven/git-project/raw/master/202111091647471.png" srcset="/img/loading.gif" lazyload alt="image-20211109164751372"></li>
+</ul>
+<ul>
+<li><p>步骤二：</p>
+<ul>
+<li><p>修改项目根目录下的pom.xml配置文件，添加SpringBoot依赖</p>
+</li>
+<li><p>在pom.xml配置文件中的dependencies节点下添加依赖，添加内容如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs XML"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.5.11.RELEASE<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><br></code></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>在pom.xml配置文件中添加Spring Boot的依赖，这里我们统一Spring Boot的依赖版本为 1.5.11.RLEASE。</p>
+</li>
+</ul>
+<h6 id="1-2-3-开发主程序（启动类）"><a href="#1-2-3-开发主程序（启动类）" class="headerlink" title="1.2.3 开发主程序（启动类）"></a>1.2.3 开发主程序（启动类）</h6><ul>
+<li><p>步骤三：</p>
+<ul>
+<li>开发主程序：<ul>
+<li>在src/main/java中新建包com.test</li>
+<li>在com.test包中新建类FirstDemoApplication</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/202111091759215.png" srcset="/img/loading.gif" lazyload alt="image-20211109175944160"></p>
+</li>
+<li><p>在src/main/java中新建包，com.test（这里包的名字大家可以随便建，能识别即可）；</p>
+</li>
+<li><p>编写主程序：</p>
+<ul>
+<li><p>编写FirstDemoApplication 类代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@SpringBootApplication</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">FirstDemoApplication</span> </span>&#123;<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        SpringApplication.run(FirstDemoApplication.class, args);<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>开发程序的启动类FirstDemoApplication ；此类主要用于Spring Boot应用程序的启动，程序的入口就是这里了；在运行FirstDemoApplication 类时会进入main方法的调用，然后再main方法中启动了SpringApplication；</p>
+</li>
+<li><p>此处注意一定要添加@SpringBootApplication注解</p>
+</li>
+<li><p>详细代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.test;<br><br><span class="hljs-keyword">import</span> org.springframework.boot.SpringApplication;<br><span class="hljs-keyword">import</span> org.springframework.boot.autoconfigure.SpringBootApplication;<br><br><span class="hljs-meta">@SpringBootApplication</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">FirstDemoApplication</span> </span>&#123;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        SpringApplication.run(FirstDemoApplication.class, args);<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure></li>
+</ul>
+<h6 id="1-2-4-开发Controller"><a href="#1-2-4-开发Controller" class="headerlink" title="1.2.4 开发Controller"></a>1.2.4 开发Controller</h6><ul>
+<li><p>步骤四：</p>
+<ul>
+<li><p>在FirstDemoApplication 类项目包下新建HelloController类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs Java"><span class="hljs-meta">@RestController</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HelloController</span> </span>&#123;<br><br>    <span class="hljs-meta">@RequestMapping(&quot;/hello&quot;)</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">hello</span><span class="hljs-params">()</span></span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;hello world&quot;</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>开发Controller程序，用于实现业务方法。</p>
+</li>
+<li><p> 详细代码如下：</p>
+</li>
+</ul>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.test;<br><br><span class="hljs-keyword">import</span> org.springframework.web.bind.annotation.RequestMapping;<br><span class="hljs-keyword">import</span> org.springframework.web.bind.annotation.RestController;<br><br><span class="hljs-meta">@RestController</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HelloController</span> </span>&#123;<br><br>    <span class="hljs-meta">@RequestMapping(&quot;/hello&quot;)</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">hello</span><span class="hljs-params">()</span></span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;hello world&quot;</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h6 id="1-2-5-启动主程序"><a href="#1-2-5-启动主程序" class="headerlink" title="1.2.5  启动主程序"></a>1.2.5  启动主程序</h6><ul>
+<li><p>步骤五：</p>
+<ul>
+<li><p>运行FirstDemoApplication 类，控制台打印如下内容表示启动成功</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/202111091838730.png" srcset="/img/loading.gif" lazyload alt="image-20211109183820550"></p>
+</li>
+</ul>
+</li>
+<li><p>运行FirstDemoApplication 类；在IDEA中使用鼠标右键-》RUN ‘FirstDemoApplication ’就可以 启动SpringBoot应用程序。这里的基本配置，以及启动方法在后面会大量用到，所以大家一定要掌握。</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/202111091841057.png" srcset="/img/loading.gif" lazyload alt="image-20211109184142951"></p>
+</li>
+</ul>
+<h6 id="1-2-6-浏览器访问测试"><a href="#1-2-6-浏览器访问测试" class="headerlink" title="1.2.6 浏览器访问测试"></a>1.2.6 浏览器访问测试</h6><ul>
+<li><p>步骤六：</p>
+<ul>
+<li><p>在浏览器中输入<a target="_blank" rel="noopener" href="http://localhost:8080/hello">http://localhost:8080/hello</a> 就可以看到我们写的第一个Spring Boot应用内容。</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/202111091843364.png" srcset="/img/loading.gif" lazyload alt="image-20211109184341321"></p>
+</li>
+</ul>
+</li>
+</ul>
+<h6 id="1-2-7-项目完整结构"><a href="#1-2-7-项目完整结构" class="headerlink" title="1.2.7  项目完整结构"></a>1.2.7  项目完整结构</h6><ul>
+<li><p>项目完整截图如下：</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/202111091845246.png" srcset="/img/loading.gif" lazyload alt="image-20211109184510193"></p>
+</li>
+<li><p>项目的完整结构如上图，Spring Boot项目的创建跟普通maven项目创建是一致的，然后添加 Spring Boot依赖，启动类，业务Controller就完成了我们第一个Spring Boot项目的创建。步骤很简单，大家一定要掌握。</p>
+</li>
+</ul>
+<h5 id="1-3-Spring-Boot的示例"><a href="#1-3-Spring-Boot的示例" class="headerlink" title="1.3 Spring Boot的示例"></a>1.3 Spring Boot的示例</h5><ul>
+<li><p>接收客户端参数</p>
+</li>
+<li><p>Spring Boot配置文件</p>
+</li>
+<li><p>FirstDemo项目如何接收前端传递的参数呢？</p>
+</li>
+<li><p>我们都知道tomcat默认的端口是8080，如果我们8080端口被占用了，我们如何修改Spring  Boot项目的端口呢？</p>
+</li>
+<li><p>接下来我将以上面2个案例为大家解决参数接收，自动重启，配置文件中修改端口问题。</p>
+</li>
+<li><p>注意后面的2个案例都是以FirstDemo作为基础</p>
+</li>
+</ul>
+<h6 id="1-3-1-接收客户端参数"><a href="#1-3-1-接收客户端参数" class="headerlink" title="1.3.1 接收客户端参数"></a>1.3.1 接收客户端参数</h6><ul>
+<li>接收客户端参数：<ul>
+<li>在FirstDemo项目中的HelloController类中新增一个处理前端参数的方法</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@RequestMapping(&quot;/hello/&#123;name&#125;&quot;)</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">hello</span><span class="hljs-params">(<span class="hljs-meta">@PathVariable</span> String name)</span></span>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;hello &quot;</span> + name;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><p>如果需要接受浏览器传递的参数，在使用Spring Boot项目我们很容易就可以解决这个问题；</p>
+<ul>
+<li>路径传参，如上面代码我们使用的是路径传参数，其中“{name}”就是参数；在 @RequestMapping中定义访问路径以及参数后，我们需要方法参数中添加 “@PathVariable String name”，这里注意“@PathVariable String name”中的name要 跟“@RequestMapping(“/hello/{name}”)”中的name一致。</li>
+</ul>
+</li>
+<li><p>上面的代码演示了从浏览器接收参数并回显到浏览器界面。</p>
+</li>
+<li><p>浏览器访问测试：</p>
+<ul>
+<li>在浏览器中访问 <a target="_blank" rel="noopener" href="http://localhost:8080/hello/keepdive%EF%BC%8C%E6%98%BE%E7%A4%BA%E5%A6%82%E4%B8%8B%E5%9B%BE%EF%BC%9A">http://localhost:8080/hello/keepdive，显示如下图：</a></li>
+</ul>
+</li>
+</ul>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/202111101100206.png" srcset="/img/loading.gif" lazyload alt="image-20211110110025158"></p>
+<ul>
+<li>上面<a target="_blank" rel="noopener" href="http://localhost:8080/hello/keepdive%E9%93%BE%E6%8E%A5%E4%B8%AD%E2%80%9Ckeepdive%E2%80%9D%E5%B0%B1%E6%98%AF%E5%8F%82%E6%95%B0%EF%BC%8C%E6%89%80%E4%BB%A5%E5%9C%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E6%98%BE%E7%A4%BA%E4%BA%86">http://localhost:8080/hello/keepdive链接中“keepdive”就是参数，所以在浏览器显示了</a> “hello keepdive”        </li>
+</ul>
+<h6 id="1-3-2-Spring-Boot配置文件"><a href="#1-3-2-Spring-Boot配置文件" class="headerlink" title="1.3.2  Spring Boot配置文件"></a>1.3.2  Spring Boot配置文件</h6><ul>
+<li><p>SpringBoot配置文件默认可以放到以下目录中，可以实现自动读取：</p>
+<ul>
+<li><p>项目的resources目录下</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/202111101117483.png" srcset="/img/loading.gif" lazyload alt="image-20211110111709413"></p>
+</li>
+</ul>
+</li>
+<li><p>在介绍修改应用端口之前，我们先看一下Spring Boot应用的配置文件应该放在哪里？如上图位置。</p>
+</li>
+<li><p>如果tomcat默认的8080端口被占用，我们只需要在上面的任意一个配置文件中添加 “server.port: 要修改的端口号” 就可以修改Spring Boot应用的启动端口，当然这里也支持 properties配置文件，不过我们建议统一都使用yaml文件作为配置文件，其中yaml的具体语法可以参考腾讯云的<strong>YAML 格式介绍</strong>文档： <a target="_blank" rel="noopener" href="https://cloud.tencent.com/document/product/649/17925%EF%BC%9B">https://cloud.tencent.com/document/product/649/17925；</a></p>
+</li>
+<li><p>如果要修改启动端口，我们只需要在上述配置路径下任意一个 application.yml配置文件中添加配置代码：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs YML"><span class="hljs-attr">server:</span><br>  <span class="hljs-attr">port:</span> <span class="hljs-number">8000</span><br></code></pre></td></tr></table></figure></li>
+<li><p>添加配置代码后，重启应用，就可以通过8000端口访问应用了。</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/202111101124218.png" srcset="/img/loading.gif" lazyload alt="image-20211110112404165"></p>
+</li>
+</ul>
+<h4 id="第二章-Spring-Cloud的介绍"><a href="#第二章-Spring-Cloud的介绍" class="headerlink" title="第二章  Spring Cloud的介绍"></a>第二章  Spring Cloud的介绍</h4><p>在掌握了Spring Boot的基本使用后，接下来我们进入Spring Cloud的内容学习；</p>
+<p>什么是Spring  Cloud？</p>
+<p>Spring Boot和Spring Cloud又有什么关系呢？</p>
+<p>带着这些问题我们继续Spring Cloud的内容学习。</p>
+<h5 id="2-1-什么是Spring-Cloud"><a href="#2-1-什么是Spring-Cloud" class="headerlink" title="2.1  什么是Spring Cloud"></a>2.1  什么是Spring Cloud</h5><ul>
+<li><p>什么是Spring Cloud？</p>
+<ul>
+<li>Spring Cloud是基于Spring Boot实现微服务的框架，包含多个子项目的整体方案。</li>
+<li>与其他微服务框架的最明显区别是只能使用Java语言。</li>
+</ul>
+</li>
+<li><p><strong>Spring Cloud的核心</strong>：</p>
+<ul>
+<li><p>服务的注册与发现</p>
+<ul>
+<li><p>服务提供者：是指服务的被调用方</p>
+</li>
+<li><p>服务消费者：是指服务的调用方</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Spring Cloud为开发人员提供了快速构建分布式系统中一些常见模式的工具（例如配置管理，服务发现，断路器，智能路由，微代理，控制总线）</p>
+</li>
+<li><p>Spring Cloud是基于Spring Boot 提供的一套微服务解决方案</p>
+</li>
+<li><p>Spring Cloud除了基于NetFlix的开源组件做高度抽象封装之外，还有一些选型中立的开源组件。</p>
+</li>
+<li><p>Spring CLoud利用Spring Boot的开发便利性巧妙的简化了分布式系统基础设施的开发，Spring  Cloud为开发人员提供了快速构建分布式系统的一些工具。</p>
+</li>
+<li><p><strong>Spring Cloud的核心是服务注册与发现</strong>，后面我们在使用整套Spring Cloud的功能时，都需要先把开发好的服务注册到服务注册中心。</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/202111101133316.png" srcset="/img/loading.gif" lazyload alt="image-20211110113346246"></p>
+</li>
+<li><p>上图中就是Spring Cloud的基本组件架构图，从上图我们也可以看出来，Spring Cloud包括配置管理、服务发现、断路器、路由、微代理、事件总线、全局锁、决策竞选、分布式会话等。它们都可以用SpringBoot的开发风格做到一键启动和部署。</p>
+</li>
+</ul>
+<h5 id="2-2-Spring-Boot和Spring-Cloud的区别"><a href="#2-2-Spring-Boot和Spring-Cloud的区别" class="headerlink" title="2.2  Spring Boot和Spring Cloud的区别"></a>2.2  Spring Boot和Spring Cloud的区别</h5><p><img src="https://gitee.com/divemaven/git-project/raw/master/202111101134519.png" srcset="/img/loading.gif" lazyload alt="image-20211110113448465"></p>
+<p>上图是Spring官网的关于Spring Boot的介绍图，在了解了Spirng Cloud的基本概念后我们再看这幅图，相信通过这幅图大家应该能明白Spirng Boot和Spring Cloud的基本区别了。</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/202111101137419.png" srcset="/img/loading.gif" lazyload alt="image-20211110113702359"></p>
+<ul>
+<li><p>Spring boot 是 Spring 的一套快速配置脚手架，可以基于spring boot 快速开发单个微服务； Spring Cloud是一个基于Spring Boot实现的云应用开发工具；</p>
+</li>
+<li><p>Spring boot专注于快速、方便集成的单个个体，Spring Cloud是关注全局的服务治理框架；</p>
+</li>
+<li><p>Spring boot使用了默认大于配置的理念，很多集成方案已经帮你选择好了，能不配置就不配置， Spring Cloud很大的一部分是基于Spring boot来实现。</p>
+</li>
+<li><p>Spring boot可以离开Spring Cloud独立使用开发项目，但是Spring Cloud离不开Spring boot， 属于依赖的关系。</p>
+</li>
+</ul>
+<h5 id="2-3-Spring-Cloud的常用组件"><a href="#2-3-Spring-Cloud的常用组件" class="headerlink" title="2.3  Spring Cloud的常用组件"></a>2.3  Spring Cloud的常用组件</h5><p><img src="https://gitee.com/divemaven/git-project/raw/master/202111101141230.png" srcset="/img/loading.gif" lazyload alt="image-20211110114127171"></p>
+<ul>
+<li><p>在介绍Spring Cloud 常用组价之前，首先要介绍一下Netflix ，Netflix 是一个很伟大的公司，在 Spring Cloud项目中占着重要的作用，Netflix公司提供了包括Eureka、Hystrix、Zuul、 Archaius等在内的很多组件，在微服务架构中至关重要，Spring在Netflix的基础上，封装了一系列的组件，命名为：Spring Cloud Eureka、Spring Cloud Hystrix、Spring Cloud Zuul等， 下边对各个组件进行分别介绍：</p>
+<ul>
+<li><strong>Spring Cloud Eureka</strong><ul>
+<li>服务注册中心,可以把开发的接口注册到Eureka服务注册中心，所有服务间调用都通过服务的形式访问，并不通过http直连。构成Eureka体系的包括：<strong>服务注册中心、服务提供者、 服务消费者</strong>。</li>
+</ul>
+</li>
+<li><strong>Spring Cloud Ribbon</strong><ul>
+<li>Spring Cloud Eureka描述了服务如何进行注册，注册到哪里，服务消费者如何获取服务生产者的服务信息，但是Eureka只是维护了服务生产者、注册中心、服务消费者三者之间的关系，<strong>真正的服务消费者调用服务生产者提供的数据是通过Spring Cloud Ribbon 来实现的。</strong></li>
+</ul>
+</li>
+<li><strong>Spring Cloud Feign</strong><ul>
+<li>如果使用过Ribbon调用服务的话，就可以感受到使用Ribbon的方式还是有一些复杂，因 此Spring Cloud Feign应运而生。<strong>Spring Cloud Feign 是一个声明web服务客户端</strong>，这使得编写Web服务客户端更容易，使用Feign只需要创建一个接口并对它进行注解。 Spring  Cloud 集成 Ribbon 和 Eureka 提供的负载均衡的HTTP客户端 Feign。<strong>简单的可以理解为： Spring Cloud Feign 的出现使得Eureka和Ribbon的使用更为简单。</strong></li>
+</ul>
+</li>
+<li> <strong>Spring Cloud Hystrix</strong></li>
+<li>断路器，保险丝；例如：当有一个服务出现了故障，而服务的调用方不知道服务出现故障， 若此时调用放的请求不断的增加，最后就会等待出现故障的依赖方相应形成任务的积压， 最终导致自身服务的瘫痪。Spring Cloud Hystrix正是为了解决这种情况的，<strong>防止对某一故障服务持续进行访问</strong>。</li>
+<li><strong>Spring Cloud Config</strong><ul>
+<li>对于微服务还不是很多的时候，各种服务的配置管理起来还相对简单，但是当成百上千的微服务节点起来的时候，服务配置的管理变得会复杂起来。分布式系统中，由于服务数量巨多，为了方便服务配置文件统一管理，实时更新，所以需要分布式配置中心组件。</li>
+<li>配置服务的内存中（即本地），也支持放在远程Git仓库中。在Cpring Cloud Config 组件中，分两个角色，一是Config Server，二是Config Client。<strong>Config Server用于配置属性的存储</strong>，存储的位置可以为Git仓库、SVN仓库、本地文件等，<strong>Config Client用于服务属性的读取</strong>。</li>
+</ul>
+</li>
+<li><strong>Spring Cloud Zuul</strong><ul>
+<li>zuul 是netflix开源的一个API Gateway 服务器, <strong>本质上是一个web servlet应用</strong>。Zuul 在云平台上提供动态<strong>路由，监控，弹性，安全等</strong>边缘服务的框架。<strong>Zuul 相当于是设备和 Netflix 流应用的 Web 网站后端所有请求的前门</strong>。</li>
+</ul>
+</li>
+<li><strong>Spring Cloud Bus</strong><ul>
+<li>我们如果要去更新所有微服务的配置，在不重启的情况下去更新配置，只能依靠spring  cloud config了，但是，是我们要一个服务一个服务的发送post请求，这其实还是非常麻烦的。<strong>但是通过Bus消息总线，只需要在SpringCloud Config Server端发出refresh，就可以触发所有微服务更新了。</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h6 id="2-3-1-Spring-Cloud-Eureka"><a href="#2-3-1-Spring-Cloud-Eureka" class="headerlink" title="2.3.1  Spring Cloud Eureka"></a>2.3.1  Spring Cloud Eureka</h6><ul>
+<li><p>什么是Spring Cloud Eureka？</p>
+<ul>
+<li>一个基于rest服务的服务治理组件。</li>
+<li>实现了云端负载均衡和中间层服务器的故障转移。</li>
+<li>由两个组件组成<ul>
+<li>Eureka服务器</li>
+<li>Eureka客户端</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/202111101151996.png" srcset="/img/loading.gif" lazyload alt="image-20211110115103901"></p>
+</li>
+<li><p>Spring Cloud Eureka：</p>
+<ul>
+<li>一个基于rest服务的服务治理组件。由两个组件组成：Eureka服务器和Eureka客户端。Eureka服 务器用作服务注册服务器。Eureka客户端是一个java客户端，用来简化与服务器的交互、作为轮 询负载均衡器，并提供服务的故障切换支持。Netflix在其生产环境中使用的是另外的客户端，它 提供基于流量、资源利用率以及出错状态的加权负载均衡。</li>
+</ul>
+</li>
+<li><p>上图中描述了：</p>
+<ol>
+<li><p>三台Eureka服务注册中心构成的服务注册中心的主从复制集群；</p>
+</li>
+<li><p>然后服务提供者向注册中心进行注册、续约、下线服务等；</p>
+</li>
+<li><p>服务消费者向Eureka注册中心拉去服务列表并维护在本地（这也是客户端发现模式的机制体现！）；</p>
+</li>
+<li><p>然后服务消费者根据从Eureka服务注册中心获取的服务列表选取一个服务提供者进行消费服务。</p>
+</li>
+</ol>
+</li>
+</ul>
+<h6 id="2-3-2-Spring-Cloud-Ribbon"><a href="#2-3-2-Spring-Cloud-Ribbon" class="headerlink" title="2.3.2  Spring Cloud Ribbon"></a>2.3.2  Spring Cloud Ribbon</h6><ul>
+<li><p>什么是Spring Cloud Ribbon？</p>
+<ul>
+<li>Spring Cloud Ribbon 是一个<strong>基于Http和TCP的客服端负载均衡工具</strong>，它是基于 Netflix Ribbon实现的。</li>
+<li>不需要独立部署，几乎存在于每个微服务的基础设施中</li>
+<li><strong>主要提供客户端的软件负载均衡算法，因为负载均衡是对系统的高可用、网络压力的缓解和处理能力扩容的重要手段之一</strong>。</li>
+</ul>
+</li>
+<li><p>在2.3.1中提到了服务消费者是将服务从注册中心获取服务生产者的服务列表并维护在本地的，这种客户端发现模式的方式是服务消费者选择合适的节点进行访问服务生产者提供的数据，这种选择合适节点的过程就是Spring Cloud Ribbon完成的。</p>
+</li>
+<li><p>完善的配置选项，比如连接超时、重试、重试算法等。Ribbon内置可插拔、可定制的负载均衡组 件。下面是用到的一些负载均衡策略：</p>
+<ul>
+<li>简单轮询负载均衡</li>
+<li>加权响应时间负载均衡</li>
+<li>区域感知轮询负载均衡</li>
+<li>随机负载均衡</li>
+</ul>
+</li>
+</ul>
+<h6 id="2-3-3-Spring-Cloud-Feign"><a href="#2-3-3-Spring-Cloud-Feign" class="headerlink" title="2.3.3  Spring Cloud Feign"></a>2.3.3  Spring Cloud Feign</h6><ul>
+<li>什么是Spring Cloud Feign？<ul>
+<li><strong>Spring Cloud Feign 是一个声明web服务客户端，这使得编写Web服务客户端更容易 。</strong></li>
+<li>完全代理HTTP请求，只需要像调用方法一样调用它就可以完成服务请求。</li>
+<li>Spring Cloud Feign 的出现使得Eureka和Ribbon的使用更为简单</li>
+</ul>
+</li>
+<li>Feign是一个声明式的Web Service客户端，它的目的就是让Web Service调用更加简单。Feign 提供了HTTP请求的模板，通过编写简单的接口和插入注解，就可以定义好HTTP请求的参数、格式、地址等信息。</li>
+<li>而Feign则会完全代理HTTP请求，我们只需要像调用方法一样调用它就可以完成服务请求及相关 处理。<strong>Feign整合了Ribbon和Hystrix</strong>(关于Hystrix我们后面再讲)，<strong>可以让我们不再需要显式地使用这两个组件</strong>。</li>
+</ul>
+<h6 id="2-3-4-Spring-Cloud-Hystrix"><a href="#2-3-4-Spring-Cloud-Hystrix" class="headerlink" title="2.3.4  Spring Cloud Hystrix"></a>2.3.4  Spring Cloud Hystrix</h6><ul>
+<li>什么是Spring Cloud Hystrix？<ul>
+<li><strong>容错管理工具，旨在通过控制服务和第三方库的节点,从而对延迟和故障提供更强大的容错能力。</strong><ul>
+<li>也被称之为断路器，Hystrix提供了熔断、隔离、Fallback、cache、监控等功能，能够在一 个、或多个依赖同时出现问题时保证系统依然可用。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>断路器可以防止一个应用程序多次试图执行一个操作，即很可能失败，允许它继续而不等待故障恢复或者浪费 CPU 周期，而它确定该故障是持久的。断路器模式也使应用程序能够检测故障是否已经解决。如果问题似乎已经得到纠正，应用程序可以尝试调用操作。</li>
+<li>断路器增加了稳定性和灵活性，以一个系统，提供稳定性，而系统从故障中恢复，并尽量减少此 故障的对性能的影响。它可以帮助快速地拒绝对一个操作，即很可能失败，而不是等待操作超时 （或者不返回）的请求，以保持系统的响应时间。</li>
+</ul>
+<h6 id="2-3-5-Spring-Cloud-Config"><a href="#2-3-5-Spring-Cloud-Config" class="headerlink" title="2.3.5  Spring Cloud Config"></a>2.3.5  Spring Cloud Config</h6><ul>
+<li><p>什么是Spring Cloud Config？</p>
+<ul>
+<li>Spring Cloud Config是分布式配置中心，可以让你把配置放到远程服务器，目前支持<strong>本地存储、Git以及Subversion</strong>。</li>
+<li>在Spring Cloud Config 组件中，分两个角色：<ul>
+<li>Config Server：用于配置属性的存储，存储的位置可以为Git仓库、SVN仓库、本地文件等</li>
+<li>Config Client：用于服务属性的读取。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>对于微服务还不是很多的时候，各种服务的配置管理起来还相对简单，但是当成百上千的微服务节点起来的时候，服务配置的管理变得会复杂起来。</p>
+</li>
+<li><p>在分布式系统中，每一个功能模块都能拆分成一个独立的服务，一次请求的完成，可能会调用很多个服务协调来完成，为了方便服务配置文件统一管理，更易于部署、维护，所以就需要分布式配置中心组件了，在spring cloud中，有分布式配置中心组件spring cloud config，它支持配置文件放在在配置服务的内存中，也支持放在远程Git仓库里。引入spring cloud config后，我们的外部配置文件就可以集中放置在一个git仓库里，再新建一个config server，用来管理所有的配置文件，维护的时候需要更改配置时，只需要在本地更改后，推送到远程仓库，所有的服务实例都可以通过config server来获取配置文件，这时每个服务实例就相当于配置服务的客户端config client,为了保证系统的稳定，配置服务端config server可以进行集群部署，即使某一个实例，因为某种原因不能提供服务，也还有其他的实例保证服务的继续提供服务。</p>
+</li>
+<li><p>Spring Cloud Config 组件的二个角色：</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/202111101205892.png" srcset="/img/loading.gif" lazyload alt="image-20211110120519832"></p>
+</li>
+<li><p>在Spring Cloud Config 组件中，分两个角色，一是Config Server，二是Config Client。如上图所示。</p>
+</li>
+</ul>
+<h6 id="2-3-6-Spring-Cloud-Zuul"><a href="#2-3-6-Spring-Cloud-Zuul" class="headerlink" title="2.3.6  Spring Cloud Zuul"></a>2.3.6  Spring Cloud Zuul</h6><ul>
+<li>什么是Spring Cloud Zuul ？<ul>
+<li><strong>Spring Cloud Zuul是服务网关，边缘服务工具</strong>；</li>
+<li>提供服务路由、均衡负载功能之外，它还具备了权限控制等功能；</li>
+<li>为微服务架构提供了前门保护的作用；</li>
+<li><strong>将权限控制这些较重的非业务逻辑内容迁移到服务路由层面</strong>，使得服务集群主体能够具备更高的可复用性和可测试性；</li>
+</ul>
+</li>
+<li>Zuul 是 Netflix 开源的微服务网关，Spring Cloud 对 Zuul 进行了整合和增强。在 SpringCloud 体系中，<strong>Zuul 担任着网关的角色，对发送到服务端的请求进行一些预处理，比如 安全验证、动态路由、负载分配等</strong>。</li>
+<li><strong>Zuul 的核心是 Filters</strong>，根据执行时期分为以下几类：<ul>
+<li>PRE：这种过滤器在请求被路由之前调用</li>
+<li>ROUTING：这种过滤器将请求路由到微服务</li>
+<li>POST：这种过滤器在路由到微服务以后执行</li>
+<li>ERROR：在其他阶段发生错误时执行该过滤器</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/202111101209103.png" srcset="/img/loading.gif" lazyload alt="image-20211110120917045"></p>
+<ul>
+<li>如上图所示，Zuul 相当于是设备和 Web 网站后端所有请求的前门。</li>
+</ul>
+<h6 id="2-3-7-Spring-Cloud-Bus"><a href="#2-3-7-Spring-Cloud-Bus" class="headerlink" title="2.3.7  Spring Cloud Bus"></a>2.3.7  Spring Cloud Bus</h6><ul>
+<li><p>什么是Spring Cloud Bus ？</p>
+<ul>
+<li><strong>Spring Cloud Bus 是事件、消息总线</strong>，<strong>用于在集群（例如，配置变化事件）中传播状态变化</strong>，可与Spring Cloud Config联合实现热部署。</li>
+</ul>
+</li>
+<li><p>我们如果要去更新所有微服务的配置，在不重启的情况下去更新配置，只能依靠spring cloud  config了，但是，是我们要一个服务一个服务的发送post请求，这其实还是非常麻烦的。但是通 过Bus消息总线，只需要在SpringCloud Config Server端发出refresh，就可以触发所有微服务更新了。</p>
+</li>
+<li><p>Spring Cloud Bus官方意义：消息总线。</p>
+</li>
+<li><p>当然动态更新服务配置只是消息总线的一个用处，还有很多其他用处。</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/202111101211886.png" srcset="/img/loading.gif" lazyload alt="image-20211110121104828"></p>
+</li>
+<li><p> 如上图就演示了联合Spring Cloud Config 动态更新服务配置。</p>
+</li>
+</ul>
+<ol>
+<li>提交代码触发post给客户端C发送bus/refresh</li>
+<li>客户端C接收到请求从Server端更新配置并且发送给Spring Cloud Bus</li>
+<li>Spring Cloud bus接到消息并通知给其它客户端</li>
+<li>其它客户端接收到通知，请求Server端获取最新配置</li>
+<li>全部客户端均获取到最新的配置</li>
+</ol>
+<h4 id="第三章-开发一个Spring-Cloud程序"><a href="#第三章-开发一个Spring-Cloud程序" class="headerlink" title="第三章  开发一个Spring Cloud程序"></a>第三章  开发一个Spring Cloud程序</h4><ul>
+<li><p>在掌握了Spring Boot的基本使用，以及Spring Cloud的基本概念、组件后我们进行Spirng Cloud的代码编写，接下来我将一步步带领大家完成第一个Spring Cloud应用程序。</p>
+</li>
+<li><p>这里可以再回顾一下Spring Boot项目的创建，接下来的项目创建都会基于Spring Boot创建。</p>
+</li>
+</ul>
+<h5 id="3-1-开发第一个Spring-Cloud程序"><a href="#3-1-开发第一个Spring-Cloud程序" class="headerlink" title="3.1  开发第一个Spring Cloud程序"></a>3.1  开发第一个Spring Cloud程序</h5><ul>
+<li><p>开发第一个Spring Cloud应用程序(涉及服务注册中心）</p>
+</li>
+<li><p>包含以下步骤：</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/202111101214110.png" srcset="/img/loading.gif" lazyload alt="image-20211110121432065"></p>
+</li>
+<li><p>前面我们学习了Spring Cloud的常用组件，此处第一个Spirng Cloud应用程序，只涉及服务提供者，服务消费者，服务注册中心；服务消费者中会涉及到Ribbon的使用。</p>
+</li>
+<li><p> 环境准备：</p>
+</li>
+<li><p>JDK1.8</p>
+</li>
+<li><p>Maven版本：3.3.9</p>
+<ul>
+<li>修改setting配置为国内下载镜像</li>
+<li>Maven编码过程中需要下载依赖，需要网络环境</li>
+</ul>
+</li>
+<li><p>Eclipse或者IDEA</p>
+<ul>
+<li>字符集编码：UTF-8</li>
+</ul>
+</li>
+<li><p>环境准备跟Spirng Boot项目一致。</p>
+</li>
+</ul>
+<h6 id="3-1-1-开发eureka-server"><a href="#3-1-1-开发eureka-server" class="headerlink" title="3.1.1  开发eureka-server"></a>3.1.1  开发eureka-server</h6><ul>
+<li><p><strong>创建eureka-server项目：</strong></p>
+<ul>
+<li><p>根据”开发第一个Spring Boot项目”创建eureka-server项目:</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/202111101725262.png" srcset="/img/loading.gif" lazyload alt="image-20211110172527172"></p>
+</li>
+<li><p>eureka-server项目的基本创建方式跟前面讲述的Spring Boot项目创建方式一致，这里就不重复了。</p>
+</li>
+</ul>
+</li>
+<li><p><strong>添加dependencyManagement定义：</strong></p>
+<ul>
+<li><p>在项目根目录下的pom.xml配置文件中添加dependencyManagement定义（放在 dependencies同级节点）：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependencyManagement</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span><br>            <span class="hljs-comment">&lt;!-- springboot 1.5.11对应的springcloud依赖管理 --&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-dependencies<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>Dalston.RELEASE<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">type</span>&gt;</span>pom<span class="hljs-tag">&lt;/<span class="hljs-name">type</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>import<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span><br>            <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">dependencyManagement</span>&gt;</span><br></code></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>这里添加dependencyManagement主要是为了统一定义Spring Cloud的版本信息，注意这里并没有实际引入依赖，只是在后面定义依赖的时候不需要申明版本信息了。</p>
+</li>
+<li><p><strong>添加eureka依赖：</strong></p>
+<ul>
+<li><p>在项目根目录下的pom.xml添加eureka的依赖配置信息，这里注意添加2个依赖：spring-cloud-starter-config和spring cloud-starter-eureka-server，注意位置要放在dependencies节点下。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-starter-config<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-starter-eureka-server<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><br></code></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p><strong>在启动类，添加注解：</strong></p>
+<ul>
+<li><p>在启动类EurekaServerApplication上添加@EnableEurekaServer注解;</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs JAVA"><span class="hljs-meta">@EnableEurekaServer</span><br><span class="hljs-meta">@SpringBootApplication</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">EurekaServerApplication</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        SpringApplication.run(EurekaServerApplication.class, args);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>启动类的创建方式跟Spring Boot应用程序是一样，实际上这里就是一个Spirng Boot应用程序；</p>
+</li>
+<li><p>注意一定要添加<font color='red'>@EnableEurekaServer注解，表明当前应用是一个eureka服务注册中心，后面 其它应用程序需要注册到此中心。</font></p>
+</li>
+</ul>
+<ul>
+<li><p><strong>添加eureka配置文件：</strong></p>
+<ul>
+<li><p>在resources目录下新建配置文件application.yml，并添加如下配置：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs yml"><span class="hljs-attr">server:</span><br>  <span class="hljs-attr">port:</span> <span class="hljs-number">8000</span><br><br><span class="hljs-attr">eureka:</span><br>  <span class="hljs-attr">client:</span><br>    <span class="hljs-attr">register-with-eureka:</span> <span class="hljs-literal">false</span>  <span class="hljs-comment">#表示是否将自己注册到Eureka Server，默认为true。</span><br>    <span class="hljs-attr">fetch-registry:</span> <span class="hljs-literal">false</span> <span class="hljs-comment">#表示是否从Eureka Server获取注册信息，默认为true</span><br>    <span class="hljs-attr">service-url:</span><br>      <span class="hljs-attr">defaultZone:</span> <span class="hljs-string">http://localhost:$&#123;server.port&#125;/eureka/</span><br></code></pre></td></tr></table></figure></li>
+<li><p>server.port: 8000这里是把应用的启动端口改为了8000</p>
+</li>
+<li><p>eureka.client.register-with-eureka： fase：表示是否将自己注册到Eureka Server，默认为 true。</p>
+</li>
+<li><p>eureka.client.fetch-registry: false：表示是否从Eureka Server获取注册信息，默认为true</p>
+</li>
+<li><p>eureka.client.service-url.defaultZone: <a href="http://localhost:${server.port}/eureka/">http://localhost:${server.port}/eureka/</a> 这里是定义了 服务注册中心的地址，其中${server.port}就是前面定义的server.port: 8000配置，时间上这段配 置就是eureka.client.service-url.defaultZone: <a target="_blank" rel="noopener" href="http://localhost:8000/eureka/%EF%BC%9B%E8%BF%99%E6%AE%B5%E9%85%8D%E7%BD%AE%E5%9C%A8%E5%85%B6">http://localhost:8000/eureka/；这段配置在其</a> 它应用程序的配置中都需要加上，指明了服务注册中心的地址。</p>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p><strong>浏览器访问测试：</strong></p>
+<ul>
+<li><p>运行EurekaServerApplication启动类，访问<a href="http://localhost:8000：">http://localhost:8000：</a></p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/202111101806261.png" srcset="/img/loading.gif" lazyload alt="image-20211110180611062"></p>
+</li>
+<li><p>访问<a href="http://localhost:8000可以看到如上图结果；如果有服务注册到注册中心，可以在">http://localhost:8000可以看到如上图结果；如果有服务注册到注册中心，可以在</a> application下面看到对应的服务名称。</p>
+</li>
+</ul>
+</li>
+<li><p>eureka-server项目的完整pom文件。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">project</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://maven.apache.org/POM/4.0.0&quot;</span></span><br><span class="hljs-tag">         <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span><br><span class="hljs-tag">         <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">modelVersion</span>&gt;</span>4.0.0<span class="hljs-tag">&lt;/<span class="hljs-name">modelVersion</span>&gt;</span><br><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.keepdive<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>eureka-server<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br><br>    <span class="hljs-tag">&lt;<span class="hljs-name">properties</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">maven.compiler.source</span>&gt;</span>8<span class="hljs-tag">&lt;/<span class="hljs-name">maven.compiler.source</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">maven.compiler.target</span>&gt;</span>8<span class="hljs-tag">&lt;/<span class="hljs-name">maven.compiler.target</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">properties</span>&gt;</span><br><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.5.11.RELEASE<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><br>        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-starter-config<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><br>        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-starter-eureka-server<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span><br><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dependencyManagement</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span><br>            <span class="hljs-comment">&lt;!-- springboot 1.5.11对应的springcloud依赖管理 --&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-dependencies<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>Dalston.RELEASE<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">type</span>&gt;</span>pom<span class="hljs-tag">&lt;/<span class="hljs-name">type</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>import<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span><br>            <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">dependencyManagement</span>&gt;</span><br><br><br><span class="hljs-tag">&lt;/<span class="hljs-name">project</span>&gt;</span><br></code></pre></td></tr></table></figure></li>
+</ul>
+<h6 id="3-1-2-开发eureka-provider"><a href="#3-1-2-开发eureka-provider" class="headerlink" title="3.1.2  开发eureka-provider"></a>3.1.2  开发eureka-provider</h6><ul>
+<li><p><strong>创建eureka-provider项目</strong></p>
+<ul>
+<li>根据Spring Boot项目创建方式创建eureka-provider项目</li>
+</ul>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/202111101821055.png" srcset="/img/loading.gif" lazyload alt="image-20211110182142953"></p>
+<ul>
+<li>项目创建方式如eureka-server，这里是创建服务提供者，需要把当前服务提供者注册到上一小节中我们创建的eureka-server中。</li>
+</ul>
+</li>
+<li><p><strong>添加dependencyManagement定义和eureka依赖：</strong></p>
+<ul>
+<li><p>跟开发eureka-server中的内容一致；</p>
+</li>
+<li><p>eureka-provider项目完整依赖；</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">project</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://maven.apache.org/POM/4.0.0&quot;</span></span><br><span class="hljs-tag">         <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span><br><span class="hljs-tag">         <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">modelVersion</span>&gt;</span>4.0.0<span class="hljs-tag">&lt;/<span class="hljs-name">modelVersion</span>&gt;</span><br><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.keepdive<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>eureka-provider<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br><br>    <span class="hljs-tag">&lt;<span class="hljs-name">properties</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">maven.compiler.source</span>&gt;</span>8<span class="hljs-tag">&lt;/<span class="hljs-name">maven.compiler.source</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">maven.compiler.target</span>&gt;</span>8<span class="hljs-tag">&lt;/<span class="hljs-name">maven.compiler.target</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">properties</span>&gt;</span><br><br><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.5.11.RELEASE<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><br>        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-starter-config<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><br>        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-starter-eureka-server<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span><br><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dependencyManagement</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span><br>            <span class="hljs-comment">&lt;!-- springboot 1.5.11对应的springcloud依赖管理 --&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-dependencies<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>Dalston.RELEASE<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">type</span>&gt;</span>pom<span class="hljs-tag">&lt;/<span class="hljs-name">type</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>import<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span><br>            <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">dependencyManagement</span>&gt;</span><br><br><span class="hljs-tag">&lt;/<span class="hljs-name">project</span>&gt;</span><br></code></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p><strong>在启动类，添加注解</strong></p>
+<ul>
+<li><p>在启动类EurekaProviderApplication上添加@EnableEurekaClient， @EnableDiscoveryClient注解。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@EnableEurekaClient</span><br><span class="hljs-meta">@EnableDiscoveryClient</span><br><span class="hljs-meta">@SpringBootApplication</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">EurekaProviderApplication</span> </span>&#123;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        SpringApplication.run(EurekaProviderApplication.class, args);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>启动类的创建跟eureka-server一致。</p>
+</li>
+<li><p><font color='red'>@EnableEurekaClient表明当前应用是一个eureka客户端程序</font></p>
+</li>
+<li><p><font color='red'>@EnableDiscoveryClient表明当前应用可以被eureka服务注册中心发现</font></p>
+</li>
+</ul>
+<ul>
+<li><p><strong>开发eureka-provider</strong></p>
+<ul>
+<li><p>在启动类EurekaProviderApplication相同包目录下新建 HelloController类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><br><span class="hljs-meta">@RestController</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HelloController</span> </span>&#123;<br><br>    <span class="hljs-meta">@RequestMapping(&quot;/hello/&#123;name&#125;&quot;)</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">hello</span><span class="hljs-params">(<span class="hljs-meta">@PathVariable(&quot;name&quot;)</span> String name)</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;provider: hello &quot;</span> + name;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure></li>
+<li><p><font color='red'>@RestController表明当前Controller类的所有接口都是rest方式，直接返回数据，不返回视图（页面），方法上不需要再添加ResponseBody注解。</font></p>
+</li>
+</ul>
+</li>
+<li><p><strong>添加配置文件：</strong></p>
+<ul>
+<li><p>在resources目录下新建配置文件application.yml，并添加如下配置：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs yml"><span class="hljs-attr">server:</span><br>  <span class="hljs-attr">port:</span> <span class="hljs-number">8001</span><br><span class="hljs-attr">spring:</span><br>  <span class="hljs-attr">application:</span><br>    <span class="hljs-attr">name:</span> <span class="hljs-string">eureka-provider</span><br><span class="hljs-attr">eureka:</span><br>  <span class="hljs-attr">client:</span><br>    <span class="hljs-attr">service-url:</span><br>      <span class="hljs-attr">defaultZone:</span> <span class="hljs-string">http://localhost:8000/eureka/</span><br></code></pre></td></tr></table></figure></li>
+<li><p>server.port: 8001表明应用的启动端口为8001</p>
+</li>
+<li><p>spring.application.name: eureka-provider 配置当前服务的名称为eureka-provider，启动成功后会在eureka的web服务页面显示出来</p>
+</li>
+<li><p>eureka.client.service-url.defaultZone: <a target="_blank" rel="noopener" href="http://localhost:8000/eureka/%E8%A1%A8%E6%98%8E%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83%E7%9A%84%E5%9C%B0%E5%9D%80%EF%BC%8C%E5%AE%9E%E9%99%85%E4%B8%8A%E5%B0%B1%E6%98%AF%E6%88%91%E4%BB%AC%E4%B8%8A%E5%B0%8F%E8%8A%82%E4%B8%AD%E5%88%9B%E5%BB%BA%E7%9A%84eureka-server%E7%9A%84%E5%9C%B0%E5%9D%80">http://localhost:8000/eureka/表明服务注册中心的地址，实际上就是我们上小节中创建的eureka-server的地址</a></p>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p><strong>启动eureka-provider项目</strong></p>
+<ul>
+<li><p>运行启动类EurekaProviderApplication，用浏览器访问<a target="_blank" rel="noopener" href="http://localhost:8000/%EF%BC%9A">http://localhost:8000/：</a></p>
+</li>
+<li><p>eureka-provider会自动注册到enreka-server的服务注册中心</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/202111101838838.png" srcset="/img/loading.gif" lazyload alt="image-20211110183820695"></p>
+</li>
+</ul>
+</li>
+<li><p>启动eureka-server，eureka-provider应用后访问<a target="_blank" rel="noopener" href="http://localhost:8000/%E5%B0%B1%E5%8F%AF%E4%BB%A5%E7%9C%8B%E5%88%B0%E5%B7%B2%E7%BB%8F%E6%B3%A8%E5%86%8C%E7%9A%84%E6%9C%8D%E5%8A%A1%EF%BC%8C%E6%B3%A8%E6%84%8F%E6%AD%A4%E5%A4%84%E8%AE%BF%E9%97%AE%E7%9A%84%E5%9C%B0%E5%9D%80%E4%B8%BA%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83%E7%9A%84%E5%9C%B0%E5%9D%80%EF%BC%8C%E6%89%80%E4%BB%A5%E7%AB%AF%E5%8F%A3%E6%98%AF8000%EF%BC%8C%E4%B8%8D%E6%98%AF8001%E3%80%82">http://localhost:8000/就可以看到已经注册的服务，注意此处访问的地址为服务注册中心的地址，所以端口是8000，不是8001。</a></p>
+</li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%95%99%E7%A8%8B/">教程</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Spring-Boot/">Spring Boot</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Spring-Cloud/">Spring Cloud</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/11/09/IDEA%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">IDEA开发环境配置</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/11/08/%E4%B8%80%E3%80%81%E5%BE%AE%E6%9C%8D%E5%8A%A1%E4%BB%8B%E7%BB%8D/">
+                        <span class="hidden-mobile">一、微服务介绍</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

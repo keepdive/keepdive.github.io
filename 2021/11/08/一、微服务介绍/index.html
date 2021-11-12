@@ -1,0 +1,610 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="了解软件架构的演变过程，微服务的概念和常见的架构。">
+  <meta name="author" content="Mike">
+  <meta name="keywords" content="">
+  <meta name="description" content="了解软件架构的演变过程，微服务的概念和常见的架构。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一、微服务介绍">
+<meta property="og:url" content="http://example.com/2021/11/08/%E4%B8%80%E3%80%81%E5%BE%AE%E6%9C%8D%E5%8A%A1%E4%BB%8B%E7%BB%8D/index.html">
+<meta property="og:site_name" content="KeepDive">
+<meta property="og:description" content="了解软件架构的演变过程，微服务的概念和常见的架构。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/202111081534330.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/202111081538726.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/202111081541492.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/202111081613999.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/202111081642867.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/202111081653739.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/202111081659796.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/202111081700565.png">
+<meta property="article:published_time" content="2021-11-08T07:12:41.000Z">
+<meta property="article:modified_time" content="2021-11-11T14:24:42.606Z">
+<meta property="article:author" content="Mike">
+<meta property="article:tag" content="Spring Boot">
+<meta property="article:tag" content="Spring Cloud">
+<meta property="article:tag" content="TSF">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://gitee.com/divemaven/git-project/raw/master/202111081534330.png">
+  
+  <title>一、微服务介绍 - KeepDive</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>KeepDive</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="一、微服务介绍">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-author" aria-hidden="true"></i>
+      Mike
+    </span>
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-11-08 15:12" pubdate>
+        2021年11月8日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      5.6k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      18 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">一、微服务介绍</h1>
+            
+            <div class="markdown-body">
+              <h3 id="微服务介绍"><a href="#微服务介绍" class="headerlink" title="微服务介绍"></a>微服务介绍</h3><p>什么是微服务？把一个庞大的application<strong>拆</strong>成几个小的独立的服务，再把独立的服务<strong>串</strong>起来的一种架构设计。</p>
+<h4 id="学习目标"><a href="#学习目标" class="headerlink" title="学习目标"></a>学习目标</h4><p>通过本文的学习，您将可以:</p>
+<ul>
+<li>了解软件架构的演变过程 </li>
+<li>了解传统软件架构的弊端</li>
+<li>了解微服务的概念及常见架构</li>
+</ul>
+<h4 id="第一章-软件架构的演变过程"><a href="#第一章-软件架构的演变过程" class="headerlink" title="第一章 软件架构的演变过程"></a>第一章 软件架构的演变过程</h4><h5 id="1-1-传统的单体架构"><a href="#1-1-传统的单体架构" class="headerlink" title="1.1 传统的单体架构"></a>1.1 传统的单体架构</h5><ul>
+<li>不同于微服务，传统的项目会包含很多功能，是一个大而全的“超级”工程。<ul>
+<li>例如：以普通架构方式实现的电商平台包含：登录、权限、会员、商品库存、订单、 收藏、关注、购物车等功能的多个单一项目。随着项目业务越来越复杂、开发人员越 来越多，相应开发、编译、部署、技术扩展、水平扩展都会受到限制。<img src="https://gitee.com/divemaven/git-project/raw/master/202111081534330.png" srcset="/img/loading.gif" lazyload alt="image-20211108153431273"></li>
+</ul>
+</li>
+<li>单体架构是最简单的软件架构，常用于传统的应用软件开发以及传统Web应用。</li>
+<li>传统Web应用，一般是将所有功能模块都打包(jar,war)在一个Web容器（JBoss、Tomcate）中 部署、运行。随着业务复杂度增加、技术团队规模扩大，在一个单体应用中维护代码，会降低开 发效率。即使是处理一个小需求，也需要将所有机器上的应用全部部署一遍，增加了运维的复杂 度。</li>
+</ul>
+<h5 id="1-2-基于SOA的软件架构"><a href="#1-2-基于SOA的软件架构" class="headerlink" title="1.2 基于SOA的软件架构"></a>1.2 基于SOA的软件架构</h5><p><img src="https://gitee.com/divemaven/git-project/raw/master/202111081538726.png" srcset="/img/loading.gif" lazyload alt="image-20211108153829683"></p>
+<ul>
+<li><p>SOA也叫面向服务的架构，从单体架构到SOA的演进，需要结合水平拆分以及垂直拆分。</p>
+</li>
+<li><p>SOA强调用统一的协议进行服务间的通信，服务间运行在彼此独立的硬件平台但是需通过统一的 协议接口相互协作，也即将应用系统服务化。</p>
+<ul>
+<li>举个易懂的例子，单体服务如果相当于一个快餐店，所有的服务员都是一样的，又要负责收银结算，又要负责做汉堡，又要负责端盘子，又要负责打扫，服务员之间不需要有交流，一个用户来了一个服务员从前到后负责到底。SOA相当于让服务员有职责分工，收银员负责收银， 厨师负责做汉堡，保洁阿姨负责打扫等等。所有服务员需要同一种语言交流，方便工作协调。</li>
+</ul>
+</li>
+<li><p> SOA架构的特征</p>
+</li>
+<li><p>基于SOA服务思想进行功能的抽取(重复代码问题解决),以服务为中心来管理项目。</p>
+</li>
+<li><p>各个系统之间要进行调用,所以出现ESB来管理项目(可以使用各种技术实现： webservice，rpc等)。</p>
+</li>
+<li><p>ESB是作为系统与系统之间桥梁,很难进行统一管理。</p>
+</li>
+</ul>
+<h5 id="1-3-基于微服务的系统架构"><a href="#1-3-基于微服务的系统架构" class="headerlink" title="1.3 基于微服务的系统架构"></a>1.3 基于微服务的系统架构</h5><p><img src="https://gitee.com/divemaven/git-project/raw/master/202111081541492.png" srcset="/img/loading.gif" lazyload alt="image-20211108154143453"></p>
+<ul>
+<li><p><strong>微服务的核心思路是拆分</strong>。单体项目的问题，通过把项目拆分成一个个小项目就可以解决。</p>
+</li>
+<li><p><strong>与SOA区别</strong>： </p>
+<ul>
+<li>微服务不再强调传统SOA架构里面比较重的ESB企业服务总线，<strong>真正地实现服务自治</strong>； </li>
+<li>SOA的思想进入到单个业务系统内部，<strong>实现真正的组件化</strong>。</li>
+</ul>
+</li>
+<li><p>基于SOA面向服务架构演变出了微服务架构，微服务也是一种服务化，不过其和SOA架构的服务 化概念也是有区别的。可以从几个关键字来理解：</p>
+<ul>
+<li><p><strong>松耦合</strong>：每个微服务内部都可以使用DDD(领域驱动设计)的思想进行设计领域模型，服务间尽量减少同步的调用，多使用消息的方式让服务间的领域事件来进行解耦。</p>
+</li>
+<li><p><strong>轻量级协议</strong>：Dubbo是SOA的开源的标准实现之一，类似的还有像gRPC、Thrift等。微服务 更倾向于使用Restful风格的API，轻量级的协议可以很好得支持跨语言开发的服务，可能有的微服务用Java实现，有的用Go语言，有的用C++，但所有的语言都可以支持Http协议通信， 所有的开发人员都能理解Restful风格API的含义。</p>
+</li>
+<li><p><strong>高度自治和持续集成</strong>：从底层的角度来说，SOA更加倾向于基于虚拟机或者服务器的部署， 每个应用都部署在不同的机器上。微服务可以很好的和容器技术结合，目前Docker已经成为很多微服务实践的基础容器。如果某个微服务流量压力比其他微服务大，可以在不增加机器的情况。在一台机器上多分配一些该微服务的容器实例。</p>
+</li>
+<li><p>其实从架构的演进的角度来看，整体的演进都是朝着越来越轻量级，越来越灵活的应用方向。 甚至到近两年日渐成熟起来的<strong>Serverless（无服务）架构</strong>。从单体服务到分层的服务，再到面向服务、再到微服务甚至无服务。对于架构的挑战是越来越大的。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="第二章-微服务的概念和常见架构"><a href="#第二章-微服务的概念和常见架构" class="headerlink" title="第二章 微服务的概念和常见架构"></a>第二章 微服务的概念和常见架构</h4><p>接下来我们正式进入微服务的学习，我们先看看一下微服务到底是什么，以及微服务的常用架构有哪些？</p>
+<h5 id="2-1-微服务的概念"><a href="#2-1-微服务的概念" class="headerlink" title="2.1 微服务的概念"></a>2.1 微服务的概念</h5><ul>
+<li><p>什么是微服务？</p>
+<ul>
+<li><p>把一个庞大的application<strong>拆</strong>成几个小的独立的服务，再把独立的服务<strong>串</strong>起来的一种架构设计。</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/202111081613999.png" srcset="/img/loading.gif" lazyload alt="image-20211108161316936"></p>
+</li>
+</ul>
+</li>
+<li><p>微服务架构描述了一种将软件应用程序设计为<strong>一组可独立部署的服务</strong>的特定方式。</p>
+</li>
+<li><p>虽然这种架构风格没有明确的定义，但在组织、业务能力上有一些共同的特征：<strong>自动化部署</strong>，<strong>端点智能化</strong>，<strong>语言和数据的去中心化控制</strong>。</p>
+</li>
+<li><p>微服务架构风格是一种将一个单一应用程序开发为一组小型服务的方法，每个服务运行在自己的 进程中，服务间通信采用轻量级通信机制(<strong>通常用HTTP资源API</strong>)。这些服务围绕业务能力构建并且可通过<strong>全自动部署机制独立部署</strong>。</p>
+</li>
+<li><p>比如12306买火车票，或者是网上购物：以前单体架构的感受是：高峰期人多的时候，页面刷不开，等刷开的时候，火车票都抢光了。网上购物也一样，浏览、选择、下订单了，结果因为支付失败，又需要全部重新来一遍。给人体验非常不好。为了提高体验，对单体架构进行扩容提升性能，只能购买昂贵的服务器，去支撑峰值流量，而绝大部分人都是在访问页面，后面的选择、（加入购物车）、下单、支付、每个环节的转换率都会使访问量降低，而单体架构的扩容是对所有功能进行整体扩容，造成大量浪费，如果采用微服务架构以后，可以针对浏览界面的服务做更多扩容，订单服务少量扩容，不再需要对所有功能进行整体扩容，<strong>所以把功能拆分微服务后，既能提升用户体验，又能实现节约硬件成本的作用</strong>。尤其适合现在互联网上的抢票、秒杀等会带来突发峰值流量的场景。因为结合具有资源弹性伸缩的已经成熟的云计算技术，微服务架构可以很好的满足这些场景需求。</p>
+</li>
+</ul>
+<h5 id="2-2-微服务的特征"><a href="#2-2-微服务的特征" class="headerlink" title="2.2 微服务的特征"></a>2.2 微服务的特征</h5><ul>
+<li>微服务的九大特征：<ol>
+<li>服务组件化</li>
+<li> 按业务组织团队</li>
+<li>做产品的态度</li>
+<li>智能端点和哑管道</li>
+<li>去中心化治理</li>
+<li>去中心化管理数据</li>
+<li>基础设施自动化</li>
+<li>容错设计</li>
+<li>演进式设计</li>
+</ol>
+</li>
+<li>在这里我们先简单了解微服务的九大特征，具体的将会在后续的章节的微服务拆分内容中进行讲解，大家在后续实践中也可以深入了解和应用。</li>
+<li><strong>微服务的特征</strong><ol>
+<li><strong>服务组件化：</strong> 在微服务架构中，需要我们对服务进行组件化分解，服务是一种进程外的组件，它通过HTTP等通信协议进行协作，而不是像传统组件那样镶入式的方式协同工作，每一 个服务都独立开发、部署、可以有效避免一个服务的修改引起整个系统的重新部署。</li>
+<li><strong>按业务组织团队：</strong> 在实施微服务架构时，需要采用不同的团队分割方法。由于每一个服务 都是针对特定的业务的宽栈或者全栈实现的，主要负责数据的持久化存储，又要负责用户接口定义等各种跨专业领域的职能。因此面对大型项目的时候，对于微服务团队的拆分更加建议按业务线的方法进行拆分，一方面可以有效的减少服务内部修改所产生的内耗，另一方面，团队边界可以变得更为清晰。</li>
+<li><strong>做产品的态度：</strong> 在微服务架构团队中，每个小团队都应该以做产品的方式，对其整个生命 周期负责，而不是像传统项目开发那样，交付给测试，运维为目标。</li>
+<li><strong>智能端点和哑管道：</strong> 由于各个服务不在一个进程中，组件间的通信模式发生了改变，原本进程 内的方法调用变成了RPC方式的调用，会导致微服务之间产生烦琐的通信，使得系统表现更为糟 糕，所以我们需要更粗粒度的通信协议： 在微服务架构中，通常会使用以下两种服务调用方 法：<ul>
+<li>使用<strong>HTTP的RESTful API</strong>或者轻量级的消息发送协议，实现消息传递与服务调用的触发。</li>
+<li>通过在轻量级消息总线上传递消息，类似RabbitMQ等一些提供可靠异步交换的中间体。</li>
+<li>在极度强调性能的情况下，还有可能会使用二进制的消息发送协议，例如protobuf</li>
+</ul>
+</li>
+<li> <strong>去中心化治理：</strong> 在整个微服务架构，通过采用轻量级的契约定义接口，使得我们对服务本身的 具体技术平台不再那么敏感，这样整个微服务架构系统中的各个组件就能针对不同的业务特点选 择不同的技术平台。</li>
+<li><strong>去中心化管理数据：</strong> 在实施微服务架构时，希望每一个服务自己来管理其数据库，这就是数据 管理的去中心化，虽然数据管理的去中心化让数据管理更加细致化，让数据存储和性能达到最优， 但是不同的数据库实例，<strong>数据一致性也成了微服务架构中亟待解决的问题之一</strong>，分布式事务本身实现的难度就非常大，所以在微服务架构中，我们更强调各服务之间进行”<strong>无事务</strong>“的调用，而对数据一致性，只要求<strong>数据在最后的处理状态是一致</strong>的即可。</li>
+<li><strong>基础设施自动化</strong>： 在微服务架构中，务必从一开始就构建起”持续交付“平台来支撑整个实施过程；</li>
+<li><strong>容错设计</strong>： 在微服务架构中，快速检测出故障源并尽可能地自动恢复服务是必须被设计考虑的， 通常我们都希望在每个服务中<strong>实现监控和日志记录</strong>的组件。比如：服务状态、断路器状态、吞吐量、网络延迟等关键数据的仪表盘等。</li>
+<li><strong>演进式设计：</strong> 通过上面的几点特征，我们已经能够体会到，要实施一个完美的“微服务”架构， 需要考虑的设计与成本并不小，对于没有足够经验的团队来说，甚至要比单体应用要付出更多的代价。所以，很多情况下，架构师们都会以演进的方式进行系统的构建，在初期系统以单体系统的方式来设计和实施，一方面系统体量初期并不会很大，构建和维护成本都不高。另一方面，初期的核心业务在后期通常也不会发生巨大的改变。随着系统的发展或者业务的需要，架构师们会将一些<strong>经常变动</strong>或是有<strong>一定时间效应</strong>的内容进行“微服务”处理，并逐渐地将原来在单体系统中 多变的模块逐步拆分出来，<strong>而稳定不太变化的就形成了一个核心“微服务”存在于整个架构之中。</strong></li>
+</ol>
+</li>
+<li> 如何理解智能端点和哑管道？</li>
+<li>这玩意你要先理解智能端点和哑管道的反面是什么？就是SOA概念中专注服务治理的企业服务总线（简称ESB），<strong>ESB实质上就是一个管道</strong>，也就是应用A要访问服务B，A要先发数据给ESB， 然后ESB调用B，B产生的数据返给ESB，然后ESB再返给A，<strong>这样ESB不仅仅提供了路由的功能， 而且把自己做成了一个大型企业系统的中心</strong>，基于此，又发展附加了原本不属于管道的功能，比如服务B提供的是socket服务，但是应用A是使用http调用，这时ESB发展出了转换报文的功能， 甚至是服务B提供的是a,b,c三个数据，而应用A需要的是a，b，c拼接起来命名为d的数据，这也放在ESB中实现。这样就使得ESB实际上又承载了业务逻辑，<strong>使得原本复杂的系统通过服务治理把瓶颈和复杂度统统压到ESB一个中心点上去了</strong>，这跟微服务去中心化的思想截然相反。</li>
+<li>所以ESB这一危险度（<strong>ESB完蛋，全部系统都受影响，另外要上系统，通常先要给ESB组看 一下，ESB需要一个额外的有执行力的团队去支撑</strong>）催生了微服务体系的智能端点和哑管道， 相对ESB而言，<strong>微服务体系的管道只提供路由或者负载均衡之类的，不承载业务逻辑</strong>，或者是MQ之类的异步消息中间件，管道根本不关心具体传送的数据，所以与其叫哑管道，不如叫非智能管道（实际上我都不知道为什么会翻成哑管道，难以理解），智能端点就是相对 ESB中的服务提供者只需要提供一种类型的服务，<strong>智能端点需要根据服务调用者的需求提供多种类型的服务以适应业务发展。</strong>也就是上述那些ESB所做的比如<strong>报文转换</strong>，比如<strong>数据转换</strong>等等统统是在服务提供端实现。</li>
+</ul>
+<h5 id="2-3-为什么使用微服务"><a href="#2-3-为什么使用微服务" class="headerlink" title="2.3 为什么使用微服务"></a>2.3 为什么使用微服务</h5><p><img src="https://gitee.com/divemaven/git-project/raw/master/202111081642867.png" srcset="/img/loading.gif" lazyload alt="image-20211108164244776"></p>
+<ul>
+<li>采用微服务架构模式，则可以解决单一架构模式带来的系统复杂性。<ul>
+<li>相对于单体架构一旦需要变更非常麻烦，使用微服务以后，日日可变更，甚至可以实现自动化， 日日变更不头疼</li>
+<li>采用微服务以后可以根据实时流量弹性伸缩，在流量高峰可以动态扩容，基于不同仓库数据， 可以实现实时更新，热生效</li>
+<li>使用微服务以后开发人员的代码可以最大程度复用，减少工作量，让业务开发越来越快</li>
+<li>基于微服务的Spring Cloud，Service Mesh可以进行跨语言，跨系统对话；减少了异构语言通信问题</li>
+</ul>
+</li>
+</ul>
+<h5 id="2-4-微服务的常见架构"><a href="#2-4-微服务的常见架构" class="headerlink" title="2.4 微服务的常见架构"></a>2.4 微服务的常见架构</h5><p><img src="https://gitee.com/divemaven/git-project/raw/master/202111081653739.png" srcset="/img/loading.gif" lazyload alt="image-20211108165344682"></p>
+<ul>
+<li><p><strong>Spring Cloud是基于Spring Boot的一整套实现微服务的框架，因此它只能采用Java语言</strong>，这是它与其他几个微服务框架的最明显区别。Spring Cloud是一个包含了很多子项目的整体方案，其中由Netflix开发后来又并入Spring Cloud的Spring Cloud Netflix是Spring Cloud微服务架构的核心项目，<strong>即可以简单地认为Spring Cloud微服务架构就是Spring Cloud Netflix</strong>，后面我们用 Spring Cloud时如果不特意声明，就是指Spring Cloud Netflix。</p>
+</li>
+<li><p>ZeroC IceGrid作为一种微服务架构，它基于RPC框架发展而来，具有良好的性能与分布式能力， 并具备微服务架构的如下明显特征：</p>
+<ul>
+<li>首先，微服务架构需要一个集中的服务注册中心，以及某种服务发现机制。</li>
+<li>其次，微服务架构中的每个微服务通常会被部署为一个独立的进程，当无状态服务时，一般会由多个独立进程提供服务。</li>
+<li>最后，一个好的微服务架构平台应该简化和方便应用部署。</li>
+</ul>
+</li>
+<li><p>除了标准的基于RPC通信（以及类RPC的通信如Http Rest、SOAP等）的微服务架构，还有基于消息队列通信的微服务架构，这种架构下的微服务采用发送消息（Publish Message）与监听消息（Subscribe Message）的方式来实现彼此之间的交互。下图是这种微服务架构下各个组件之间的交互示意图，我们看到消息中间件是关键，它负责连通各个微服务与UI组件，担任了整个系统互联互通的重任。</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/202111081659796.png" srcset="/img/loading.gif" lazyload alt="image-20211108165953724"></p>
+</li>
+</ul>
+<h5 id="2-5-微服务面临的挑战"><a href="#2-5-微服务面临的挑战" class="headerlink" title="2.5 微服务面临的挑战"></a>2.5 微服务面临的挑战</h5><p><img src="https://gitee.com/divemaven/git-project/raw/master/202111081700565.png" srcset="/img/loading.gif" lazyload alt="image-20211108170033510"></p>
+<ul>
+<li>使用微服务面临的挑战：<ul>
+<li>微服务应用作为分布式系统带来了复杂性。当应用是整体应用程序时，模块之间调用都在应用之内，即使进行分布式部署，依然在应用内调用。可是微服务是多个独立的服务，当进行模块调用的时候，分布式将会麻烦。</li>
+<li> 多个独立数据库，事务的实现更具挑战性。</li>
+<li>测试微服务变得复杂，当一个服务依赖另外一个服务时，测试时候需要另外一个服务的支持。</li>
+<li>部署基于微服务的应用也很复杂，整体应用程序部署只需要部署在一组相同的服务器上，在这些服务前面加入传统的负载均衡器即可。独立服务的不是讲变得复杂，需要更高的自动化形式。</li>
+</ul>
+</li>
+</ul>
+<h4 id="学习总结"><a href="#学习总结" class="headerlink" title="学习总结"></a>学习总结</h4><p>本文主要讲述如下内容： </p>
+<ul>
+<li>软件架构的演变过程 </li>
+<li>什么是微服务 </li>
+<li>常见架构的微服务架构</li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%95%99%E7%A8%8B/">教程</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Spring-Boot/">Spring Boot</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Spring-Cloud/">Spring Cloud</a>
+                    
+                      <a class="hover-with-bg" href="/tags/TSF/">TSF</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/11/08/%E4%BA%8C%E3%80%81Spring-Cloud%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">二、Spring Cloud基础入门</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
