@@ -1,0 +1,675 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="上一小节中主要介绍了微服务，Spring Boot，Spring Cloud的概念以及基本使用；接下来给大家介绍腾讯微服务平台TSF">
+  <meta name="author" content="Mike">
+  <meta name="keywords" content="">
+  <meta name="description" content="上一小节中主要介绍了微服务，Spring Boot，Spring Cloud的概念以及基本使用；接下来给大家介绍腾讯微服务平台TSF">
+<meta property="og:type" content="article">
+<meta property="og:title" content="三、TSF微服务平台介绍">
+<meta property="og:url" content="http://example.com/2021/11/18/%E4%B8%89%E3%80%81TSF%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%B9%B3%E5%8F%B0%E4%BB%8B%E7%BB%8D/index.html">
+<meta property="og:site_name" content="KeepDive">
+<meta property="og:description" content="上一小节中主要介绍了微服务，Spring Boot，Spring Cloud的概念以及基本使用；接下来给大家介绍腾讯微服务平台TSF">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211118195702184.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211118195805191.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211118195855363.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211118204446407.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211118204637421.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211118205308100.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211118205410123.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211118205858006.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211118205939757.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211118211033056.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211118211158008.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211118211456054.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211118211544133.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211118211632649.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211118211734034.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211118211829287.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211118211923188.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211118212006814.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211118212202312.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211118212330840.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211118212432583.png">
+<meta property="article:published_time" content="2021-11-18T11:41:37.000Z">
+<meta property="article:modified_time" content="2021-11-18T13:27:06.896Z">
+<meta property="article:author" content="Mike">
+<meta property="article:tag" content="微服务">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211118195702184.png">
+  
+  <title>三、TSF微服务平台介绍 - KeepDive</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>KeepDive</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="三、TSF微服务平台介绍">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-author" aria-hidden="true"></i>
+      Mike
+    </span>
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-11-18 19:41" pubdate>
+        2021年11月18日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      5k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      16 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">三、TSF微服务平台介绍</h1>
+            
+            <div class="markdown-body">
+              <h3 id="三、TSF微服务平台介绍"><a href="#三、TSF微服务平台介绍" class="headerlink" title="三、TSF微服务平台介绍"></a>三、TSF微服务平台介绍</h3><h4 id="学习目录"><a href="#学习目录" class="headerlink" title="学习目录"></a>学习目录</h4><p>通过本文的学习，您将可以：</p>
+<ul>
+<li>了解TSF相关概念与功能</li>
+<li>掌握TSF的优势</li>
+<li>了解TSF的应用场景</li>
+</ul>
+<h4 id="第一章-TSF概念和功能"><a href="#第一章-TSF概念和功能" class="headerlink" title="第一章 TSF概念和功能"></a>第一章 TSF概念和功能</h4><p>在第一章节中我们主要为大家介绍TSF的概念以及功能。</p>
+<h5 id="1-1-什么是TSF"><a href="#1-1-什么是TSF" class="headerlink" title="1.1 什么是TSF"></a>1.1 什么是TSF</h5><p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211118195702184.png" srcset="/img/loading.gif" lazyload alt="image-20211118195702184"></p>
+<ul>
+<li><strong>在正式介绍TSF之前我们先来看一下微服务给开发和运维带来的困难：</strong><ul>
+<li>运维复杂</li>
+<li>代码改造复杂</li>
+<li>架构复杂度高</li>
+<li>定位问题困难</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211118195805191.png" srcset="/img/loading.gif" lazyload alt="image-20211118195805191"></p>
+<ul>
+<li>虽然使用微服务架构给我们的开发工作带来了很多便捷，但是同时也带来了很多困难，比如：原来只有一个war 包，现在可能被拆成了几十个，甚至几百个微服务，势必会给我们的运维带来一定的困难，那这些问题需要怎么去解决呢？答案就是：腾讯分布式微服务平台TSF。</li>
+</ul>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211118195855363.png" srcset="/img/loading.gif" lazyload alt="image-20211118195855363"></p>
+<ul>
+<li>微服务带来的代码改困难，异构语言改造复杂。</li>
+</ul>
+<ul>
+<li><p><strong>腾讯微服务平台TSF (Tencent Service Framework) 是一个围绕应用和微服务的PaaS 平台。</strong></p>
+<ul>
+<li>提供服务全生命周期管理能力和数据化运营支持。</li>
+<li>提供多维度应用、服务、机器的监控数据，助力服务性能优化。</li>
+<li>拥抱Spring Cloud 、Service Mesh 微服务框架。</li>
+<li>让企业轻松构建大型分布式系统。</li>
+</ul>
+</li>
+<li><p>接下来正式介绍TSF到底是什么。</p>
+</li>
+<li><p>**IaaS(Infrastructure-as-a-Service)**：基础设施即服务。消费者通过Internet可以从完善的计算机基础设施获得服务。例如：租用虚拟机。提供IaaS层功能的厂商有亚马逊的AWS，阿里云、腾讯云、华为云、百度云等。</p>
+</li>
+<li><p>**PaaS(Platform-as-a-Service)**：平台即服务。PaaS实际上是指将软件研发的平台作为一种服务，以SaaS的模式提交给用户，因此，PaaS也是SaaS模式的一种应用。但是，PaaS的出现可以加快SaaS的发展，尤其是加快SaaS应用的开发速度。例如：软件的个性化定制开发。提供PaaS功能的云计算厂商有亚马逊，腾讯云，windows Azure，Google，RedHat的openshift等。</p>
+</li>
+<li><p>**SaaS(Software-as-a-Service)**：软件即服务。它是一种通过Internet提供软件的模式，用户无需购买软件，而是向提供商租用基于Web的软件，来管理企业经营活动。提供SaaS功能的厂商有腾讯云，google，微软等。</p>
+</li>
+<li><p>举个简单的例子：我们以披萨作比喻，如果自己做披萨，那披萨皮，酱料，烤箱等全部需要自己准备，这样是非常麻烦的，那使用了laaS以后呢，我们只需要买现成的披萨皮，配料就可以了，如果使用PaaS那就相当于叫披萨外卖，只需要准备餐桌吃就可以了，如果使用SaaS就相当于直接去披萨店吃就可以了，什么都不需要准备（当然还是的准备钱的了）。</p>
+</li>
+</ul>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211118204446407.png" srcset="/img/loading.gif" lazyload alt="image-20211118204446407"></p>
+<ul>
+<li>介绍TSF的平台目标，核心用户，核心特征</li>
+<li>TSF平台的目标是<strong>帮助用户快速构建轻量级应用，提供微服务治理，一站式运维管控功能</strong></li>
+<li>从平台的目标我们也可以看出来，<strong>TSF的核心用户是业务的设计者，开发，运维人员</strong>。</li>
+<li><strong>核心特征是微服务驱动云化</strong>，这也跟TSF的定义，围绕着应用与微服务是一致的。</li>
+</ul>
+<h5 id="1-2-TSF的功能"><a href="#1-2-TSF的功能" class="headerlink" title="1.2 TSF的功能"></a>1.2 TSF的功能</h5><p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211118204637421.png" srcset="/img/loading.gif" lazyload alt="image-20211118204637421"></p>
+<ul>
+<li><p>通过CICD全流程一站式解决方案打通开发到运维的各个环节，拥抱开源的微服务框架，提供服务治理，数据化运营功能，同时打通腾讯云中间件产品，帮助企业轻松构建大型分布式系统。</p>
+</li>
+<li><p><strong>服务注册发现：</strong></p>
+<ul>
+<li>TSF 服务注册发现包括三个角色，<strong>服务提供者，服务调用者和服务注册中心</strong>。服务提供者和服务调用者将地址信息注册到服务注册中心，并从服务注册中心获取所有注册服务的实例列表。当用户使用Spring Cloud 框架时，TSF 使用Consul 作为服务注册中心。服务提供者和消费者使用Spring Cloud Consul 组件来实现与Consul 服务注册中心集群的通信。</li>
+<li>TSF 也提供兼容Dubbo 框架的应用注册到Consul 服务注册中心。</li>
+<li>TSF 支持Service Mesh 框架，支持不同框架、不同语言间服务相同调用，解决多语言异构问题。</li>
+</ul>
+</li>
+<li><p><strong>分布式配置管理：</strong></p>
+<ul>
+<li>用户可以<strong>通过控制台进行分布式配置管理，实时更新线上配置内容，实时发布</strong>，并选择在应用内部或整个环境上进行发布。</li>
+</ul>
+</li>
+<li><p><strong>数据化运营：</strong></p>
+<ul>
+<li>监控包括<strong>应用监控</strong>，应用监控的指标包括应用的QPS, 请求时间和请求出错率等。</li>
+<li><strong>分布式调用链分析</strong>包括调用链查询和调用链详情。用户可以根据时间范围和服务名等条件来查询一组调用链。调用链详情显示了请求经过每个服务的层次关系和耗时情况等信息。</li>
+<li><strong>TSF 提供日志分析能力</strong>，自动获取用户的业务日志并支持在TSF 控制台上进行日志查看、日志检索，支持日志关键词告警功能，并提供日志与调用链联动排查线上问题</li>
+</ul>
+</li>
+<li><p><strong>应用生命周期管理：</strong></p>
+<ul>
+<li>TSF 提供从创建应用到运行应用的全程管理，功能包括<strong>创建、删除、部署、回滚、扩容、下线、启动和停止应用</strong>。TSF 提供应用分组来实现应用的版本控制功能。同时，在TSF 控制台上可以设置自定义JVM 参数。TSF 将每次操作记录下来，用户可以在应用的变更记录页面中查看和搜索变更记录。    </li>
+</ul>
+</li>
+<li><p><strong>细粒度服务治理：</strong></p>
+<ul>
+<li>TSF 提供API 级别的服务治理能力。支持控制台上进行<strong>配置服务路由、服务限流、服务鉴权规则</strong>。在TSF 控制台上，用户可以通过<strong>配置、权重标签</strong>的形式进行细粒度的流量控制，<strong>实现灰度发布、就近路由、部分账号内测、流量限制、访问权限控制等</strong>功能。</li>
+</ul>
+</li>
+<li><p><strong>分布式事务：</strong></p>
+<ul>
+<li>TSF 集成了分布式事务能力，支持TCC 模式分布式事务管理功能。对于跨数据库、跨服务的分布式场景，用户可以在控制台上查看事务运行情况并进行超时事务处理。保证事务的一致性</li>
+</ul>
+</li>
+<li><p><strong>打通中间件产品：</strong></p>
+<ul>
+<li>TSF 可以与腾讯云多款成熟中间件产品打通，包括腾讯云API Gateway、消息队列CMQ 、CKafka 等。腾讯云微服务API Gateway 可以建立路径到微服务ID 的映射方式，同时提供负载均衡、熔断等能力。</li>
+</ul>
+</li>
+</ul>
+<h5 id="1-3-TSF整体架构"><a href="#1-3-TSF整体架构" class="headerlink" title="1.3 TSF整体架构"></a>1.3 TSF整体架构</h5><p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211118205308100.png" srcset="/img/loading.gif" lazyload alt="image-20211118205308100"></p>
+<ul>
+<li>上图是TSF的整体架构图，简述TSF基本架构，同时打通了腾讯云中间件组件。</li>
+</ul>
+<h5 id="1-4-利用TSF打造企业技术中台"><a href="#1-4-利用TSF打造企业技术中台" class="headerlink" title="1.4 利用TSF打造企业技术中台"></a>1.4 利用TSF打造企业技术中台</h5><p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211118205410123.png" srcset="/img/loading.gif" lazyload alt="image-20211118205410123"></p>
+<ul>
+<li>在前面我们介绍了软件架构的演变过程，由单体架构到soa面向服务架构，再到微服务架构，基于微服务架构我们把各个业务系统的相同功能抽取出来，<strong>把抽取的公用功能进行统一维护与处理，所有的其它业务系统都可以公用这些公共服务，这些公共的微服务也被称之为中台</strong>。</li>
+<li>中台这个概念早期是由美军的作战体系演化而来的，技术上所说的“中台”主要是指<strong>学习这种高效、灵活和强大的指挥作战体系</strong>。电商经过十几年的发展，组织已经庞大而复杂，业务不断细化拆分，也导致野蛮发展的系统越来越不可维护，开发和改造效率极低，也有很多新业务不得不重复造轮子，所以中台的<strong>目标是为了解决效率问题，同时降低创新成本</strong>。所谓的业务中台就是：<strong>通过制定标准和机制，把不确定的业务规则和流程通过工业化和市场化的手段确定下来，以减少人与人之间的沟通成本，同时还能最大程度地提升协作效率</strong>。</li>
+<li><strong>中台的目标：减少沟通成本，提升协作效率。</strong></li>
+<li><strong>中台的实现手段：制定标准和规范。</strong></li>
+<li><strong>原则：集中管控，分布式执行。</strong></li>
+</ul>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211118205858006.png" srcset="/img/loading.gif" lazyload alt="image-20211118205858006"></p>
+<ul>
+<li>通过TSF打造技术中台，提供公用功能，让企业只需要关心业务。</li>
+</ul>
+<h5 id="1-5-TSF用户面板"><a href="#1-5-TSF用户面板" class="headerlink" title="1.5 TSF用户面板"></a>1.5 TSF用户面板</h5><p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211118205939757.png" srcset="/img/loading.gif" lazyload alt="image-20211118205939757"></p>
+<ul>
+<li>资源中心：可以在资源中心<strong>配置集群，命名空间，部署组</strong>。</li>
+<li>应用中心：可以实现<strong>应用管理，服务治理，配置管理，事务管理</strong>功能。<ul>
+<li>服务治理<ul>
+<li>服务鉴权：处理微服务之间相互访问的权限问题</li>
+<li>服务限流：主要是保护<strong>服务节点或者数据节点</strong>，<strong>防止瞬时流量过大使服务和数据崩溃，造成服务不可用</strong>。当资源成为瓶颈时，服务框架需要对请求做限流，启动流控保护机制。</li>
+<li>服务路由：用户在使用TSF 运行自己的业务时，由于业务的复杂程度，常常需要部署数目庞大的服务运行在现网环境中。这些服务运行在属性不同的实例上、部署在不同的地域中，用户经常需要选择符合自己特定要求的属性来选择服务的提供者，对服务间流量的分配起到掌控的作用。</li>
+<li>查询api列表：可以查询当前微服务应用下的服务列表</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>配置管理：为了解决分布式环境下多台服务实例的配置统一管理问题，TSF 提供了具备分布式配置功能</li>
+<li>事务管理：TSF 分布式事务服务（TSF Distributed Transaction Service, TDTS）是一款高性能、高可靠的分布式事务中间件，旨在解决分布式环境下的事务一致性问题。一个完整的业务往往涉及到多个子业务，随着业务数增加，系统逐渐演变为分布式系统，进而带来了数据一致性的问题。</li>
+<li>运维中心<ul>
+<li>日志服务：为用户提供一站式日志服务，从日志采集、日志存储到日志内容搜索，帮助用户轻松定位业务问题。</li>
+<li>日志报警：日志告警功能允许您通过配置业务日志中的关键词，设置关键词出现频率的告警。您需要在TSF控制台上配置需要告警的关键词和监控对象，并在云监控界面上配置告警通知人。</li>
+<li>服务依赖拓扑查询：TSF平台提供了用户查询服务间互相依赖的拓扑图查询功能</li>
+<li>弹性伸缩：是根据用户的业务需求和策略，经济地自动调整弹性计算资源的管理服务。弹性伸缩不仅适合业务量不断波动的应用程序，同时也适合业务量稳定的应用程序。</li>
+</ul>
+</li>
+<li>仓库中心：提供docker应用的镜像管理，软件应用的仓库管理，服务编排功能</li>
+</ul>
+<h4 id="第二章-TSF产品优势"><a href="#第二章-TSF产品优势" class="headerlink" title="第二章 TSF产品优势"></a>第二章 TSF产品优势</h4><h5 id="2-1-TSF产品优势"><a href="#2-1-TSF产品优势" class="headerlink" title="2.1 TSF产品优势"></a>2.1 TSF产品优势</h5><p>![image-20211118210814883](/Users/mike/Library/Application Support/typora-user-images/image-20211118210814883.png)</p>
+<ul>
+<li>这里主要是通过对比的方式介绍TSF的功能优势，通过对比自行搭建服务治理平台跟TSF在相同项的做法，成本比较，把TSF的优势突显出来。</li>
+</ul>
+<p><strong>微服务TSF平台为企业，重点提供自治的中台能力、缩短迭代周期和保障7*24小时高可靠运</strong></p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211118211033056.png" srcset="/img/loading.gif" lazyload alt="image-20211118211033056"></p>
+<ul>
+<li>从架构演变的过程体现微服务架构TSF平台的优势</li>
+</ul>
+<h6 id="2-1-1-高度自治的中台能力"><a href="#2-1-1-高度自治的中台能力" class="headerlink" title="2.1.1 高度自治的中台能力"></a>2.1.1 高度自治的中台能力</h6><p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211118211158008.png" srcset="/img/loading.gif" lazyload alt="image-20211118211158008"></p>
+<ul>
+<li>高度自治的中台能力：<ol>
+<li>基于业务领域设计需求，逐渐在使用中清晰化功能</li>
+<li>业务变化，最小粒度基于接口招标，人力外包</li>
+<li>开放的系统架构下，代码复用能力强，企业具备自主开发能力，更新迭代速度块，不停服的进行更新</li>
+<li>人力外包灵活选择，质优价廉</li>
+</ol>
+</li>
+</ul>
+<h6 id="2-1-2-缩短迭代周期"><a href="#2-1-2-缩短迭代周期" class="headerlink" title="2.1.2 缩短迭代周期"></a>2.1.2 缩短迭代周期</h6><p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211118211456054.png" srcset="/img/loading.gif" lazyload alt="image-20211118211456054"></p>
+<ul>
+<li>结合腾讯开发测试组件，自动化开发测试部署流程中重复的工作量，把传统开发过程中的手动步骤自动化，大量节省时间，缩短迭代周期</li>
+</ul>
+<h6 id="2-1-3-保障应用7-24小时高可靠运行"><a href="#2-1-3-保障应用7-24小时高可靠运行" class="headerlink" title="2.1.3 保障应用7*24小时高可靠运行"></a>2.1.3 保障应用7*24小时高可靠运行</h6><p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211118211544133.png" srcset="/img/loading.gif" lazyload alt="image-20211118211544133"></p>
+<ul>
+<li>在发布部署过程中基于部署组维度进行服务路由，完成不停服的灰度发布，同时可以实时更新配置，不需要重启应用，可靠的保证服务的高可用</li>
+</ul>
+<h6 id="2-1-4-开源微服务技术完美兼容"><a href="#2-1-4-开源微服务技术完美兼容" class="headerlink" title="2.1.4 开源微服务技术完美兼容"></a>2.1.4 开源微服务技术完美兼容</h6><p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211118211632649.png" srcset="/img/loading.gif" lazyload alt="image-20211118211632649"></p>
+<ul>
+<li>完美的整合开源微服务框架技术，拥抱Spring Cloud ，Dubbo，Service Mesh应用；同时支持虚拟机，容器应用。</li>
+</ul>
+<h6 id="2-1-5-供跨语言，跨物理资源的通道"><a href="#2-1-5-供跨语言，跨物理资源的通道" class="headerlink" title="2.1.5 供跨语言，跨物理资源的通道"></a>2.1.5 供跨语言，跨物理资源的通道</h6><p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211118211734034.png" srcset="/img/loading.gif" lazyload alt="image-20211118211734034"></p>
+<ul>
+<li>供跨语言，跨物理资源的通道，打通spring cloud和service mesh 互访</li>
+</ul>
+<h6 id="2-1-6-微服务中的定位问题"><a href="#2-1-6-微服务中的定位问题" class="headerlink" title="2.1.6 微服务中的定位问题"></a>2.1.6 微服务中的定位问题</h6><p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211118211829287.png" srcset="/img/loading.gif" lazyload alt="image-20211118211829287"></p>
+<ul>
+<li>微服务中的问题定位随着微服务数量的上升困难也随之上升。</li>
+</ul>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211118211923188.png" srcset="/img/loading.gif" lazyload alt="image-20211118211923188"></p>
+<ul>
+<li>TSF提供专业的跟踪排障流水线，快速定位问题</li>
+</ul>
+<h6 id="2-1-7-持续做各行业的技术发动机"><a href="#2-1-7-持续做各行业的技术发动机" class="headerlink" title="2.1.7 持续做各行业的技术发动机"></a>2.1.7 持续做各行业的技术发动机</h6><p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211118212006814.png" srcset="/img/loading.gif" lazyload alt="image-20211118212006814"></p>
+<h4 id="第三章-TSF的应用场景"><a href="#第三章-TSF的应用场景" class="headerlink" title="第三章 TSF的应用场景"></a>第三章 TSF的应用场景</h4><h5 id="3-1-TSF的应用场景"><a href="#3-1-TSF的应用场景" class="headerlink" title="3.1 TSF的应用场景"></a>3.1 TSF的应用场景</h5><p>TSF的三大典型的应用场景。</p>
+<ul>
+<li>场景1：构建分布式服务系统</li>
+<li>场景2：应用的发布与管理</li>
+<li>场景3：可视化数据运营</li>
+</ul>
+<h6 id="3-1-1-场景1：构建分布式服务系统"><a href="#3-1-1-场景1：构建分布式服务系统" class="headerlink" title="3.1.1 场景1：构建分布式服务系统"></a>3.1.1 场景1：构建分布式服务系统</h6><p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211118212202312.png" srcset="/img/loading.gif" lazyload alt="image-20211118212202312"></p>
+<ul>
+<li>单体应用转变为分布式系统后，实现系统间的可靠调用是关键问题之一，涉及到路由管理，序列化协议等技术细节。</li>
+<li>TSF 提供了RESTful 调用方式和自研的高性能RPC 框架，能够构建高可用、高性能的分布式系统，TSF 系统地考虑了分布式服务发现、路由管理、安全、负载均衡等细节问题。同时TSF 将在未来打通消息队列、API Gateway 等服务，满足用户多样化的需求。</li>
+</ul>
+<h6 id="3-1-2-场景2：应用的发布与管理"><a href="#3-1-2-场景2：应用的发布与管理" class="headerlink" title="3.1.2 场景2：应用的发布与管理"></a>3.1.2 场景2：应用的发布与管理</h6><p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211118212330840.png" srcset="/img/loading.gif" lazyload alt="image-20211118212330840"></p>
+<ul>
+<li>相对于传统的应用发布需要运维人员登录到每一台服务器进行发布和部署，TSF 针对分布式系统的应用发布和管理，提供了简单易用的可视化控制台。用户通过控制台可以发布应用，包括创建、部署、启动应用，也支持查看应用的部署状态。除此之外，用户可以通过控制台管理应用，包括回滚应用、扩容、缩容和删除应用。</li>
+</ul>
+<h6 id="3-1-3-场景3：可视化数据运营"><a href="#3-1-3-场景3：可视化数据运营" class="headerlink" title="3.1.3 场景3：可视化数据运营"></a>3.1.3 场景3：可视化数据运营</h6><p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211118212432583.png" srcset="/img/loading.gif" lazyload alt="image-20211118212432583"></p>
+<ul>
+<li>通过对日志埋点的收集和分析，可以得到一次请求在各个服务间的调用链关系，有助于梳理应用的请求入口与服务的调用来源、依赖关系。当遇到请求耗时较长的情况，可以通过调用链分析调用瓶颈，快速定位异常。</li>
+</ul>
+<h4 id="思考题"><a href="#思考题" class="headerlink" title="思考题"></a>思考题</h4><ul>
+<li>TSF具备的功能有哪些？<ol>
+<li>提供完善的微服务治理能力</li>
+<li>提供一站式的应用生命周期管理，灵活的资源管理调配能力</li>
+<li>全面的数据化运营能力</li>
+<li>分布式配置</li>
+</ol>
+</li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%95%99%E7%A8%8B/">教程</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">微服务</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/11/11/%E4%B8%AA%E4%BA%BA%E5%BB%BA%E7%AB%99%E5%8D%9A%E5%AE%A2%E6%A1%86%E6%9E%B6Hexo%E8%AE%BE%E7%BD%AE%E4%BC%98%E5%8C%96%E8%83%8E%E6%95%99%E7%BA%A7%E6%95%99%E7%A8%8B/">
+                        <span class="hidden-mobile">个人建站博客框架Hexo设置优化胎教级教程</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
