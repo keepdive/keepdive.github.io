@@ -49,8 +49,15 @@
 <meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/202111101806261.png">
 <meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/202111101821055.png">
 <meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/202111101838838.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211118153215147.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211118175601326.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211118175601326.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211118183638698.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211118183542509.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211118184303699.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211118191334638.png">
 <meta property="article:published_time" content="2021-11-08T09:05:38.000Z">
-<meta property="article:modified_time" content="2021-11-11T14:24:47.665Z">
+<meta property="article:modified_time" content="2021-11-18T11:30:44.639Z">
 <meta property="article:author" content="Mike">
 <meta property="article:tag" content="Spring Boot">
 <meta property="article:tag" content="Spring Cloud">
@@ -229,7 +236,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      19k 字
+      28k 字
     </span>
   
 
@@ -238,7 +245,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      59 分钟
+      88 分钟
     </span>
   
 
@@ -835,10 +842,8 @@
 </li>
 <li><p><strong>添加dependencyManagement定义和eureka依赖：</strong></p>
 <ul>
-<li><p>跟开发eureka-server中的内容一致；</p>
-</li>
 <li><p>eureka-provider项目完整依赖；</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">project</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://maven.apache.org/POM/4.0.0&quot;</span></span><br><span class="hljs-tag">         <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span><br><span class="hljs-tag">         <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">modelVersion</span>&gt;</span>4.0.0<span class="hljs-tag">&lt;/<span class="hljs-name">modelVersion</span>&gt;</span><br><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.keepdive<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>eureka-provider<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br><br>    <span class="hljs-tag">&lt;<span class="hljs-name">properties</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">maven.compiler.source</span>&gt;</span>8<span class="hljs-tag">&lt;/<span class="hljs-name">maven.compiler.source</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">maven.compiler.target</span>&gt;</span>8<span class="hljs-tag">&lt;/<span class="hljs-name">maven.compiler.target</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">properties</span>&gt;</span><br><br><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.5.11.RELEASE<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><br>        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-starter-config<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><br>        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-starter-eureka-server<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span><br><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dependencyManagement</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span><br>            <span class="hljs-comment">&lt;!-- springboot 1.5.11对应的springcloud依赖管理 --&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-dependencies<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>Dalston.RELEASE<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">type</span>&gt;</span>pom<span class="hljs-tag">&lt;/<span class="hljs-name">type</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>import<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span><br>            <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">dependencyManagement</span>&gt;</span><br><br><span class="hljs-tag">&lt;/<span class="hljs-name">project</span>&gt;</span><br></code></pre></td></tr></table></figure></li>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">project</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://maven.apache.org/POM/4.0.0&quot;</span></span><br><span class="hljs-tag">         <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span><br><span class="hljs-tag">         <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">modelVersion</span>&gt;</span>4.0.0<span class="hljs-tag">&lt;/<span class="hljs-name">modelVersion</span>&gt;</span><br><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.keepdive<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>eureka-provider<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br><br>    <span class="hljs-tag">&lt;<span class="hljs-name">properties</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">maven.compiler.source</span>&gt;</span>8<span class="hljs-tag">&lt;/<span class="hljs-name">maven.compiler.source</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">maven.compiler.target</span>&gt;</span>8<span class="hljs-tag">&lt;/<span class="hljs-name">maven.compiler.target</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">properties</span>&gt;</span><br><br><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.5.11.RELEASE<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><br>        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-starter-config<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><br>        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-starter-eureka<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span><br><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dependencyManagement</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span><br>            <span class="hljs-comment">&lt;!-- springboot 1.5.11对应的springcloud依赖管理 --&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-dependencies<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>Dalston.RELEASE<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">type</span>&gt;</span>pom<span class="hljs-tag">&lt;/<span class="hljs-name">type</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>import<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span><br>            <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">dependencyManagement</span>&gt;</span><br><br><span class="hljs-tag">&lt;/<span class="hljs-name">project</span>&gt;</span><br></code></pre></td></tr></table></figure></li>
 </ul>
 </li>
 <li><p><strong>在启动类，添加注解</strong></p>
@@ -888,6 +893,238 @@
 </li>
 <li><p>启动eureka-server，eureka-provider应用后访问<a target="_blank" rel="noopener" href="http://localhost:8000/%E5%B0%B1%E5%8F%AF%E4%BB%A5%E7%9C%8B%E5%88%B0%E5%B7%B2%E7%BB%8F%E6%B3%A8%E5%86%8C%E7%9A%84%E6%9C%8D%E5%8A%A1%EF%BC%8C%E6%B3%A8%E6%84%8F%E6%AD%A4%E5%A4%84%E8%AE%BF%E9%97%AE%E7%9A%84%E5%9C%B0%E5%9D%80%E4%B8%BA%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83%E7%9A%84%E5%9C%B0%E5%9D%80%EF%BC%8C%E6%89%80%E4%BB%A5%E7%AB%AF%E5%8F%A3%E6%98%AF8000%EF%BC%8C%E4%B8%8D%E6%98%AF8001%E3%80%82">http://localhost:8000/就可以看到已经注册的服务，注意此处访问的地址为服务注册中心的地址，所以端口是8000，不是8001。</a></p>
 </li>
+</ul>
+<h6 id="3-1-3-开发eureka-consumer"><a href="#3-1-3-开发eureka-consumer" class="headerlink" title="3.1.3 开发eureka-consumer"></a><strong>3.1.3 开发eureka-consumer</strong></h6><p><strong>开发eureka-consumer项目：</strong></p>
+<ul>
+<li><p>根据前面第一个Spring Boot项目案例创建eureka-consumer项目</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211118153215147.png" srcset="/img/loading.gif" lazyload alt="image-20211118153215147"></p>
+</li>
+<li><p>跟eureka-server的项目创建方式一致</p>
+</li>
+</ul>
+<ul>
+<li><p><strong>添加dependencyManagement定义和eureka依赖</strong></p>
+</li>
+<li><p>eureka-consumer项目的完整依赖如下</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">project</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://maven.apache.org/POM/4.0.0&quot;</span></span><br><span class="hljs-tag">         <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span><br><span class="hljs-tag">         <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">modelVersion</span>&gt;</span>4.0.0<span class="hljs-tag">&lt;/<span class="hljs-name">modelVersion</span>&gt;</span><br><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.keepdive<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>eureka-consumer<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br><br>    <span class="hljs-tag">&lt;<span class="hljs-name">properties</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">maven.compiler.source</span>&gt;</span>8<span class="hljs-tag">&lt;/<span class="hljs-name">maven.compiler.source</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">maven.compiler.target</span>&gt;</span>8<span class="hljs-tag">&lt;/<span class="hljs-name">maven.compiler.target</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">properties</span>&gt;</span><br><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.5.11.RELEASE<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><br>        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-starter-config<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><br>        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-starter-eureka<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span><br><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dependencyManagement</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span><br>            <span class="hljs-comment">&lt;!-- springboot 1.5.11对应的springcloud依赖管理 --&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-dependencies<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>Dalston.RELEASE<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">type</span>&gt;</span>pom<span class="hljs-tag">&lt;/<span class="hljs-name">type</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>import<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span><br>            <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">dependencyManagement</span>&gt;</span><br><br><span class="hljs-tag">&lt;/<span class="hljs-name">project</span>&gt;</span><br></code></pre></td></tr></table></figure></li>
+</ul>
+<ul>
+<li><p><strong>创建启动类：</strong></p>
+<ul>
+<li>在启动类EurekaConsumerApplication上添加注解，定义RestTemplate</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@SpringBootApplication</span><br><span class="hljs-meta">@EnableDiscoveryClient</span><br><span class="hljs-meta">@EnableEurekaClient</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">EurekaConsumerApplication</span> </span>&#123;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        SpringApplication.run(EurekaConsumerApplication.class, args);<br>    &#125;<br><br>    <span class="hljs-meta">@Bean</span><br>    <span class="hljs-meta">@LoadBalanced</span><br>    <span class="hljs-function">RestTemplate <span class="hljs-title">getRestTemplate</span><span class="hljs-params">()</span></span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> RestTemplate();<br>    &#125;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>这里有些代码、注解和eureka-server不一致</li>
+<li><font color='red'>@EnableDiscoveryClient @EnableEurekaClient注解一样跟eureka-provider一致，都是为了注册当前服务到eureka服务注册中心</font></li>
+<li><font color='red'>getRrestTemplate是为了注入RestTemplate到spirng容器，这样其它类再使用就可以直接用注解的形式使用，在业务controller中会涉及到</font></li>
+<li><font color='red'>@Bean   注入bean到spring容器</font></li>
+<li><font color='red'>@LoadBalanced实现客户端负载均衡</font></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p><strong>添加业务Controller：</strong></p>
+<ul>
+<li>在启动类EurekaProviderApplication包路径下新建HelloConsumerController类：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@RestController</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HelloConsumerController</span> </span>&#123;<br><br>    <span class="hljs-meta">@Autowired</span><br>    RestTemplate restTemplate;<br><br>    <span class="hljs-meta">@RequestMapping(&quot;/consumer/helle/&#123;name&#125;&quot;)</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">helloConsumer</span><span class="hljs-params">(<span class="hljs-meta">@PathVariable(&quot;name&quot;)</span> String name)</span></span>&#123;<br>        <span class="hljs-keyword">return</span> restTemplate.getForObject(<span class="hljs-string">&quot;http://eureka-provider/hello&quot;</span> + name, String.class);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>消费者业务Controller，主要是为了消费eureka-provider应用中提供的服务</li>
+<li>这里采用的是路径传参数，在前面的Spring Boot传参示例中有说明</li>
+<li>这里业务controller的意思是，当客户端访问/consumer/hello/{name}这个连接时，会通过restTemplate访问<font color='red'>eureka-provider服务中hello接口，简单来说就是消费eureka-provider服务</font>。</li>
+<li>@Autowired表示RestTemplate 为自动注入，bean的定义就是启动类中注入到了spring容器，所以这里可以通过spring容器自动注入。</li>
+<li>resttemplate会在后面的服务通信方式中介绍</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p><strong>修改配置文件：</strong></p>
+<ul>
+<li><p>修改resources目录下配置文件application.yml，并添加如下配置：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs yml"><span class="hljs-attr">server:</span><br>  <span class="hljs-attr">port:</span> <span class="hljs-number">8002</span><br><span class="hljs-attr">spring:</span><br>  <span class="hljs-attr">application:</span><br>    <span class="hljs-attr">name:</span> <span class="hljs-string">eureka-consumer</span><br><span class="hljs-attr">eureka:</span><br>  <span class="hljs-attr">client:</span><br>    <span class="hljs-attr">service-url:</span><br>      <span class="hljs-attr">defaultZone:</span> <span class="hljs-string">http://localhost:8000/eureka/</span><br></code></pre></td></tr></table></figure></li>
+<li><p>server.port: 8002 应用启动端口为8002</p>
+</li>
+<li><p>spring.application.name: eureka-consumer应用服务名称为：eureka-consumer</p>
+</li>
+<li><p>eureka.client.service-url.defaultZone: <a target="_blank" rel="noopener" href="http://localhost:8000/eureka/%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83%E5%9C%B0%E5%9D%80">http://localhost:8000/eureka/注册中心地址</a></p>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p><strong>启动eureka-consumer应用</strong></p>
+<ul>
+<li><p>运行启动类EurekaConsumerApplication</p>
+</li>
+<li><p>浏览器访问服务注册中心：<a target="_blank" rel="noopener" href="http://localhost:8000/%EF%BC%9B%E5%8F%AF%E4%BB%A5%E6%9F%A5%E7%9C%8B%E5%88%B0%E5%B7%B2%E7%BB%8F%E6%B3%A8%E5%86%8C%E5%88%B0%E6%9C%8D%E5%8A%A1%E4%B8%AD%E5%BF%83%E7%9A%84%E6%9C%8D%E5%8A%A1%EF%BC%8C%E5%A6%82%E5%9B%BE%EF%BC%9A%E5%8F%AF%E4%BB%A5%E5%8F%91%E7%8E%B0%E6%9C%892%E4%B8%AA%E6%9C%8D%E5%8A%A1%E5%B7%B2%E7%BB%8F%E6%B3%A8%E5%86%8C%E5%88%B0%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83![image-20211118173927978](https://gitee.com/divemaven/git-project/raw/master/image-20211118173927978.png)">http://localhost:8000/；可以查看到已经注册到服务中心的服务，如图：可以发现有2个服务已经注册到服务注册中心![image-20211118173927978](https://gitee.com/divemaven/git-project/raw/master/image-20211118173927978.png)</a></p>
+</li>
+<li><p>访问<a target="_blank" rel="noopener" href="http://localhost:8002/consumer/hello/test%EF%BC%8C%E8%AE%BF%E9%97%AE%E7%9A%84%E6%98%AFeureka-consumer%E5%BA%94%E7%94%A8%E4%B8%AD%E7%9A%84/hello%E6%8E%A5%E5%8F%A3%EF%BC%8C%E4%BD%86%E6%98%AF%E5%9C%A8eureka-consumer%E7%9A%84hello%E6%8E%A5%E5%8F%A3%E4%B8%AD%E5%AE%9E%E9%99%85%E6%98%AF%E8%B0%83%E7%94%A8%E5%88%B0%E4%BA%86eureka-provider%E5%BA%94%E7%94%A8%E4%B8%AD%E7%9A%84hello%E6%8E%A5%E5%8F%A3%EF%BC%8C%E5%8F%AF%E4%BB%A5%E7%9C%8B%E5%88%B0%E9%A1%B5%E9%9D%A2%E6%98%BE%E7%A4%BA%E7%9A%84%E5%86%85%E5%AE%B9%E6%98%AFprovider%EF%BC%9Ahello">http://localhost:8002/consumer/hello/test，访问的是eureka-consumer应用中的/hello接口，但是在eureka-consumer的hello接口中实际是调用到了eureka-provider应用中的hello接口，可以看到页面显示的内容是provider：hello</a> test</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211118175601326.png" srcset="/img/loading.gif" lazyload alt="image-20211118175601326"></p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="第四章-服务间通信方式"><a href="#第四章-服务间通信方式" class="headerlink" title="第四章 服务间通信方式"></a>第四章 服务间通信方式</h4><p>前面我们讲解了spirng Boot，Spring Cloud的基本概念以及使用，那在上一章节中我们还留下一个问题，我们eureka-consumer是如何访问到我们的eureka-provider的？在代码中我们其实看到了是采用RestTemplate的方式访问的，那除了RestTemplate的方式外是否还有其他方式呢？</p>
+<h5 id="4-1-服务间通信方式"><a href="#4-1-服务间通信方式" class="headerlink" title="4.1 服务间通信方式"></a>4.1 服务间通信方式</h5><ul>
+<li><p>Spring Cloud 与Spring Boot 都采用Restful API 形式进行通信。</p>
+<ul>
+<li><p>同步方式: RestTemplate</p>
+</li>
+<li><p>异步方式: AsyncRestTemplate</p>
+</li>
+<li><p>声明式服务调用方式: Feign</p>
+</li>
+</ul>
+</li>
+<li><p>首先我们看一下同步，异步的思想：</p>
+</li>
+<li><p><strong>同步</strong>：同步的思想是：所有的操作都做完，才返回给用户。这样用户在线等待的时间太长，给用户一种卡死了的感觉（就是系统迁移中，点击了迁移，界面就不动了，但是程序还在执行，卡死了的感觉）。这种情况下，用户不能关闭界面，如果关闭了，即迁移程序就中断了。</p>
+</li>
+<li><p>**异步(Async)**：将用户请求放入消息队列，并反馈给用户，系统迁移程序已经启动，你可以关闭浏览器了。然后程序再慢慢地去写入数据库去。这就是异步。但是用户没有卡死的感觉，会告诉你，你的请求系统已经响应了。你可以关闭界面了。</p>
+</li>
+<li><p><strong>声明式服务调用方式</strong>：当我们通过RestTemplate调用其它服务的API时，所需要的参数须在请求的URL中进行拼接，如果参数少的话或许我们还可以忍受，一旦有多个参数的话，这时拼接请求字符串就会效率低下，并且显得好傻。那么有没有更好的解决方案呢？答案是确定的有，Netflix已经为我们提供了一个框架：Feign。Feign是一个声明式的Web Service客户端，<strong>它的目的就是让Web Service调用更加简单。Feign提供了HTTP请求的模板，通过编写简单的接口和插入注解</strong>，就可以定义好HTTP请求的参数、格式、地址等信息。<strong>而Feign则会完全代理HTTP请求，我们只需要像调用方法一样调用它就可以完成服务请求及相关处理。</strong></p>
+</li>
+</ul>
+<h5 id="4-2-同步方式-RestTemplate"><a href="#4-2-同步方式-RestTemplate" class="headerlink" title="4.2 同步方式-RestTemplate"></a>4.2 同步方式-RestTemplate</h5><ul>
+<li><p><strong>RestTemplate示例：</strong></p>
+<ul>
+<li><p><strong>在eureka-consumer项目的启动类EurekaConsumerApplication中注入RestTemplate到Spring容器中</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Bean</span><br><span class="hljs-meta">@LoadBalanced</span><br><span class="hljs-function">RestTemplate <span class="hljs-title">getRestTemplate</span><span class="hljs-params">()</span></span>&#123;<br>  	<span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> RestTemplate();<br>&#125;<br></code></pre></td></tr></table></figure></li>
+<li><p>注意这里的代码还是基于eureka-consumer的案例，基于前面的代码做扩展，由于前面我们服务间通信就是采用的RestTemplate；所以这里不再重复操作截图，只贴代码。</p>
+</li>
+</ul>
+<ul>
+<li><p><strong>在HelloConsumerController中添加代码：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Autowired</span><br>RestTemplate restTemplate;<br><br><span class="hljs-meta">@RequestMapping(&quot;/consumer/hello/&#123;name&#125;&quot;)</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">helloConsumer</span><span class="hljs-params">(<span class="hljs-meta">@PathVariable(&quot;name&quot;)</span> String name)</span></span>&#123;<br>		<span class="hljs-keyword">return</span>  restTemplate.getForObject(<span class="hljs-string">&quot;http://eureka-provider/hello/&quot;</span> + name, String.class);<br>&#125;<br></code></pre></td></tr></table></figure></li>
+<li><p>如前面介绍eureka-consumer中HelloConsumerController类，这里代码跟前面一致。</p>
+</li>
+<li><p><strong>浏览器中访问：<a target="_blank" rel="noopener" href="http://localhost:8002/consumer/hello/test">http://localhost:8002/consumer/hello/test</a></strong></p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211118175601326.png" srcset="/img/loading.gif" lazyload alt="image-20211118175601326"></p>
+</li>
+<li><p>访问结果如eureka-consumer案例中一致，修改url中参数”<a target="_blank" rel="noopener" href="http://localhost:8002/consumer/hello/%E5%8F%82%E6%95%B0%E2%80%9C%EF%BC%8C%E7%BB%93%E6%9E%9C%E4%B9%9F%E4%B8%8D%E4%B8%80%E8%87%B4">http://localhost:8002/consumer/hello/参数“，结果也不一致</a>.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="4-3-异步方式-AsyncRestTemplate"><a href="#4-3-异步方式-AsyncRestTemplate" class="headerlink" title="4.3 异步方式-AsyncRestTemplate"></a>4.3 异步方式-AsyncRestTemplate</h5><ul>
+<li><p><strong>AsyncRestTemplate示例：</strong></p>
+<ul>
+<li><strong>在eureka-consumer项目的启动类EurekaConsumerApplication中注入AsyncRestTemplate到Spring容器中</strong></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Bean</span><br><span class="hljs-meta">@LoadBalanced</span><br><span class="hljs-function">AsyncRestTemplate <span class="hljs-title">asyncRestTemplate</span><span class="hljs-params">()</span></span>&#123;<br>		<span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> AsyncRestTemplate();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>在启动类中注入AsyncRestTemplate 到spirng容器，作用跟RestTemplate一致，都是为了在Controller中可以自动注入使用</li>
+<li>各个注解内容跟RestTemplate注入一致</li>
+</ul>
+<ul>
+<li><p><strong>在HelloConsumerController类中添加方法</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Autowired</span><br>AsyncRestTemplate asyncRestTemplate;<br><br><span class="hljs-meta">@RequestMapping(&quot;consumer/async/hello/&#123;name&#125;&quot;)</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">asyncRest</span><span class="hljs-params">(<span class="hljs-meta">@PathVariable(&quot;name&quot;)</span> String name)</span> <span class="hljs-keyword">throws</span> ExecutionException, InterruptedException </span>&#123;<br>    ListenableFuture&lt;ResponseEntity&lt;String&gt;&gt; future = asyncRestTemplate.getForEntity(<span class="hljs-string">&quot;http://eureka-provider/hello/&quot;</span> + name, String.class);<br>    <span class="hljs-keyword">return</span> future.get().getBody();<br>&#125;<br></code></pre></td></tr></table></figure></li>
+<li><p>通过@Autowired注入AsyncRestTemplate</p>
+</li>
+<li><p>然后再asyncRest接口中直接使用asyncRestTemplate.getForEntity(“<a target="_blank" rel="noopener" href="http://eureka-provider/hello/&quot;">http://eureka-provider/hello/&quot;</a> + name, String.class)；如此就是通过异步的方式调用服务提供者</p>
+</li>
+<li><p>这里虽然是异步但是返回的内容还是同步的，其原因在于接口中返回代码“return future.get().getBody()”，其中用的是future.get()，这个方法会等待接口调用结束后再返回。</p>
+</li>
+<li><p>可以通过在returen中直接返回，然后注册异步执行的回调方法，演示异步效果</p>
+</li>
+</ul>
+<ul>
+<li><p><strong>浏览器中访问：</strong><a target="_blank" rel="noopener" href="http://localhost:8002/consumer/async/hello/test">http://localhost:8002/consumer/async/hello/test</a></p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211118183638698.png" srcset="/img/loading.gif" lazyload alt="image-20211118183638698">            </p>
+</li>
+<li><p><strong>服务消费者通过异步方式调用服务提供者过程</strong> </p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211118183542509.png" srcset="/img/loading.gif" lazyload alt="image-20211118183542509"></p>
+</li>
+<li><p>图中演示了服务消费者通过异步方式调用服务提供者过程，异步的方式可以直接返回响应，也可以等待异步调用结束后再返回数据，跟ajax的基本思路一致。可以在不阻塞程序的情况下进行调用，也可以使用阻塞模式等待数据返回。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="4-4-声明式服务调用方式-Feign"><a href="#4-4-声明式服务调用方式-Feign" class="headerlink" title="4.4 声明式服务调用方式-Feign"></a>4.4 声明式服务调用方式-Feign</h5><ul>
+<li><p><strong>添加Feign依赖:</strong></p>
+<ul>
+<li><p>在eureka-consumer项目根目录下的pom.xml中添加依赖</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-starter-feign<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p><strong>添加启动注解:</strong></p>
+<ul>
+<li><p>在EurekaConsumerApplication启动类上添加注解@EnableFeignClients</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211118184303699.png" srcset="/img/loading.gif" lazyload alt="image-20211118184303699"></p>
+</li>
+<li><p>启动类上需要添加@EnableFeignClients注解，表明当前应用启用feign客户端；前提是要添加依赖，不然启动失败</p>
+</li>
+</ul>
+</li>
+<li><p><strong>添加FeignClient:</strong></p>
+<ul>
+<li>在EurekaConsumerApplication启动类所在包下新建HelloClient接口：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@FeignClient(name = &quot;eureka-provider&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">HelloClient</span> </span>&#123;<br><br>    <span class="hljs-meta">@GetMapping(&quot;/hello/&#123;name&#125;&quot;)</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">sayHello</span><span class="hljs-params">(<span class="hljs-meta">@PathVariable(&quot;name&quot;)</span>String name)</span></span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>@FeignClient(name=”eureka-provider”) 注解声明feign客户端，这里“eureka-provider”和要访问的服务名称一致，实际上就是要调用的服务名称</li>
+<li>@GetMapping(“/hello/{name}”)  这里的链接地址要和要访问的服务的详细地址一致</li>
+<li>注意这里是一个接口，不是实现类，不需要实现，所以这通feign可以简化我们的服务调用</li>
+<li>注意：<ul>
+<li>public String sayHello(@PathVariable(“name”) String name);</li>
+<li>上面代码里一定要写成@PathVariable(“name”)，不能写成@PathVariable</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p><strong>添加访问入口:</strong></p>
+<ul>
+<li><p>在HelloConsumerController类中添加访问接口代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Autowired</span><br>HelloClient helloClient;<br><br><span class="hljs-meta">@RequestMapping(&quot;consumer/feign/hello/&#123;name&#125;&quot;)</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">feign</span><span class="hljs-params">(<span class="hljs-meta">@PathVariable</span> String name)</span></span>&#123;<br>    <span class="hljs-keyword">return</span> helloClient.sayHello(name);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>在HelloConsumerController添加服务访问入口</li>
+<li>通过@Autowired自动注入我们上一步骤中定义的feign客户端：HelloClient </li>
+<li>然后再在具体的feign方法中调用helloClient.sayHello(name);其效果跟我们采RestTemplate访问一致。</li>
+</ul>
+</li>
+<li><p><strong>浏览器访问测试:</strong></p>
+<ul>
+<li><p>在浏览器中访问：<a target="_blank" rel="noopener" href="http://localhost:8002/consumer/feign/hello/test">http://localhost:8002/consumer/feign/hello/test</a></p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211118191334638.png" srcset="/img/loading.gif" lazyload alt="image-20211118191334638"></p>
+</li>
+<li><p>访问结果和RestTemplate一致</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="4-5-Restful-API设计规范"><a href="#4-5-Restful-API设计规范" class="headerlink" title="4.5 Restful API设计规范"></a>4.5 Restful API设计规范</h5><ul>
+<li>Restful API设计规范：<ul>
+<li>RESTful 的核心思想就是，客户端发出的数据操作指令都是”动词 + 宾语”的结构。比如， GET /articles这个命令， GET是动词， /articles是宾语。</li>
+<li>五种动词：<strong>GET（读取）、POST（新建）、PUT（更新）、PATCH（更新）、DELETE（删除）</strong>。</li>
+<li>客户端的每一个请求，服务器都必须进行回应，包含HTTP状态码和数据。</li>
+</ul>
+</li>
+<li>网络应用程序，分为前端和后端两个部分。当前的发展趋势，就是前端设备层出不穷（手机、平板、桌面电脑、其他专用设备……）。因此，<strong>必须有一种统一的机制，方便不同的前端设备与后端进行通信</strong>。这导致API构架的流行，甚至出现”APIFirst”的设计思想。RESTful API是目前比较成熟的一套互联网应用程序的API设计理论。</li>
+<li>REST（Representational State Transfer）<strong>表述层状态转换</strong>，REST指的是一组架构约束条件和原则。如果一个架构符合REST的约束条件和原则，我们就称它为RESTful架构。REST本身并没有创造新的技术、组件或服务，而隐藏在RESTful背后的理念就是使用Web的现有特征和能力，更好地使用现有Web标准中的一些准则和约束。虽然REST本身受Web技术的影响很深，<strong>但是理论上REST架构风格并不是绑定在HTTP上，只不过目前HTTP是唯一与REST相关的实例。</strong></li>
+<li>RFC 3986定义了通用的URI语法：</li>
+<li>URI = scheme “://” authority  “/” path   [ “?” query ]  [ “#” fragment ]</li>
+<li><strong>scheme</strong>: 指底层用的协议，如http、https、ftp</li>
+<li><strong>host</strong>: 服务器的IP地址或者域名</li>
+<li><strong>port</strong>: 端口，http中默认80</li>
+<li><strong>path</strong>: 访问资源的路径，就是咱们各种web 框架中定义的route路由</li>
+<li><strong>query</strong>: 为发送给服务器的参数</li>
+<li><strong>fragment</strong>: 锚点，定位到页面的资源，锚点为资源id</li>
+<li><strong>Eg</strong>:   http(s)://server.com/api-name/{version}/{domain}/{rest-convention}</li>
+<li>这里，{version}代表api的版本信息。{domain}是一个你可以用来定义任何技术的区域(例如：安全-允许指定的用户可以访问这个区域。)或者业务上的区域(例如：同样的功能在同一个前缀之下。)。{rest-convention} 代表这个域(domain)下，约定的rest接口集合。</li>
+</ul>
+<h4 id="思考题"><a href="#思考题" class="headerlink" title="思考题"></a>思考题</h4><ul>
+<li><strong>Spring Boot 跟Spring Cloud的区别是什么？</strong></li>
+<li><strong>Spring Cloud服务组件之间的通信方式有哪些？</strong></li>
 </ul>
 
             </div>
