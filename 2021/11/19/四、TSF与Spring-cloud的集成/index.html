@@ -1,0 +1,960 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="TSF是拥抱Spring Cloud微服务框架的，本章节主要是介绍TSF与SpirngCloud集成及TSF与Dubbo的集成。">
+  <meta name="author" content="Mike">
+  <meta name="keywords" content="">
+  <meta name="description" content="TSF是拥抱Spring Cloud微服务框架的，本章节主要是介绍TSF与SpirngCloud集成及TSF与Dubbo的集成。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="四、TSF与Spring cloud的集成">
+<meta property="og:url" content="http://example.com/2021/11/19/%E5%9B%9B%E3%80%81TSF%E4%B8%8ESpring-cloud%E7%9A%84%E9%9B%86%E6%88%90/index.html">
+<meta property="og:site_name" content="KeepDive">
+<meta property="og:description" content="TSF是拥抱Spring Cloud微服务框架的，本章节主要是介绍TSF与SpirngCloud集成及TSF与Dubbo的集成。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211119101752539.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211119101908296.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211119115407938.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211119115725016.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211119115842757.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211120135246895.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211120135516783.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211120135714144.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211120140805807.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211120140926786.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211120140951139.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211122141111326.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211122144008373.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211122150349238.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211122150903689.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211122151008702.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211123133215861.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211123141925675.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211123155315102.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211123175729836.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211123180046691.png">
+<meta property="article:published_time" content="2021-11-19T01:50:30.000Z">
+<meta property="article:modified_time" content="2021-11-23T10:10:01.359Z">
+<meta property="article:author" content="Mike">
+<meta property="article:tag" content="微服务">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211119101752539.png">
+  
+  <title>四、TSF与Spring cloud的集成 - KeepDive</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>KeepDive</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="四、TSF与Spring cloud的集成">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-author" aria-hidden="true"></i>
+      Mike
+    </span>
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-11-19 09:50" pubdate>
+        2021年11月19日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      17k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      54 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">四、TSF与Spring cloud的集成</h1>
+            
+            <div class="markdown-body">
+              <h3 id="四、TSF与Spring-cloud的集成"><a href="#四、TSF与Spring-cloud的集成" class="headerlink" title="四、TSF与Spring cloud的集成"></a>四、TSF与Spring cloud的集成</h3><p>本章主要为大家介绍了微服务，Spring Cloud，TSF概念以及功能；到目前为止我们已经掌握了Spring Cloud应用的基本开发，在前面的内容中也介绍了TSF是拥抱Spring Cloud微服务框架的，那TSF是如何跟SpirngCloud进行集成的呢？</p>
+<p>实际上使用TSF集成SpirngCloud应用是非常简单的，接下来我会一步步为大家介绍TSF跟Spring Cloud集成。</p>
+<h4 id="学习目标"><a href="#学习目标" class="headerlink" title="学习目标"></a>学习目标</h4><p>通过本文的学习，您将可以：</p>
+<ul>
+<li>了解YAML格式</li>
+<li>掌握本地TSF服务的注册与发现</li>
+<li>掌握TSF接入Spring Cloud的应用</li>
+<li>掌握TSF接入Dubbo的应用 </li>
+</ul>
+<h4 id="第一章-YAML与FatJar简介"><a href="#第一章-YAML与FatJar简介" class="headerlink" title="第一章 YAML与FatJar简介"></a>第一章 YAML与FatJar简介</h4><p>在正式介绍TSF跟Sprig Cloud应用集成之前，先简单介绍YAML和FatJar；在Spring Boot 应用程序中我们已经简单使用过了yaml配置文件，在后面使用TSF都会大量运用到，所以这些必须先掌握。</p>
+<h5 id="1-1-YAML概述"><a href="#1-1-YAML概述" class="headerlink" title="1.1 YAML概述"></a>1.1 YAML概述</h5><ul>
+<li><p>YAML概念：专门用来写配置文件的语言。</p>
+</li>
+<li><p>YAML 的基本语法规则如下： </p>
+<ul>
+<li><strong>使用缩进表示层级关系</strong></li>
+<li>缩进时不允许使用Tab键，<strong>只允许使用空格</strong></li>
+<li><strong>缩进的空格数目不重要，只要相同层级的元素左侧对齐即</strong></li>
+<li>大小写敏感</li>
+</ul>
+</li>
+<li><p><strong>YAML 支持3种数据结构</strong>：</p>
+<ul>
+<li>对象：键值对的集合，又称为映射（mapping）/哈希（hashes）/字典（dictionary）。</li>
+<li>数组：一组按次序排列的值，又称为序列（sequence）/ 列表（list）。</li>
+<li>纯量（scalars）：单个的、不可再分的值</li>
+</ul>
+</li>
+<li><p>在YAML之前使用的是xml，properties文件作为项目的配置文件；特别是早期使用Spring （如ssh框架，ssm框架）都大量使用了xml作为配置文件，目前使用Spring Cloud是同时支持properties和yaml配置文件的；</p>
+</li>
+<li><p>YAML和XML 相比，YAML 具有以下的优势，YAML类似于XML的数据描述语言，语法比XML简单很多，YAML试图用一种比XML更敏捷的方式，来完成XML所完成的任务</p>
+<ul>
+<li>可读性好</li>
+<li>和脚本语言的交互性好</li>
+<li>使用实现语言的数据类型</li>
+<li>可以基于流来处理</li>
+<li>表达能力强，扩展性好</li>
+<li>XML 解析效率比较低，不过支持自定义的数据类型</li>
+</ul>
+</li>
+<li><p>JSON 的语法其实是YAML 的子集，大部分的JSON 文件都可以被YAML 的剖析器剖析。虽然大部分的数据分层形式也可以使用类似JSON 的格式，不过YAML 并不建议这样使用，除非这样编写能让文件可读性增加，更重要的是，YAML 的许多扩展在JSON 是找不到的，如：进阶资料形态、关系锚点、字串不需要引号、映射资料形态会储存键值的顺序等。</p>
+</li>
+<li><p>与properties文件对比：</p>
+<ul>
+<li>yaml在于其拥有天然的树状结构，：</li>
+<li>在properties文件中是以”.”进行分割的，在yml中是用”:”进行分割; </li>
+<li>yml的数据格式和json的格式很像，都是K-V格式，并且通过”:”进行赋值；</li>
+<li>注意在yml中缩进一定<strong>不能使用TAB</strong>，否则会报很奇怪的错误；每个k的冒号后面一定都要加一个空格；</li>
+</ul>
+</li>
+</ul>
+<h6 id="1-1-1-YAML文件示例"><a href="#1-1-1-YAML文件示例" class="headerlink" title="1.1.1 YAML文件示例"></a>1.1.1 YAML文件示例</h6><p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211119101752539.png" srcset="/img/loading.gif" lazyload alt="image-20211119101752539"></p>
+<ul>
+<li><p>通过上面的示例可以很清晰的看出yaml文件存储的是键值对的形式，其结构非常清晰，天然的树状结构。</p>
+</li>
+<li><p>使用yaml千万要注意“：”后面一定要加空格（“ ”）。</p>
+</li>
+</ul>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211119101908296.png" srcset="/img/loading.gif" lazyload alt="image-20211119101908296"></p>
+<ul>
+<li><p>如果字符串之中包含空格或特殊字符，需要放在引号之中。str: ‘内容: 字符串’</p>
+</li>
+<li><p>单引号和双引号都可以使用，双引号不会对特殊字符转义。</p>
+<ul>
+<li>s1: ‘内容\n字符串’ # 会对\n 字符转义</li>
+<li>s2: “内容\n字符串” # 不会对\n 字符转义</li>
+</ul>
+</li>
+<li><p>多行字符串可以使用| 保留换行符，也可以使用&gt; 折叠换行</p>
+<ul>
+<li>this: |</li>
+<li>  Foo</li>
+<li>  Bar</li>
+<li>that: &gt;</li>
+<li>  Foo</li>
+<li>  Bar</li>
+</ul>
+</li>
+</ul>
+<h5 id="1-2-FatJar概述"><a href="#1-2-FatJar概述" class="headerlink" title="1.2 FatJar概述"></a>1.2 FatJar概述</h5><p>FatJar是一种可执行的Jar 包(Executable Jar)，FatJar和普通的Jar 不同在于它包含了依赖的Jar 包。</p>
+<ul>
+<li><p>FatJar打包介绍</p>
+<ol>
+<li><p>在工程的pom.xml 文件中添加插件：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">build</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">plugins</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">plugin</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-maven-plugin<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">plugin</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">plugins</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">build</span>&gt;</span><br></code></pre></td></tr></table></figure></li>
+<li><p>在工程的主目录下执行maven命令:mvnclean package，在target 目录下找到打包好的FatJar文件。</p>
+</li>
+</ol>
+</li>
+<li><p>FatJar又称作uber-Jar，是包含所有依赖的Jar 包，是一个包含所有项目类文件和资源以及所有依赖关系的jar包。有不同的方法可以达到这样的效果：</p>
+</li>
+<li><p>优势1：依赖关系的jar被复制到主jar中，然后使用特殊的类加载器（onejar）加载</p>
+</li>
+<li><p>优势2：依赖关系的jar被提取到主jar层次结构的顶部（maven-assembly-plugin与它的jar-with-dependencies程序集，maven-shade-plugin和shade目标）</p>
+</li>
+</ul>
+<h4 id="第二章-搭建本地-服务器TSF开发环境"><a href="#第二章-搭建本地-服务器TSF开发环境" class="headerlink" title="第二章 搭建本地/服务器TSF开发环境"></a>第二章 搭建本地/服务器TSF开发环境</h4><h5 id="2-1-安装JDK"><a href="#2-1-安装JDK" class="headerlink" title="2.1 安装JDK"></a>2.1 安装JDK</h5><ul>
+<li><p>确保开发环境已经安装了JDK：</p>
+<ol>
+<li><p>下载JDK：</p>
+<p><a target="_blank" rel="noopener" href="http://www.oracle.com/technetwork/java/javase/downloads/index.html">http://www.oracle.com/technetwork/java/javase/downloads/index.html</a></p>
+</li>
+<li><p>设置JAVA_HOME 环境变量，并指向您机器上的Java 安装目录</p>
+</li>
+<li><p>验证JDK环境：命令java -version</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211119115407938.png" srcset="/img/loading.gif" lazyload alt="image-20211119115407938"></p>
+</li>
+</ol>
+</li>
+<li><p>这里我们使用的是JDK1.8版本</p>
+</li>
+<li><p>在命令窗口使用java –version命令后，如果能出现jdk的版本信息则环境正常</p>
+</li>
+<li><p>具体的JDK按照步骤比较简单，这里就不重复说明了,具体的操作可以参考：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/document/product/649/20231#1.-.E5.AE.89.E8.A3.85-java%E3%80%82">https://cloud.tencent.com/document/product/649/20231#1.-.E5.AE.89.E8.A3.85-java。</a></p>
+</li>
+</ul>
+<h5 id="2-2-安装Maven"><a href="#2-2-安装Maven" class="headerlink" title="2.2 安装Maven"></a>2.2 安装Maven</h5><ul>
+<li><p>在执行安装脚本之前，需要确定已经安装了Maven和设置了环境变量。</p>
+</li>
+<li><p>下载Maven：<a target="_blank" rel="noopener" href="https://maven.apache.org/download.cgi">https://maven.apache.org/download.cgi</a></p>
+</li>
+<li><p>解压并设置环境变量：以Windows为例</p>
+<p>新建系统变量MAVEN_HOME  变量值：E:\Maven\apache-maven-3.3.9</p>
+<p>编辑系统变量Path         添加变量值：;%MAVEN_HOME%\bin</p>
+</li>
+<li><p>验证Maven环境：命令mvn–version</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211119115725016.png" srcset="/img/loading.gif" lazyload alt="image-20211119115725016"></p>
+</li>
+<li><p>目前新版的ide开发工具已经集成了maven，eclipse oxygen版已经集成了maven环境</p>
+</li>
+</ul>
+<h5 id="2-3-安装TSF-SDK"><a href="#2-3-安装TSF-SDK" class="headerlink" title="2.3 安装TSF SDK"></a>2.3 安装TSF SDK</h5><p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211119115842757.png" srcset="/img/loading.gif" lazyload alt="image-20211119115842757"></p>
+<ul>
+<li><p>如图，TSF的sdk安装步骤分为4步；前面2个步骤为环境准备，环境的安装步骤在2.1，2.2中有介绍.</p>
+</li>
+<li><p><strong>步骤一：</strong></p>
+<ul>
+<li>JDK安装见2.1章节内容</li>
+</ul>
+</li>
+<li><p><strong>步骤二：</strong></p>
+<ul>
+<li>Maven安装见2.2章节内容</li>
+<li>Maven 配置腾讯云TSF 私服地址（使用下载的setting.xml 替换原本的配置文件）</li>
+<li>setting.xml 样例文件下载地址：</li>
+</ul>
+<p>​       <a target="_blank" rel="noopener" href="https://main.qcloudimg.com/raw/0e3c73b64c4ec64ae9b16d1a347db462/settings.xml">https://main.qcloudimg.com/raw/0e3c73b64c4ec64ae9b16d1a347db462/settings.xml</a></p>
+<ul>
+<li><p>可参考官方文档说明：</p>
+<p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/document/product/649/20231">https://cloud.tencent.com/document/product/649/20231</a></p>
+</li>
+<li><p>setting.xml是maven的配置文件，一般在~/.m2/settings.xml 中，可以在maven的安装目录下的conf文件夹中找到，可以用此处下载的setting样例文件替换原本的setting.xml配置文件</p>
+</li>
+<li><p>配置TSF私服地址主要是为了能够通过maven获取TSF的SDK代码</p>
+</li>
+<li><p>如果替换原有的setting配置文件，本地注意备份</p>
+</li>
+</ul>
+</li>
+<li><p><strong>步骤三：</strong></p>
+<ul>
+<li>获取TSF的Demo工程</li>
+<li>Demo工程的下载地址：</li>
+</ul>
+<p>​       <a target="_blank" rel="noopener" href="https://main.qcloudimg.com/raw/082d94a76b7c0a34feb909c130b72179/tsf-demo-simple-1120.zip">https://main.qcloudimg.com/raw/082d94a76b7c0a34feb909c130b72179/tsf-demo-simple-1120.zip</a></p>
+<ul>
+<li><p>TSF官网Demo工程如下：</p>
+<ul>
+<li>|-consumer-demo</li>
+<li>|-provider-demo</li>
+<li>|-pom.xml</li>
+</ul>
+</li>
+<li><p>可参考官方文档说明：</p>
+<p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/document/product/649/20261">https://cloud.tencent.com/document/product/649/20261</a></p>
+</li>
+<li><p>获取TSF官网提供的Demo工程，如果有版本更新，只需要更新demo项目根目录下的pom.xml文件，修改TSF的依赖版本。更新日志参考<a target="_blank" rel="noopener" href="https://cloud.tencent.com/document/product/649/20230">https://cloud.tencent.com/document/product/649/20230</a></p>
+</li>
+<li><p><strong>步骤四：</strong></p>
+<ul>
+<li><p>在Demo 工程中，pom.xml 所在目录执行mvn clean package 即可下载TSF SDK</p>
+</li>
+<li><p>执行完成后，显示build success 表示SDK安装成功。</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211120135246895.png" srcset="/img/loading.gif" lazyload alt="image-20211120135246895"></p>
+</li>
+</ul>
+</li>
+<li><p>详情可参考官网的TSF SDK安装：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/document/product/649/20231">https://cloud.tencent.com/document/product/649/20231</a></p>
+</li>
+</ul>
+<h6 id="2-3-1-TSF-SDK官方文档地址："><a href="#2-3-1-TSF-SDK官方文档地址：" class="headerlink" title="2.3.1 TSF SDK官方文档地址："></a>2.3.1 TSF SDK官方文档地址：</h6><p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/document/product/649/20231">https://cloud.tencent.com/document/product/649/20231</a></p>
+</li>
+</ul>
+<h4 id="第三章-Spring-Cloud应用迁移到TSF"><a href="#第三章-Spring-Cloud应用迁移到TSF" class="headerlink" title="第三章 Spring Cloud应用迁移到TSF"></a>第三章 Spring Cloud应用迁移到TSF</h4><p>在前面我们主要介绍了yaml配置文件，fatjar，以及TSF的sdk安装，到目前为止，TSF开发的基本环境都已经准备好了，接下来我们先看一下如何在本地使用Spring Cloud应用和TSF进行集成测试。</p>
+<h5 id="3-1-Spring-Cloud-集成TSF本地开发测试"><a href="#3-1-Spring-Cloud-集成TSF本地开发测试" class="headerlink" title="3.1 Spring Cloud 集成TSF本地开发测试"></a>3.1 Spring Cloud 集成TSF本地开发测试</h5><ul>
+<li><p>Spring Cloud 集成TSF本地开发测试步骤：</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211120135516783.png" srcset="/img/loading.gif" lazyload alt="image-20211120135516783"></p>
+</li>
+<li><p>我们都知道TSF提供了服务发现与注册，如果要在本地进行SpirngCloud与TSF集成测试，我们需要先在本地安装启动轻量级服务注册中心（consul）；对于Spring cloud应用TSF提供consul作为服务注册中心；这也是我们的第一个步骤：创建轻量级服务注册中心</p>
+</li>
+</ul>
+<h6 id="3-1-1-创建轻量级服务注册中心"><a href="#3-1-1-创建轻量级服务注册中心" class="headerlink" title="3.1.1 创建轻量级服务注册中心"></a>3.1.1 创建轻量级服务注册中心</h6><p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211120135714144.png" srcset="/img/loading.gif" lazyload alt="image-20211120135714144"></p>
+<ul>
+<li><p>TSF中使用Consul作为服务注册中心而不是SpirngCloud中的Eureka；如上是Eureka与Consul对比；Eureka 2.x已停止更新。</p>
+</li>
+<li><p><strong>创建轻量级服务注册中心：</strong></p>
+<ul>
+<li>轻量级服务注册中心给开发者提供在开发、调试、测试过程中的服务发现、注册和查询功能。</li>
+<li>本地开发调试时，需要使用轻量级注册中心，轻量级注册中心包含了TSF 服务注册发现服务端的轻量版。</li>
+<li>如果不涉及到多个微服务联调场景，可以通过本地机器启动一个Consul 作为轻量服务注册中心。<ul>
+<li>单机调试支持Windows 和Linux / macOS 操作系统。</li>
+<li>确保以下机器端口是空闲的：8300, 8301, 8302, 8500, 8600。</li>
+</ul>
+</li>
+<li>Consul下载地址：<a target="_blank" rel="noopener" href="https://www.consul.io/downloads.html">https://www.consul.io/downloads.html</a> </li>
+<li>也可以是用brew下载consul： brew install consul<ul>
+<li><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211120140805807.png" srcset="/img/loading.gif" lazyload alt="image-20211120140805807"></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>consul是google开源的一个使用go语言开发的服务发现、配置管理中心服务。内置了服务注册与发现框架、分布一致性协议实现、健康检查、Key/Value存储、多数据中心方案，不再需要依赖其他工具（比如ZooKeeper等）。</p>
+</li>
+<li><p>服务部署简单，只有一个可运行的二进制的包。每个节点都需要运行agent，他有两种运行模式server和client。每个数据中心官方建议需要3或5个server节点以保证数据安全，同时保证server-leader的选举能够正确的进行。</p>
+</li>
+<li><p><strong>启动Consul，命令：</strong></p>
+<ul>
+<li><p>Windows 操作系统：.\consul.exe agent -dev</p>
+</li>
+<li><p>Linux / macOS 操作系统：./consul agent -dev</p>
+<ul>
+<li><p>我是使用brew下载的：所以我得启动命令是/opt/homebrew/opt/consul/bin/consul agent -dev</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211120140926786.png" srcset="/img/loading.gif" lazyload alt="image-20211120140926786"></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>通过浏览器查看服务注册中心页面：<a target="_blank" rel="noopener" href="http://127.0.0.1:8500/">http://127.0.0.1:8500</a></p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211120140951139.png" srcset="/img/loading.gif" lazyload alt="image-20211120140951139"></p>
+</li>
+<li><p>如果访问<a target="_blank" rel="noopener" href="http://127.0.0.1:8500/">http://127.0.0.1:8500</a> 能出现如上图结果，表示我们的服务注册中心启动成功</p>
+</li>
+<li><p>多微服务联调环境的轻量服务注册中心：在多个微服务联调场景下，可以找一台可以被微服务访问的机器来部署轻量服务注册中心。目前本场景下仅支持Linux 系统的Consul</p>
+</li>
+<li><p>详情参考：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/document/product/649/16618">https://cloud.tencent.com/document/product/649/16618</a></p>
+</li>
+</ul>
+<h6 id="3-1-2-创建服务提供者（本地开发应用）"><a href="#3-1-2-创建服务提供者（本地开发应用）" class="headerlink" title="3.1.2 创建服务提供者（本地开发应用）"></a>3.1.2 创建服务提供者（本地开发应用）</h6><p>创建 tsf-demo 工程，文件结构如下：</p>
+<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs 1c"><span class="hljs-string">|- consumer-demo</span><br><span class="hljs-string">|- provider-demo</span><br><span class="hljs-string">|- pom.xml</span><br></code></pre></td></tr></table></figure>
+
+<p>其中<code>pom.xml</code>文件参考 <a target="_blank" rel="noopener" href="https://cloud.tencent.com/document/product/649/20261">Demo 工程概述</a> 中的<code>pom.xml</code>内容。</p>
+<ul>
+<li><p>服务提供者创建步骤：</p>
+<ol>
+<li><p>创建一个Spring Cloud 工程，命名为provider-demo(结构如下)</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211122141111326.png" srcset="/img/loading.gif" lazyload alt="image-20211122141111326"></p>
+</li>
+<li><p>修改pom 依赖，引入TSF依赖（完整的pom依赖）</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">project</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://maven.apache.org/POM/4.0.0&quot;</span></span><br><span class="hljs-tag">         <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span><br><span class="hljs-tag">         <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">parent</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>tsf-demo<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.keepdive<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">parent</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">modelVersion</span>&gt;</span>4.0.0<span class="hljs-tag">&lt;/<span class="hljs-name">modelVersion</span>&gt;</span><br><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>provider-demo<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>provider-demo<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span><br><br>    <span class="hljs-tag">&lt;<span class="hljs-name">properties</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">maven.compiler.source</span>&gt;</span>8<span class="hljs-tag">&lt;/<span class="hljs-name">maven.compiler.source</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">maven.compiler.target</span>&gt;</span>8<span class="hljs-tag">&lt;/<span class="hljs-name">maven.compiler.target</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">properties</span>&gt;</span><br><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.tencent.tsf<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-tsf-starter<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span><br><br><span class="hljs-tag">&lt;/<span class="hljs-name">project</span>&gt;</span><br></code></pre></td></tr></table></figure></li>
+<li><p>开启服务注册发现</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@SpringBootApplication</span><br><span class="hljs-meta">@EnableFeignClients</span> <span class="hljs-comment">// 使用Feign微服务调用时请启用</span><br><span class="hljs-meta">@EnableTsf</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ProviderApplication</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        SpringApplication.run(ProviderApplication.class, args);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure></li>
+<li><p>提供echo 服务</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@RestController</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">EchoController</span> </span>&#123;<br>    <span class="hljs-meta">@RequestMapping(value = &quot;/echo/&#123;string&#125;&quot;, method = RequestMethod.GET)</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">echo</span><span class="hljs-params">(<span class="hljs-meta">@PathVariable</span> String string)</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> string;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure></li>
+<li><p>修改application.yml配置文件</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs yml"><span class="hljs-attr">server:</span><br>  <span class="hljs-attr">port:</span> <span class="hljs-number">18081</span><br><br><span class="hljs-attr">spring:</span><br>  <span class="hljs-attr">application:</span><br>    <span class="hljs-attr">name:</span> <span class="hljs-string">provider-demo</span><br></code></pre></td></tr></table></figure></li>
+</ol>
+</li>
+<li><p>具体操作步骤参考官方文档：</p>
+<p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/document/product/649/16617">https://cloud.tencent.com/document/product/649/16617</a></p>
+</li>
+<li><p>服务提供者开发操作步骤跟之前演示的Spring Cloud应用程序服务提供者开发步骤一致，这里区别在与引入了TSF相关依赖</p>
+</li>
+<li><p>这里的yml配置文件就是我们前面讲的YAML配置文件</p>
+</li>
+</ul>
+<h6 id="3-1-3-创建服务消费者-本地开发应用"><a href="#3-1-3-创建服务消费者-本地开发应用" class="headerlink" title="3.1.3 创建服务消费者(本地开发应用)"></a>3.1.3 创建服务消费者(本地开发应用)</h6><ul>
+<li><p>服务消费者创建步骤：</p>
+<ol>
+<li><p>创建一个Spring Cloud 工程，命名为consumer-demo</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211122144008373.png" srcset="/img/loading.gif" lazyload alt="image-20211122144008373"></p>
+</li>
+<li><p>修改pom 依赖，引入TSF依赖</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">parent</span>&gt;</span><br>     <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>tsf-demo<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>     <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.keepdive<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>     <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br> <span class="hljs-tag">&lt;/<span class="hljs-name">parent</span>&gt;</span><br> <span class="hljs-tag">&lt;<span class="hljs-name">modelVersion</span>&gt;</span>4.0.0<span class="hljs-tag">&lt;/<span class="hljs-name">modelVersion</span>&gt;</span><br>     <br> <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>consumer-demo<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>     <br> <span class="hljs-tag">&lt;<span class="hljs-name">properties</span>&gt;</span><br>     <span class="hljs-tag">&lt;<span class="hljs-name">maven.compiler.source</span>&gt;</span>8<span class="hljs-tag">&lt;/<span class="hljs-name">maven.compiler.source</span>&gt;</span><br>     <span class="hljs-tag">&lt;<span class="hljs-name">maven.compiler.target</span>&gt;</span>8<span class="hljs-tag">&lt;/<span class="hljs-name">maven.compiler.target</span>&gt;</span><br> <span class="hljs-tag">&lt;/<span class="hljs-name">properties</span>&gt;</span><br>     <br> <span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span><br>     <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>         <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.tencent.tsf<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>         <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-tsf-starter<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>     <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br> <span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span><br>     <br></code></pre></td></tr></table></figure></li>
+<li><p>开启服务注册发现，与服务提供者provider-demo 相比，还需要添加两项配置才能使用RestTemplate、AsyncRestTemplate、FeignClient 这三个客户端</p>
+<ul>
+<li>添加<code>@LoadBalanced</code>注解将<code>RestTemplate</code>与<code>AsyncRestTemplate</code>与服务发现结合。</li>
+<li>使用<code>@EnableFeignClients</code>注解激活<code>FeignClients</code>。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> org.springframework.boot.SpringApplication;<br><span class="hljs-keyword">import</span> org.springframework.boot.autoconfigure.SpringBootApplication;<br><span class="hljs-keyword">import</span> org.springframework.cloud.client.loadbalancer.LoadBalanced;<br><span class="hljs-keyword">import</span> org.springframework.cloud.openfeign.EnableFeignClients;<br><span class="hljs-keyword">import</span> org.springframework.context.annotation.Bean;<br><span class="hljs-keyword">import</span> org.springframework.tsf.annotation.EnableTsf;<br><span class="hljs-keyword">import</span> org.springframework.web.client.AsyncRestTemplate;<br><span class="hljs-keyword">import</span> org.springframework.web.client.RestTemplate;<br><br><span class="hljs-meta">@SpringBootApplication</span><br><span class="hljs-meta">@EnableFeignClients</span> <span class="hljs-comment">// 使用 Feign 微服务调用时请启用</span><br><span class="hljs-meta">@EnableTsf</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ConsumerApplication</span> </span>&#123;<br>    <span class="hljs-meta">@LoadBalanced</span><br>    <span class="hljs-meta">@Bean</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> RestTemplate <span class="hljs-title">restTemplate</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> RestTemplate();<br>    &#125;<br>    <span class="hljs-meta">@LoadBalanced</span><br>    <span class="hljs-meta">@Bean</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> AsyncRestTemplate <span class="hljs-title">asyncRestTemplate</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> AsyncRestTemplate();<br>    &#125;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> InterruptedException </span>&#123;<br>        SpringApplication.run(ConsumerApplication.class, args);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure></li>
+<li><p>设置调用信息</p>
+<ul>
+<li><p>在使用<code>EchoService</code>的<code>FeignClient</code>之前，还需要完善它的配置。配置服务名以及方法对应的 HTTP 请求，服务名为<code>provider-demo</code>工程中配置的服务名<code>provider-demo</code>，代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> org.springframework.cloud.openfeign.FeignClient;<br><span class="hljs-keyword">import</span> org.springframework.web.bind.annotation.PathVariable;<br><span class="hljs-keyword">import</span> org.springframework.web.bind.annotation.RequestMapping;<br><span class="hljs-keyword">import</span> org.springframework.web.bind.annotation.RequestMethod;<br><br><span class="hljs-meta">@FeignClient(name = &quot;provider-demo&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">EchoService</span> </span>&#123;<br>    <span class="hljs-meta">@RequestMapping(value = &quot;/echo/&#123;str&#125;&quot;, method = RequestMethod.GET)</span><br>    <span class="hljs-function">String <span class="hljs-title">echo</span><span class="hljs-params">(<span class="hljs-meta">@PathVariable(&quot;str&quot;)</span> String str)</span></span>;<br>&#125;<br></code></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>创建Controller</p>
+<ul>
+<li>创建一个<code>Controller</code>供调用测试。</li>
+<li><code>/echo-rest/*</code>验证通过 RestTemplate 去调用服务提供者。</li>
+<li><code>/echo-async-rest/*</code>验证通过 AsyncRestTemplate 去调用服务提供者。</li>
+<li><code>/echo-feign/*</code>验证通过 FeignClient 去调用服务提供者。</li>
+</ul>
+<p>具体代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> org.springframework.beans.factory.annotation.Autowired;<br><span class="hljs-keyword">import</span> org.springframework.http.ResponseEntity;<br><span class="hljs-keyword">import</span> org.springframework.util.concurrent.ListenableFuture;<br><span class="hljs-keyword">import</span> org.springframework.web.bind.annotation.PathVariable;<br><span class="hljs-keyword">import</span> org.springframework.web.bind.annotation.RequestMapping;<br><span class="hljs-keyword">import</span> org.springframework.web.bind.annotation.RequestMethod;<br><span class="hljs-keyword">import</span> org.springframework.web.bind.annotation.RestController;<br><span class="hljs-keyword">import</span> org.springframework.web.client.AsyncRestTemplate;<br><span class="hljs-keyword">import</span> org.springframework.web.client.RestTemplate;<br><br><span class="hljs-meta">@RestController</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Controller</span> </span>&#123;<br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> RestTemplate restTemplate;<br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> AsyncRestTemplate asyncRestTemplate;<br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span>  EchoService echoService;<br>    <span class="hljs-meta">@RequestMapping(value = &quot;/echo-rest/&#123;str&#125;&quot;, method = RequestMethod.GET)</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">rest</span><span class="hljs-params">(<span class="hljs-meta">@PathVariable</span> String str)</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> restTemplate.getForObject(<span class="hljs-string">&quot;http://provider-demo/echo/&quot;</span> + str, String.class);<br>    &#125;<br>    <br>    <span class="hljs-meta">@RequestMapping(value = &quot;/echo-async-rest/&#123;str&#125;&quot;, method = RequestMethod.GET)</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">asyncRest</span><span class="hljs-params">(<span class="hljs-meta">@PathVariable</span> String str)</span> <span class="hljs-keyword">throws</span> Exception</span>&#123;<br>        ListenableFuture&lt;ResponseEntity&lt;String&gt;&gt; future = asyncRestTemplate.<br>                getForEntity(<span class="hljs-string">&quot;http://provider-demo/echo/&quot;</span>+str, String.class);<br>        <span class="hljs-keyword">return</span> future.get().getBody();<br>    &#125;<br>    <br>    <span class="hljs-meta">@RequestMapping(value = &quot;/echo-feign/&#123;str&#125;&quot;, method = RequestMethod.GET)</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">feign</span><span class="hljs-params">(<span class="hljs-meta">@PathVariable</span> String str)</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> echoService.echo(str);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure></li>
+<li><p>修改application.yml配置文件</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs yml"><span class="hljs-attr">server:</span><br>  <span class="hljs-attr">port:</span> <span class="hljs-number">18083</span><br><br><span class="hljs-attr">spring:</span><br>  <span class="hljs-attr">application:</span><br>    <span class="hljs-attr">name:</span> <span class="hljs-string">consumer-demo</span><br></code></pre></td></tr></table></figure></li>
+</ol>
+</li>
+<li><p>具体操作步骤参考官方文档：</p>
+<p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/document/product/649/16617">https://cloud.tencent.com/document/product/649/16617</a></p>
+</li>
+<li><p>服务消费者开发操作步骤跟之前演示的Spring Cloud应用程序的消费者开发步骤一致，这里区别在与引入了TSF相关依赖</p>
+</li>
+</ul>
+<h6 id="3-1-4-本地开发调试"><a href="#3-1-4-本地开发调试" class="headerlink" title="3.1.4 本地开发调试"></a>3.1.4 本地开发调试</h6><ul>
+<li><p>启动轻量级注册中心，在终端执行以下命令（就是在你安装consul的目录： 执行consul agent -dev命令）：</p>
+<p>/opt/homebrew/opt/consul/bin/consul agent -dev</p>
+</li>
+<li><p>启动应用：本地启动应用的两种方式：</p>
+<ol>
+<li>IDE 中启动<ul>
+<li>通过VM options 配置启动参数-Dtsf_consul_ip=127.0.0.1 -Dtsf_consul_port=8500 ；指明了服务注册中心的ip以及端口；</li>
+<li>如果使用了分布式配置功能的模块，还需要设置-Dtsf_application_id=a -Dtsf_group_id=b，取值可为任意值</li>
+</ul>
+</li>
+<li>FatJar启动<ul>
+<li>打包好fatjar后通过java命令启动：（示例如下）</li>
+<li>java -Dtsf_consul_ip=127.0.0.1 -Dtsf_consul_port=8500 -jar provider-demo-0.0.1-SNAPSHOT.jar</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li>此处注意在部署到TSF以后是不需要加如上参数，在TSF平台中已经把注册中心的ip以及端口放到了环境变量中</li>
+</ul>
+</li>
+<li><p>启动后访问：</p>
+<p><a href="http://localhost:8500可以在consul注册中心发现服务提供者和服务消费者">http://localhost:8500可以在consul注册中心发现服务提供者和服务消费者</a></p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211122150349238.png" srcset="/img/loading.gif" lazyload alt="image-20211122150349238"></p>
+</li>
+<li><p>访问服务消费者，分别进行调用，观察调用结果（这里以本地演示）</p>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="http://localhost:18083/echo-rest/echo-test![image-20211122150749832](https://gitee.com/divemaven/git-project/raw/master/image-20211122150749832.png)">http://localhost:18083/echo-rest/echo-test![image-20211122150749832](https://gitee.com/divemaven/git-project/raw/master/image-20211122150749832.png)</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="http://localhost:18083/echo-async-rest/echo-async-rest">http://localhost:18083/echo-async-rest/echo-async-rest</a></p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211122150903689.png" srcset="/img/loading.gif" lazyload alt="image-20211122150903689"></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="http://localhost:18083/echo-feign/feign">http://localhost:18083/echo-feign/feign</a></p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211122151008702.png" srcset="/img/loading.gif" lazyload alt="image-20211122151008702"></p>
+</li>
+</ul>
+</li>
+</ul>
+<p>详细步骤参考官网文档：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/document/product/649/16617%EF%BC%9B%E5%AE%9E%E9%99%85%E4%B8%8A%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C%EF%BC%8C%E8%AE%BF%E9%97%AE%E6%AD%A5%E9%AA%A4%E8%B7%9F%E5%89%8D%E9%9D%A2%E5%BC%80%E5%8F%91%E7%9A%84Spring">https://cloud.tencent.com/document/product/649/16617；实际上基本操作，访问步骤跟前面开发的Spring</a> Cloud应用程序一致</p>
+<h5 id="3-2-Spring-Cloud-旧应用迁移到TSF"><a href="#3-2-Spring-Cloud-旧应用迁移到TSF" class="headerlink" title="3.2 Spring Cloud 旧应用迁移到TSF"></a>3.2 Spring Cloud 旧应用迁移到TSF</h5><ul>
+<li><p>Spring Cloud 旧应用迁移到TSF：</p>
+<ul>
+<li><p>Spring Cloud应用如果原本使用的是Eureka 服务注册中心，要迁移到TSF，首先就需要把注册中心从Eureka迁移至consul注册中心；</p>
+</li>
+<li><p>迁移到TSF步骤如下：</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211123133215861.png" srcset="/img/loading.gif" lazyload alt="image-20211123133215861"></p>
+</li>
+</ul>
+</li>
+<li><p>Spring Cloud开发的应用使用的是Eureka作为服务注册中心，那如何将Eureka服务注册中心迁移至TSF呢？实际上从Eureka迁移到TSF是把注册中心从eureka迁移到TSF提供的consul注册中心，所以基本步骤是添加TSF，consul对应的依赖包，然后修改应用启动类中的Eureka启动注解为consul的服务发现注解</p>
+</li>
+<li><p>在工程根目录的pom.xml 中增加spring-cloud-tsf-dependencies 的parent。</p>
+</li>
+<li><p>在单个Spring Cloud 应用的pom.xml 中，将spring-cloud-starter-eureka 替换成spring-cloud-starter-consul-discovery。</p>
+</li>
+</ul>
+<h6 id="3-2-1-添加parent配置"><a href="#3-2-1-添加parent配置" class="headerlink" title="3.2.1 添加parent配置"></a>3.2.1 添加parent配置</h6><ul>
+<li><p>步骤一：</p>
+<ul>
+<li><p>pom.xml中根节点下添加parent配置：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">parent</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.tencent.tsf<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-tsf-dependencies<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.23.0-Greenwich-RELEASE<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">parent</span>&gt;</span><br></code></pre></td></tr></table></figure></li>
+<li><p>这里的项目代码以SpirngCloud内容介绍中的案例为基础。</p>
+</li>
+<li><p>首先添加TSF的SDK作为parent</p>
+</li>
+</ul>
+</li>
+</ul>
+<h6 id="3-2-2-添加tsf-starte依赖"><a href="#3-2-2-添加tsf-starte依赖" class="headerlink" title="3.2.2 添加tsf-starte依赖"></a>3.2.2 添加tsf-starte依赖</h6><ul>
+<li><p>步骤二：</p>
+<ul>
+<li><p>pom.xml中替换eureka的依赖为consul:</p>
+<ul>
+<li><p>替换前：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs xml"> <span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.5.11.RELEASE<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><br>        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-starter-config<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><span class="hljs-comment">&lt;!--        --&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-starter-consul-discovery<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span><br><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dependencyManagement</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span><br>            <span class="hljs-comment">&lt;!-- springboot 1.5.11对应的springcloud依赖管理 --&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-dependencies<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>Dalston.RELEASE<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">type</span>&gt;</span>pom<span class="hljs-tag">&lt;/<span class="hljs-name">type</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>import<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span><br>            <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">dependencyManagement</span>&gt;</span><br></code></pre></td></tr></table></figure></li>
+<li><p>替换后：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>          <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.tencent.tsf<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>          <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-tsf-starter<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>      <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span><br></code></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>完整的POM文件</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">project</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://maven.apache.org/POM/4.0.0&quot;</span></span><br><span class="hljs-tag">         <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span><br><span class="hljs-tag">         <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">modelVersion</span>&gt;</span>4.0.0<span class="hljs-tag">&lt;/<span class="hljs-name">modelVersion</span>&gt;</span><br><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.keepdive<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>eureka-provider<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br><br>    <span class="hljs-tag">&lt;<span class="hljs-name">parent</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.tencent.tsf<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-tsf-dependencies<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.23.0-Greenwich-RELEASE<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">parent</span>&gt;</span><br><br>    <span class="hljs-tag">&lt;<span class="hljs-name">properties</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">maven.compiler.source</span>&gt;</span>8<span class="hljs-tag">&lt;/<span class="hljs-name">maven.compiler.source</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">maven.compiler.target</span>&gt;</span>8<span class="hljs-tag">&lt;/<span class="hljs-name">maven.compiler.target</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">properties</span>&gt;</span><br><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.tencent.tsf<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-tsf-starter<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span><br><br><span class="hljs-tag">&lt;/<span class="hljs-name">project</span>&gt;</span><br></code></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<h6 id="3-2-3-添加注解"><a href="#3-2-3-添加注解" class="headerlink" title="3.2.3 添加注解"></a>3.2.3 添加注解</h6><ul>
+<li><p>步骤三：</p>
+<ul>
+<li><p>替换eureka启动注解为TSF注解:</p>
+</li>
+<li><p>以eureka-provider为例，只需要在启动类中替换@EnableEurekaClient注解为@EnableDiscoveryClient注解即可</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211123141925675.png" srcset="/img/loading.gif" lazyload alt="image-20211123141925675"></p>
+</li>
+</ul>
+</li>
+<li><p>@EnableDiscoveryClient表明开启consul的服务发现，由于在之前的项目我们已经加上了@EnableDiscoveryClient注解，所以此次在原项目基础上只需要去掉@EnableEurekaClient即可。</p>
+</li>
+<li><p>@EnableDiscoveryClient是由spring Cloud提供的注解，支持eureka，consul，zookkeeper注册中心。</p>
+</li>
+<li><p>完成这些操作以后，就可以完成Eureka迁移到TSF中。从前面的步骤也可以看出来，整个迁移过程是非常简单的。</p>
+</li>
+<li><p>TSF 中的相关注解：</p>
+<ul>
+<li>注解：**@EnableTsfAuth**<ul>
+<li>TSF 提供了两种类型的鉴权能力，一种根据调用方服务名，一种根据调用方设置的tag。在管控端进行配置鉴权。</li>
+<li>其实原理是一样的，服务名作为一种特殊的key的tag。在服务调用时，客户端传输tag，服务端根据鉴权规则进行判断</li>
+<li>其中标签将会在后面的内容介绍，这里大家先了解即可</li>
+</ul>
+</li>
+<li><strong>注解：@EnableTsfRoute</strong><ul>
+<li>启用TSF的路由功能</li>
+</ul>
+</li>
+<li><strong>注解：@EnableTsfRateLimit启动</strong><ul>
+<li>使用管控端写入到consul配置，服务端拉取配置信息，进行流控(令牌桶)。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>3.2.4 启动测试</p>
+<ul>
+<li><p>​    启动eureka-provider</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211123155315102.png" srcset="/img/loading.gif" lazyload alt="image-20211123155315102"></p>
+</li>
+</ul>
+<p>3.2.5 异常检查以及部署</p>
+<ul>
+<li>TSF 中部署应用<ul>
+<li>将打包好的FatJar程序包上传到TSF 控制台进行部署操作，不需要额外配置。</li>
+</ul>
+</li>
+<li>通过TSF 平台部署改造后的应用，如发现应用无法启动，说明没有正确依赖TSF 相关依赖，可参考Demo 工程中pom.xml 文件。</li>
+<li>从前面的步骤来看，Spring Cloud应用迁移至TSF实际上是非常简单的，只需要在原应用的基础上添加TSF相关依赖，注解，然后再通过TSF控制台部署应用即可。</li>
+<li>部署步骤暂时不做演示，TSF控制台部署应用会在后续的TSF平台管理能力中介绍，这里大家可以结合前面讲到的TSF的概念关系内容思考一下。</li>
+</ul>
+<h4 id="第四章-Dubbo应用迁移到TSF"><a href="#第四章-Dubbo应用迁移到TSF" class="headerlink" title="第四章 Dubbo应用迁移到TSF"></a>第四章 Dubbo应用迁移到TSF</h4><p>前面在介绍TSF的时候，有讲到TSF时拥抱微服务开源框架的，支持Spring Cloud应用，Dubbo应用，ServcieMesh应用。上一章节中已经介绍了Spring Cloud应用程序迁移至TSF后，接下来看一下Dubbo应用如何迁移到TSF。</p>
+<h5 id="4-1-什么是Dubbo？"><a href="#4-1-什么是Dubbo？" class="headerlink" title="4.1 什么是Dubbo？"></a>4.1 什么是Dubbo？</h5><p>Dubbo是阿里巴巴公司开源的一个高性能，优秀的服务框架，使得应用可通过高性能的RPC实现服务的输出和输入功能，可以和Spring框架无缝集成。</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211123175729836.png" srcset="/img/loading.gif" lazyload alt="image-20211123175729836"></p>
+<ul>
+<li><p>高性能、轻量级的开源Java RPC框架，它提供了三大核心能力：</p>
+<ol>
+<li>面向接口的远程方法调用</li>
+<li>智能容错和负载均衡</li>
+<li>服务自动注册和发现</li>
+</ol>
+</li>
+<li><p>采用全Spring 配置方式，透明化接入应用，只需用Spring 加载Dubbo的配置即可，可以Spring框架无缝集成。</p>
+</li>
+</ul>
+<h5 id="4-2-Dubbo协议应用迁移到TSF"><a href="#4-2-Dubbo协议应用迁移到TSF" class="headerlink" title="4.2 Dubbo协议应用迁移到TSF"></a>4.2 Dubbo协议应用迁移到TSF</h5><ul>
+<li><p>Dubbo 应用接入TSF开发步骤：</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211123180046691.png" srcset="/img/loading.gif" lazyload alt="image-20211123180046691"></p>
+</li>
+<li><p>如上图是Dubbo迁移到TSF的开发步骤，此处步骤基于Dubbo官方案例Demo。可参考：<a target="_blank" rel="noopener" href="http://dubbo.apache.org/zh-cn/docs/user/quick-start.html">http://dubbo.apache.org/zh-cn/docs/user/quick-start.html</a></p>
+</li>
+</ul>
+<h6 id="4-2-1-从Dubbo迁移到TSF"><a href="#4-2-1-从Dubbo迁移到TSF" class="headerlink" title="4.2.1 从Dubbo迁移到TSF"></a>4.2.1 从Dubbo迁移到TSF</h6><ul>
+<li><p>安装依赖:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs Terminal">mvn install:install-file -Dfile=dubbo-registry-consul-1.1.4-SNAPSHOT.jar <br>-DpomFile=dubbo-registry-consul-1.1.4-SNAPSHOT.pom<br></code></pre></td></tr></table></figure></li>
+<li><p>依赖包直接下载地址：</p>
+<p><a target="_blank" rel="noopener" href="https://main.qcloudimg.com/raw/d075de11daa5d1427346e19880cd5492/dubbo-registry-consul-1.1.4-SNAPSHOT.zip">https://main.qcloudimg.com/raw/d075de11daa5d1427346e19880cd5492/dubbo-registry-consul-1.1.4-SNAPSHOT.zip</a></p>
+</li>
+<li><p>注册中心配置：</p>
+<ul>
+<li>把&lt;dubbo:registry address=”multicast://224.5.6.7:1234”/&gt;替换为&lt;dubbo:registry address=”consul://注册中心地址：端口”/&gt;</li>
+</ul>
+</li>
+<li><p>添加依赖</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.tencent.tsf<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>dubbo-registry-consul<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>  		<span class="hljs-comment">&lt;!--修改为对应的版本号--&gt;</span><br>  		<span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.1.4-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></td></tr></table></figure></li>
+<li><p>打包Fatjar</p>
+<ul>
+<li>可以通过maven-shade-plugin 来构建一个包含所有依赖的jar 包（FatJar）。执行命令mvn clean  package</li>
+</ul>
+</li>
+<li><p>Dubbo应用接入TSF官网文档：</p>
+<p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/document/product/649/13947">https://cloud.tencent.com/document/product/649/13947</a></p>
+</li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%95%99%E7%A8%8B/">教程</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">微服务</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/11/18/%E4%B8%89%E3%80%81TSF%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%B9%B3%E5%8F%B0%E4%BB%8B%E7%BB%8D/">
+                        <span class="hidden-mobile">三、TSF微服务平台介绍</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
