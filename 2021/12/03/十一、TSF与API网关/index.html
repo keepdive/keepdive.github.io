@@ -1,0 +1,570 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="前面我们已经介绍了TSF的运维管理，服务治理，配置管理功能的使用；TSF 同时也和腾讯云API 网关打通了，您可使用 API Gateway 封装自身业务，将您的数据、业务逻辑或功能安全可靠的开放出来，用以实现自身系统集成、以及与合作伙伴的业务连接，接下来我们看一下TSF的API网关功能。">
+  <meta name="author" content="Mike">
+  <meta name="keywords" content="">
+  <meta name="description" content="前面我们已经介绍了TSF的运维管理，服务治理，配置管理功能的使用；TSF 同时也和腾讯云API 网关打通了，您可使用 API Gateway 封装自身业务，将您的数据、业务逻辑或功能安全可靠的开放出来，用以实现自身系统集成、以及与合作伙伴的业务连接，接下来我们看一下TSF的API网关功能。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="十一、TSF与API网关">
+<meta property="og:url" content="http://example.com/2021/12/03/%E5%8D%81%E4%B8%80%E3%80%81TSF%E4%B8%8EAPI%E7%BD%91%E5%85%B3/index.html">
+<meta property="og:site_name" content="KeepDive">
+<meta property="og:description" content="前面我们已经介绍了TSF的运维管理，服务治理，配置管理功能的使用；TSF 同时也和腾讯云API 网关打通了，您可使用 API Gateway 封装自身业务，将您的数据、业务逻辑或功能安全可靠的开放出来，用以实现自身系统集成、以及与合作伙伴的业务连接，接下来我们看一下TSF的API网关功能。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211203155840131.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211203161450216.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211203161844876.png">
+<meta property="article:published_time" content="2021-12-03T07:32:15.000Z">
+<meta property="article:modified_time" content="2021-12-03T08:28:05.016Z">
+<meta property="article:author" content="Mike">
+<meta property="article:tag" content="TSF">
+<meta property="article:tag" content="API网关">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211203155840131.png">
+  
+  <title>十一、TSF与API网关 - KeepDive</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>KeepDive</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="十一、TSF与API网关">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-author" aria-hidden="true"></i>
+      Mike
+    </span>
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-12-03 15:32" pubdate>
+        2021年12月3日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.4k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      8 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">十一、TSF与API网关</h1>
+            
+            <div class="markdown-body">
+              <h3 id="十一、TSF与API网关"><a href="#十一、TSF与API网关" class="headerlink" title="十一、TSF与API网关"></a>十一、TSF与API网关</h3><p>前面我们已经介绍了TSF的运维管理，服务治理，配置管理功能的使用；TSF 同时也和腾讯云API 网关打通了，您可使用 API Gateway 封装自身业务，将您的数据、业务逻辑或功能安全可靠的开放出来，用以实现自身系统集成、以及与合作伙伴的业务连接，接下来我们看一下TSF的API网关功能。</p>
+<h4 id="学习目标"><a href="#学习目标" class="headerlink" title="学习目标"></a>学习目标</h4><p>通过本文的学习，你将可以：</p>
+<ul>
+<li>了解微服务网关基本概念</li>
+<li>掌握TSF 与 API网关的使用</li>
+</ul>
+<h4 id="第一章-微服务网关基本概念"><a href="#第一章-微服务网关基本概念" class="headerlink" title="第一章 微服务网关基本概念"></a>第一章 微服务网关基本概念</h4><h5 id="1-1-微服务网关概述"><a href="#1-1-微服务网关概述" class="headerlink" title="1.1 微服务网关概述"></a>1.1 微服务网关概述</h5><ul>
+<li><p>微服务网关：</p>
+<ul>
+<li><p>微服务网关是用于实现微服务对外出口的服务，用于协助开发者完成微服务对外提供调用及微服务互相之间调用。</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211203155840131.png" srcset="/img/loading.gif" lazyload alt="image-20211203155840131"></p>
+</li>
+</ul>
+</li>
+<li><p><strong>简单的说 ：服务网关 = 路由转发 + 过滤器</strong></p>
+<ul>
+<li><p>路由转发：接收一切外界请求，转发到后端的微服务上去；</p>
+</li>
+<li><p>过滤器：在服务网关中可以完成一系列的横切功能，例如权限校验、限流以及监控等，这些都可以通过过滤器完成</p>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="1-2-微服务网关优势"><a href="#1-2-微服务网关优势" class="headerlink" title="1.2 微服务网关优势"></a>1.2 微服务网关优势</h5><ul>
+<li><p>减少客户端与微服务之间的调用次数，提高效率；</p>
+</li>
+<li><p>便于监控，可在网关中监控数据，可以做统一切面任务处理；</p>
+</li>
+<li><p>便于认证，只需要在网关进行认证即可，无需每个微服务都进行认证；</p>
+</li>
+<li><p>降低客户端与服务端的耦合度。</p>
+</li>
+<li><p> 在客户端和服务端之间增加一个API网关，所有的外部请求先通过这个微服务网关，它只需跟网 关进行交互，而由网关进行各个微服务的调用；还有如下优势：</p>
+</li>
+<li><p>微服务调用管理：微服务网关作为微服务的出⼝口，同时也作为一个微服务将自身注册在注册 中心中，用户通过微服务网关可直接调用后端的微服务业务，并且对后端的微服务做统⼀一的 管理、限流、鉴权等。微服务网关本身提供负载均衡、健康检查、监控等基本能力，方便用户对后端的微服务及调用者的调用情况管理</p>
+</li>
+<li><p>使用灵活方便：以服务的形式提供微服务网关给用户，有控制台操作，又兼具开源产品所有的代码动态加载的灵活性。用户可以快起创建微服务网关开放业务。</p>
+</li>
+<li><p>高可靠：每一个微服务网关均为HA高可用，每个用户的微服务网关使⽤用与其他用户资源隔离，保证服务的可用性。</p>
+</li>
+</ul>
+<h5 id="1-3-微服务网关使用场景"><a href="#1-3-微服务网关使用场景" class="headerlink" title="1.3 微服务网关使用场景"></a>1.3 微服务网关使用场景</h5><ul>
+<li>在用户系统为微服务架构开发的情况下，微服务架构带来如下状况：<ul>
+<li>大量的微服务模块，微服务本身需要具有出口提供给客户端调用。</li>
+<li>使用腾讯云微服务框架TSF时，常遇到不同隔离命名空间下的直接调用。</li>
+<li>每个微服务都需要统一的调用规范、提供鉴权认证等。</li>
+<li>每个微服务用户期望从入口即可获取到后端微服务中的完整调用链。</li>
+</ul>
+</li>
+<li>在这种情况下，对 API 的管理和使用，会随着微服务模块的增长而越来越麻烦。而利用微服务网关，能很好的解决这些问题。</li>
+</ul>
+<h5 id="1-3-微服务网关使用场景（续）"><a href="#1-3-微服务网关使用场景（续）" class="headerlink" title="1.3 微服务网关使用场景（续）"></a>1.3 微服务网关使用场景（续）</h5><ul>
+<li><p>后端不同命名空间中的微服务可通过微服务网关互相访问</p>
+</li>
+<li><p>外部客户也可通过微服务网关的IP进行访问。（微服务网关对外提供IP）。</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211203161450216.png" srcset="/img/loading.gif" lazyload alt="image-20211203161450216"></p>
+</li>
+<li><p> 如上是微服务网关的典型应用场景</p>
+</li>
+</ul>
+<h4 id="第二章-TSF-与-API网关使用"><a href="#第二章-TSF-与-API网关使用" class="headerlink" title="第二章 TSF 与 API网关使用"></a>第二章 TSF 与 API网关使用</h4><h5 id="2-1-腾讯云API网关"><a href="#2-1-腾讯云API网关" class="headerlink" title="2.1 腾讯云API网关"></a>2.1 腾讯云API网关</h5><ul>
+<li><p>腾讯云API网关：</p>
+<ul>
+<li>在腾讯云公网网站中可以直接使用腾讯云的API网关功能，TSF与API网关产品打通，用户可以在 腾讯云 API 网关上可以配置微服务 API 来将外部请求转发到 TSF 平台上部署的微服务。API 网关与 TSF 平台内的微服务之间的关系如下图：</li>
+</ul>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211203161844876.png" srcset="/img/loading.gif" lazyload alt="image-20211203161844876"></p>
+</li>
+<li><p>腾讯云 API 网关与腾讯云 TSF 是两个独立的产品，关于 API 网关可参考： <a target="_blank" rel="noopener" href="https://cloud.tencent.com/document/product/628">https://cloud.tencent.com/document/product/628</a></p>
+</li>
+<li><p>用户必须将给命名空间配置 code （Namespace Code）才能实现将 API 网关外部的请求转发 到命名空间内的微服务。对于不同命名空间内的名称都是 product 的微服务来说，只有通过命名 空间 ID 和微服务名称来唯一确定一个微服务。由于平台生成的命名空间 ID 较难辨识（通常是 namespaceid-xxxx) ，因此引入命名空间 Code 来作为唯一标示。命名空间 Code 具有如下特 性：</p>
+<ul>
+<li>跨集群唯一性</li>
+<li>用户自定义</li>
+<li>可读性强</li>
+<li>不可修改</li>
+</ul>
+</li>
+<li><p>在TSF上配置命名空间Code可参考： <a target="_blank" rel="noopener" href="https://cloud.tencent.com/document/product/649/17644">https://cloud.tencent.com/document/product/649/17644</a></p>
+</li>
+</ul>
+<h5 id="2-2-微服务网关鉴权"><a href="#2-2-微服务网关鉴权" class="headerlink" title="2.2 微服务网关鉴权"></a>2.2 微服务网关鉴权</h5><ul>
+<li><p>支持使用密钥对、Oauth的形式进行访问控制</p>
+</li>
+<li><p>密钥对鉴权原理：hmac算法加密</p>
+</li>
+<li><p>为了保护您的 API，避免恶意访问、未授权访问、应用漏洞、黑客攻击等导致的数据损失、资产损失，我们提供了多种 API 认证方式和 API 防护策略。TSF网关支持支持使用密钥对、Oauth的 形式进行访问控制；其中Oauth鉴权：使用业界标准 Oauth 2.0 鉴权；</p>
+</li>
+<li><p>您可以使用 secretId 和 secretKey 对您的 API 进行认证管理。secretId 和 secretKey 成对出现， 这里将它们将称为 secretId/secretKey 对。在使用 secretId/secretKey 对认证前，需要先创建 好一对 secretId 和 secretKey;</p>
+</li>
+<li><p>Hmac：HMAC是密钥相关的哈希运算消息认证码，HMAC运算利用哈希算法，以一个密钥和一 个消息为输入，生成一个消息摘要作为输出。</p>
+</li>
+<li><p>OAuth（开放授权）是一个关于授权的开放标准，允许用户让第三方应用访问该用户在某一网站 上存储的私密的资源（如照片，视频，联系人列表），而无需将用户名和密码提供给第三方应用</p>
+</li>
+<li><p>OAuth2.0是OAuth协议的延续版本，但不向后兼容OAuth 1.0即完全废止了OAuth1.0。 OAuth 2.0关注客户端开发者的简易性</p>
+</li>
+<li><p>在认证和授权的过程中涉及的三方包括：</p>
+<ol>
+<li><p>服务提供方，用户使用服务提供方来存储受保护的资源，如照片，视频，联系人列表。</p>
+</li>
+<li><p>用户，存放在服务提供方的受保护的资源的拥有者</p>
+</li>
+<li><p>客户端，要访问服务提供方资源的第三方应用，通常是网站，如提供照片打印服务的网站。 在认证过程之前，客户端要向服务提供者申请客户端标识</p>
+</li>
+</ol>
+</li>
+</ul>
+<h5 id="2-3-微服务网关限流"><a href="#2-3-微服务网关限流" class="headerlink" title="2.3 微服务网关限流"></a>2.3 微服务网关限流</h5><ul>
+<li>用户可以配置微服务网关每个api路径被请求的最大QPS</li>
+<li>超过该次数可以的请求会被拒绝</li>
+<li>QPS：每秒查询率QPS是对一个特定的查询服务器在规定时间内所处理流量多少的衡量标准；</li>
+<li>可以在微服务网关中设置每个api请求的最大QPS；如果请求超过最大次数，将会触发限流。</li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%95%99%E7%A8%8B/">教程</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/TSF/">TSF</a>
+                    
+                      <a class="hover-with-bg" href="/tags/API%E7%BD%91%E5%85%B3/">API网关</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/12/03/%E5%8D%81%E4%BA%8C%E3%80%81TSF%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">十二、TSF分布式事务管理</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/12/03/%E5%8D%81%E3%80%81TSF%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86/">
+                        <span class="hidden-mobile">十、TSF配置管理</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

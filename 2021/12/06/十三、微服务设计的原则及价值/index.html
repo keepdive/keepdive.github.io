@@ -1,0 +1,735 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="微服务的粒度是难点，也常常是争论的焦点。应当使用合理的粒度划分微服务，而不是一味将服务做小。代码量的多少不能作为微服务划分的依据，因为不同的服务本身的业务复杂性不同，代码量也不同。在微服务的设计阶段，就应确定其边界。微服务之间应该相对独立并保持松耦合。">
+  <meta name="author" content="Mike">
+  <meta name="keywords" content="">
+  <meta name="description" content="微服务的粒度是难点，也常常是争论的焦点。应当使用合理的粒度划分微服务，而不是一味将服务做小。代码量的多少不能作为微服务划分的依据，因为不同的服务本身的业务复杂性不同，代码量也不同。在微服务的设计阶段，就应确定其边界。微服务之间应该相对独立并保持松耦合。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="十三、微服务设计的原则及价值">
+<meta property="og:url" content="http://example.com/2021/12/06/%E5%8D%81%E4%B8%89%E3%80%81%E5%BE%AE%E6%9C%8D%E5%8A%A1%E8%AE%BE%E8%AE%A1%E7%9A%84%E5%8E%9F%E5%88%99%E5%8F%8A%E4%BB%B7%E5%80%BC/index.html">
+<meta property="og:site_name" content="KeepDive">
+<meta property="og:description" content="微服务的粒度是难点，也常常是争论的焦点。应当使用合理的粒度划分微服务，而不是一味将服务做小。代码量的多少不能作为微服务划分的依据，因为不同的服务本身的业务复杂性不同，代码量也不同。在微服务的设计阶段，就应确定其边界。微服务之间应该相对独立并保持松耦合。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211206183056817.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211206183412125.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211206184116810.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211206185508126.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211206190038009.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211206191050177.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211206191317766.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211206191620833.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211206192033950.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211207112934307.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211207114955977.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211207115313875.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211207120620303.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211207120928168.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211207121115345.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211207143124417.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211207152537773.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211207152659921.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211207153224564.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211207153410000.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211207153914820.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211207154328963.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211207154634569.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211207155317517.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211207155359287.png">
+<meta property="article:published_time" content="2021-12-06T09:07:06.000Z">
+<meta property="article:modified_time" content="2021-12-07T09:58:53.236Z">
+<meta property="article:author" content="Mike">
+<meta property="article:tag" content="TSF">
+<meta property="article:tag" content="微服务">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211206183056817.png">
+  
+  <title>十三、微服务设计的原则及价值 - KeepDive</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>KeepDive</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="十三、微服务设计的原则及价值">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-author" aria-hidden="true"></i>
+      Mike
+    </span>
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-12-06 17:07" pubdate>
+        2021年12月6日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      5.4k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      17 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">十三、微服务设计的原则及价值</h1>
+            
+            <div class="markdown-body">
+              <h3 id="十三、微服务设计的原则及价值"><a href="#十三、微服务设计的原则及价值" class="headerlink" title="十三、微服务设计的原则及价值"></a>十三、微服务设计的原则及价值</h3><ul>
+<li>前面已经介绍了TSF的基本功能以及使用，接下来我们再回到微服务上面来；</li>
+<li> 微服务的粒度是难点，也常常是争论的焦点。应当使用合理的粒度划分微服务，而不是一味将服务做小。代码量的多少不能作为微服务划分的依据，因为不同的服务本身的业务复杂性不同，代码量也不同。在微服务的设计阶段，就应确定其边界。微服务之间应该相对独立并保持松耦合。接下来我们看一下基于TSF的微服务设计的原则及价值。</li>
+</ul>
+<h4 id="学习目标"><a href="#学习目标" class="headerlink" title="学习目标"></a>学习目标</h4><p>通过本文的学习，你将可以：</p>
+<ul>
+<li>了解微服务的设计目标</li>
+<li>掌握微服务的设计原则</li>
+<li>了解微服务化带来的价值</li>
+</ul>
+<h4 id="第一章-微服务的设计目标"><a href="#第一章-微服务的设计目标" class="headerlink" title="第一章 微服务的设计目标"></a>第一章 微服务的设计目标</h4><h5 id="1-1-微服务的设计目标"><a href="#1-1-微服务的设计目标" class="headerlink" title="1.1 微服务的设计目标"></a>1.1 微服务的设计目标</h5><p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211206183056817.png" srcset="/img/loading.gif" lazyload alt="image-20211206183056817"></p>
+<ul>
+<li>微服务架构是一种架构模式，将单体应用划分为一组服务，服务之间互相协作，为用户提供最终价值</li>
+<li>每个服务运行在其独立的进程中，服务间采用轻量级的通信机制协作（通常是基于RESTful API）</li>
+<li>每个服务都围绕着具体业务进行构建，并且能够被独立的部署到生产环境、类生产环境等。</li>
+</ul>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211206183412125.png" srcset="/img/loading.gif" lazyload alt="image-20211206183412125"></p>
+<ul>
+<li>设计和交付：要做到标志化，把应用拆分成独立的小服务，持续部署，通过自动化工具减少重复工作量，提供工作效率，让开发人员有更多的时间关注业务，以业务为中心。</li>
+<li>系统架构原则：<ul>
+<li>减少惯性思维，迅速做出有利于自己的选择反馈，减少团队间的依赖；</li>
+<li>消除偶然的复杂性，替换不必要的复杂过程、系统和集成，以便我们能够集中精力于问题的本质；</li>
+<li>一致的接口和数据流消除重复的数据和创建清晰的记录系统，具有一致的集成接口；</li>
+<li>没有银弹，现成的解决方案提前交付有价值，但会产生惰性和偶然的复杂性；</li>
+</ul>
+</li>
+<li>战略目标：最终打造可扩展的弹性业务系统，助力产业在新领域扩展，在已有市场业务中，不断创新保持领先身位。</li>
+</ul>
+<h4 id="第二章-微服务的设计原则"><a href="#第二章-微服务的设计原则" class="headerlink" title="第二章 微服务的设计原则"></a>第二章 微服务的设计原则</h4><h5 id="2-1-微服务的设计原则简介"><a href="#2-1-微服务的设计原则简介" class="headerlink" title="2.1 微服务的设计原则简介"></a>2.1 微服务的设计原则简介</h5><p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211206184116810.png" srcset="/img/loading.gif" lazyload alt="image-20211206184116810"></p>
+<ul>
+<li><strong>业务领域蓝图</strong>：告诉我们的最大价值我觉得是，当我们要开发一个系统时，应该尽量先把领域模型想清楚，然后再开始动手编码，这样的系统后期才会很好维护。</li>
+<li><strong>全维度可视化</strong>：从不同维度实现可视化，如TSF中提供了服务拓扑，服务监控，调用链等</li>
+<li><strong>全流程自动化</strong>：自动化一切可以自动化的，降低部署和发布的难度</li>
+<li><strong>容错设计</strong>：自动化容错设计，如熔断器，集群</li>
+<li><strong>去中心化设计</strong>：提供服务的扩展能力</li>
+<li><strong>独立部署</strong>：服务可以独立部署</li>
+</ul>
+<h5 id="2-2-TSF与微服务设计原则"><a href="#2-2-TSF与微服务设计原则" class="headerlink" title="2.2 TSF与微服务设计原则"></a>2.2 TSF与微服务设计原则</h5><ul>
+<li>基于微服务设计原则的TSF平台介绍<ul>
+<li>TSF与全维度可视化</li>
+<li>TSF与全流程自动化（devops）</li>
+<li>TSF与微服务容错设计</li>
+<li>TSF与微服务去中心化设计</li>
+<li>TSF与平台去中心化设计</li>
+<li>TSF与独立部署</li>
+</ul>
+</li>
+<li>接下来看一下在TSF中体现的微服务设计原则</li>
+</ul>
+<h6 id="2-2-1-TSF与全维度可视化"><a href="#2-2-1-TSF与全维度可视化" class="headerlink" title="2.2.1 TSF与全维度可视化"></a>2.2.1 TSF与全维度可视化</h6><p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211206185508126.png" srcset="/img/loading.gif" lazyload alt="image-20211206185508126"></p>
+<ul>
+<li>调用链查询用来查询和定位具体某一次调用的情况。使用者可以通过具体的服务、接口定位、IP等来查询具体的调用过程，查找调用过程所需要的时间和运行情况。</li>
+<li>通过调用链详情，可以根据TraceID查询调用链的详细信息。调用链详情是为了定位在分布式链路调用过程中每个环节的耗时和异常（不包含本地方法调用情况，本地方法调用建议使用业务Log的方式记录）。</li>
+<li>通过调用链通常为了解决如下几个问题：<ul>
+<li>定位耗时较长的服务</li>
+<li>不合理的调用逻辑（如一次请求多次调用某服务，建议改为批量调用接口）</li>
+</ul>
+</li>
+</ul>
+<h6 id="2-2-1-TSF与全维度可视化（续）"><a href="#2-2-1-TSF与全维度可视化（续）" class="headerlink" title="2.2.1 TSF与全维度可视化（续）"></a>2.2.1 TSF与全维度可视化（续）</h6><p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211206190038009.png" srcset="/img/loading.gif" lazyload alt="image-20211206190038009"></p>
+<ul>
+<li>可以再服务治理中通过服务拓扑图中的颜色块区别正常与异常访问的请求，通过可视化，具体日志方式可以方便快速的定位问题点</li>
+</ul>
+<h6 id="2-2-2-TSF与DevOps"><a href="#2-2-2-TSF与DevOps" class="headerlink" title="2.2.2 TSF与DevOps"></a>2.2.2 TSF与DevOps</h6><ul>
+<li><p>DevOps整体结构及业界生态<img src="https://gitee.com/divemaven/git-project/raw/master/image-20211206191050177.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211206191317766.png" srcset="/img/loading.gif" lazyload alt="image-20211206191317766"></p>
+</li>
+<li><p>TSF打通了从微服务开发到部署的整个流程，同时整个流程借助自动化工具实现了持续集成，持续发布到持续运营的目的。真正打通了DevOps的闭环生态</p>
+</li>
+<li><p>DevOps是一个完整的面向IT运维的工作流，以IT自动化以及持续集成（CI）、持续部署（CD）为基础，来优化程式开发、测试、系统运维等所有环节。</p>
+</li>
+<li><p>DevOps是为了填补开发端和运维端之间的信息鸿沟，改善团队之间的协作关系。不过需要澄清的一点是，从开发到运维，中间还有测试环节。DevOps其实包含了三个部分：开发、测试和运维。</p>
+</li>
+<li><p>换句话说，DevOps希望做到的是软件产品交付过程中IT工具链的打通，使得各个团队减少时间损耗，更加高效地协同工作。专家们总结出了DevOps能力图（如图1），良好的闭环可以大大增加整体的产出。</p>
+</li>
+</ul>
+<h6 id="2-2-2-TSF与DevOps（续）"><a href="#2-2-2-TSF与DevOps（续）" class="headerlink" title="2.2.2 TSF与DevOps（续）"></a>2.2.2 TSF与DevOps（续）</h6><p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211206191620833.png" srcset="/img/loading.gif" lazyload alt="image-20211206191620833"></p>
+<ul>
+<li><p>在TSF中把基础框架构建全部通过自动化框架代码生成，开发人员只需要引入代码就可以快速完成基础框架代码构建，让开发人员更多的关注业务</p>
+</li>
+<li><p>测试过程中，把单元测试，集成测试。回归测试等通过自动化测试工具完成，同时实现灰度发布，自动回滚功能，相比原有传统方式大大减少了工作量。</p>
+</li>
+</ul>
+<h6 id="2-2-3-TSF与微服务容错设计"><a href="#2-2-3-TSF与微服务容错设计" class="headerlink" title="2.2.3 TSF与微服务容错设计"></a>2.2.3 TSF与微服务容错设计</h6><p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211206192033950.png" srcset="/img/loading.gif" lazyload alt="image-20211206192033950"></p>
+<ul>
+<li><p>优雅的服务降级：微服务架构的最大优点之一是您可以隔离故障，并在当组件单独故障时，进行优雅的服务降级。例如，在中断期间，照片共享应用程序中的客户可能无法上传新图片，但仍可以浏览、编辑和共享其现有照片。</p>
+</li>
+<li><p>变更管理：在微服务架构中，服务依赖于彼此。要处理变更中的问题，您可以实施变更管理策略和自动回滚机制。</p>
+</li>
+<li><p>健康检查与负载均衡：实例由于出现故障、部署或自动缩放的情况，会进行持续启动、重新启动或停止操作。它可能导致它们暂时或永久不可用。为避免问题，您的负载均衡器应该从路由中跳过不仅阿卡的实例，应用实例健康状况可以通过外部观察来确定。您可以通过重复调用GET/health端点或通过自我报告来实现。现在主流的服务发现解决方案，会持续从实例中收集健康信息，并配置负载均衡器，将流量仅路由到健康的组件上。</p>
+</li>
+<li><p>自我修复：可以帮助应用程序从错误中恢复过来。当应用程序可以采取必要步骤从故障状态恢复时，我们就可以说它是可以实现自我修复的</p>
+</li>
+<li><p>舱壁模式：工业中使用舱壁将船舶划分为几个部分，以便在船体破坏的情况下，可以将船舶各个部件密封起来；船壁的概念在软件开发中可以被应用在隔离资源上</p>
+</li>
+<li><p>测试故障：利用ChaosMonkey（混乱猴子）技术进行混沌工程，经常测试故障，让您的团队具备故障处理的能力</p>
+</li>
+<li><p>ChaosMonkey（混乱猴子）</p>
+<ul>
+<li>该技术以在生产环境中随机关闭服务节点而“恶名远扬”，这就是目前熟知的混沌工程的早期雏形。《Chaos Engineering》书中是这样描述的：<ul>
+<li>混乱猴子的美妙之处就在于此，它能尽可能地将服务节点失效的痛苦的提到最前，同时让所有工程师在构建一个具有足够弹性应对失败的系统上，达成一个一致的目标。</li>
+<li>混乱猴子的灵感来自于Netflix几年前搬迁上云的过程，主要是为了解决该阶段暴露的问题，然而，目前不少企业的上云进程依旧缓慢，这种状态下是否还需要混沌工程？随着软件的测试流程越来越成熟且完善，是否有必要花费精力搞混沌工程？如果需要，这一领域有哪些开源工具可供快速部署实践？</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>混沌工程：混沌工程师在分布式系统上镜像实验的学科，目的是建立对系统抵御生产环境中失控条件的能力以及信心。</p>
+<ul>
+<li>这句话同样出自《Chaos Engineering》，粗看起来，这一含义有些晦涩难懂。如果简单概况下，周洋对混沌工程的理解是如下四点：<ol>
+<li>一种拥抱失败的技术文化</li>
+<li>一套抽象严谨的实践原则</li>
+<li>一种主动防御的稳定性手段</li>
+<li>一个高速发展的技术领域</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><p>故障转移缓存：由于网络问题和我们系统的变化，服务经常会失败。然而，由于自我修复和负载均衡的保障，它们中的大多数中断是临时的，我们应该找到一个解决方案，使我们的服务在这些故障时服务仍旧可以工作。这就是故障转移缓存的作用，它可以帮助并为我们的应用程序在服务故障时提供必要的数据。</p>
+</li>
+<li><p>重试逻辑：在某些情况下，我们无法缓存数据，或者我们相对其进行更改，但是我们的操作最终都失败了。对于此，我们可以重试我们的操作，因为我们可以预期资源将在一段时间后恢复，或者我们的负载均衡器将请求发送到了健康的实例上。</p>
+</li>
+<li><p>限流器和负载降级：通过流量限制，您可以过滤掉造成流量峰值的服务，或者您可以确保您的应用程序在自动缩放无法满足时，依然不会超载。</p>
+</li>
+<li><p>快速失败原则与独立性：在微服务中通过使用超时来达到快速失败的效果是一种反模式的，你应该避免使用它。取而代之，您可以应用断路器模式，依据操作的成功与失败统计数据决定。</p>
+</li>
+<li><p>断路器：当特定类型的错误在短时间内多次发生时，断路器会被断开。开路的断路器可以防止进一步的请求-就像我们平时所说的电路跳闸一样。断路器通常在一定时间后关闭，在这期间可以为底层服务提供足够的空间来恢复。</p>
+</li>
+</ul>
+<h6 id="2-2-3-TSF与微服务容错设计（续）"><a href="#2-2-3-TSF与微服务容错设计（续）" class="headerlink" title="2.2.3 TSF与微服务容错设计（续）"></a>2.2.3 TSF与微服务容错设计（续）</h6><ul>
+<li>微服务架构的最大优点之一是用户可以隔离故障，并在当组件单独故障时，进行优雅的服务降级。</li>
+<li>故障转移缓存通常使用两个不同的过期日期；较短的时间告诉您在正常情况下缓存可以使用的过期时间，而较长的时间可以再服务故障时缓存依旧可用的过期时间。</li>
+</ul>
+<p>![image-20211207110224314](/Users/mike/Library/Application Support/typora-user-images/image-20211207110224314.png)</p>
+<ul>
+<li>当特定类型的错误在短时间内多次发生时，断路器会被断开。开路的断路器可以防止进一步的请求-就像我们平时所说的电路跳闸一样。断路器通常在一定时间后关闭，在这期间可以为底层服务提供足够的空间来恢复。    </li>
+</ul>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211207112934307.png" srcset="/img/loading.gif" lazyload alt="image-20211207112934307"></p>
+<ul>
+<li>第一种类型我们以排行榜单为例，比如对王者荣耀的排行榜单数据进行缓存。同一份榜单数据我们设置两份缓存，第一份缓存数据设置为一分钟后过期，第二份数据设置为一个小时后过期。这样在第二分钟到一个小时的时间内，如果存储第一份缓存数据的服务器挂掉后，我们可以直接使用第二份缓存，从而屏蔽故障。</li>
+<li>第二种类型以电商为例，当电商后台的数据库发生故障时，我们可以设置断路，这样就不会有新的或者重复的请求进入后端的业务系统。</li>
+<li>TSF平台提供服务注册中心，健康检查，负载均衡，失败重试，服务限流，断路器，配置管理等手段实现容错设计，让服务高可用。</li>
+</ul>
+<h6 id="2-2-4-TSF与微服务去中心化设计"><a href="#2-2-4-TSF与微服务去中心化设计" class="headerlink" title="2.2.4 TSF与微服务去中心化设计"></a>2.2.4 TSF与微服务去中心化设计</h6><ul>
+<li><p>基于目前业界最常见的三种开发方式，提供基于腾讯TSF的演进方案</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211207114955977.png" srcset="/img/loading.gif" lazyload alt="image-20211207114955977"></p>
+</li>
+<li><p>原生SpringCloud， SpringBoot，Dubbo应用可以快速改造成TSF的模式，帮助原生应用快速实现去中心化设计。</p>
+</li>
+</ul>
+<h6 id="2-2-4-TSF与微服务去中心化设计（续）"><a href="#2-2-4-TSF与微服务去中心化设计（续）" class="headerlink" title="2.2.4 TSF与微服务去中心化设计（续）"></a>2.2.4 TSF与微服务去中心化设计（续）</h6><ul>
+<li><p>架构理念的变化</p>
+<ul>
+<li><p>微服务过程中，架构理念由面向系统结构转为面向服务设计</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211207115313875.png" srcset="/img/loading.gif" lazyload alt="image-20211207115313875"></p>
+</li>
+</ul>
+</li>
+<li><p>首先在架构上由原来的面向系统结构转变为面向服务的设计方式：</p>
+<ul>
+<li>在原来的架构中，销售系统的UI和业务逻辑高耦合</li>
+<li>在微服务化后，各类业务系统的UI层尽管不同却可以最大化的复用现有的逻辑。</li>
+</ul>
+</li>
+<li><p>业务流程的变化</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211207120620303.png" srcset="/img/loading.gif" lazyload alt="image-20211207120620303"></p>
+</li>
+<li><p>业务流程方面也有传统的外包模式业务转变为微服务业务流程，基于业务领域设计原则，提供代码复用能力，让企业更多的关注新业务；</p>
+</li>
+</ul>
+<h6 id="2-2-5-TSF与独立部署"><a href="#2-2-5-TSF与独立部署" class="headerlink" title="2.2.5 TSF与独立部署"></a>2.2.5 TSF与独立部署</h6><p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211207120928168.png" srcset="/img/loading.gif" lazyload alt="image-20211207120928168"></p>
+<ul>
+<li>微服务TSF平台在发布部署过程中基于部署组维度镜像服务路由，完成不停服的灰度发布。</li>
+</ul>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211207121115345.png" srcset="/img/loading.gif" lazyload alt="image-20211207121115345"></p>
+<ul>
+<li>TSF同时支持虚拟机部署以及容器部署方式，应用以微服务形式开发，可以再TSF中独立部署。</li>
+</ul>
+<h4 id="第三章-微服务架构最佳实践"><a href="#第三章-微服务架构最佳实践" class="headerlink" title="第三章 微服务架构最佳实践"></a>第三章 微服务架构最佳实践</h4><h5 id="3-1-微服务调用中的安全架构"><a href="#3-1-微服务调用中的安全架构" class="headerlink" title="3.1 微服务调用中的安全架构"></a>3.1 微服务调用中的安全架构</h5><p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211207143124417.png" srcset="/img/loading.gif" lazyload alt="image-20211207143124417"></p>
+<h5 id="3-2-微服务最佳实践-技术架构"><a href="#3-2-微服务最佳实践-技术架构" class="headerlink" title="3.2  微服务最佳实践-技术架构"></a>3.2  微服务最佳实践-技术架构</h5><p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211207152537773.png" srcset="/img/loading.gif" lazyload alt="image-20211207152537773"></p>
+<h5 id="3-3-分层微服务架构-组件最佳实践"><a href="#3-3-分层微服务架构-组件最佳实践" class="headerlink" title="3.3 分层微服务架构-组件最佳实践"></a>3.3 分层微服务架构-组件最佳实践</h5><p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211207152659921.png" srcset="/img/loading.gif" lazyload alt="image-20211207152659921"></p>
+<ul>
+<li>本案例是一个电商的场景，核心业务可以拆分为：在线卖场、订单、会员和购物卡这几个微服务</li>
+<li>对于通用的能力如安全认证，国际化等组件可以封装到公共基础应用微服务中</li>
+<li>在公共服务层可以搭建分布式消息队列，全文索引，认证模块等</li>
+</ul>
+<h5 id="3-4-TSF的能力图"><a href="#3-4-TSF的能力图" class="headerlink" title="3.4 TSF的能力图"></a>3.4 TSF的能力图</h5><p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211207153224564.png" srcset="/img/loading.gif" lazyload alt="image-20211207153224564"></p>
+<h4 id="第四章-微服务的实践案例"><a href="#第四章-微服务的实践案例" class="headerlink" title="第四章 微服务的实践案例"></a>第四章 微服务的实践案例</h4><h5 id="4-1-案例介绍"><a href="#4-1-案例介绍" class="headerlink" title="4.1 案例介绍"></a>4.1 案例介绍</h5><p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211207153410000.png" srcset="/img/loading.gif" lazyload alt="image-20211207153410000"></p>
+<ul>
+<li><p>背景介绍：2018年某地海关实行关检合并，将原先的出入境检验和海关通关进行合并，统一交由海关侧执行，实现”三个一“模式，即”一次申报“，”一次查验“，”一次放行“</p>
+<ul>
+<li><p>压缩货物通关环节</p>
+</li>
+<li><p>提升通关效率</p>
+</li>
+<li><p>降低企业成本</p>
+</li>
+<li><p>实现信息公开</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211207153914820.png" srcset="/img/loading.gif" lazyload alt="image-20211207153914820"></p>
+</li>
+</ul>
+</li>
+</ul>
+<h6 id="4-1-1-用户痛点和需求"><a href="#4-1-1-用户痛点和需求" class="headerlink" title="4.1.1 用户痛点和需求"></a>4.1.1 用户痛点和需求</h6><ul>
+<li><p> 痛点和需求：关检合并，不仅仅是简单的系统打通和改造，同时带来的是流程的合并和数据的打通，将出入境检验和海关通关相关的系统数据进行合并和标准化。</p>
+</li>
+<li><p>原有的出入境检验表和海关通关表填制的规范不同，表中各个项的参数或代码不同，需要标准化。</p>
+</li>
+<li><p>底层数据需要打通和整合，同时适应上层业务好服务不同的访问需求。</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211207154328963.png" srcset="/img/loading.gif" lazyload alt="image-20211207154328963"></p>
+</li>
+</ul>
+<h6 id="4-1-2-TSF与微服务设计原则"><a href="#4-1-2-TSF与微服务设计原则" class="headerlink" title="4.1.2 TSF与微服务设计原则"></a>4.1.2 TSF与微服务设计原则</h6><ul>
+<li> 痛点和需求：整合原有出入境检验和海关通关相关业务和流程，实现海关业务功能标准化、构件化、服务化</li>
+<li>快速打通全国通关一体化业务流程，实现流程标准化和闭环。</li>
+<li>对原有业务实现复用和整合，加快新服务的开发速度，提高海关信息建设对业务改革的支撑能力</li>
+</ul>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211207154634569.png" srcset="/img/loading.gif" lazyload alt="image-20211207154634569"></p>
+<h5 id="4-2-落地方案介绍"><a href="#4-2-落地方案介绍" class="headerlink" title="4.2 落地方案介绍"></a>4.2 落地方案介绍</h5><ul>
+<li>基于腾讯云TSF分布式框架，实现<ul>
+<li>分布式应用的快速构建</li>
+<li>提供服务注册发现</li>
+<li>服务治理，CICD能力</li>
+<li>支撑海关原有业务复用和新业务快速构建，并提供统一的权限管理和控制，利用TSF提供的数字化营运能力实现高效运维，保障高效业务的开发和业务可靠稳定。</li>
+</ul>
+</li>
+<li>TSF打通腾讯云Iaas和PaaS<ul>
+<li>无缝对接腾讯云人工智能和数据能力平台</li>
+<li>为上层业务提供基础技术能力，打通数据壁垒。</li>
+</ul>
+</li>
+<li>落地后的系统架构图</li>
+</ul>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211207155317517.png" srcset="/img/loading.gif" lazyload alt="image-20211207155317517"></p>
+<h5 id="4-3微服务化后的优势"><a href="#4-3微服务化后的优势" class="headerlink" title="4.3微服务化后的优势"></a>4.3微服务化后的优势</h5><p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211207155359287.png" srcset="/img/loading.gif" lazyload alt="image-20211207155359287"></p>
+<ul>
+<li>快速构建分布式应用，提升开发效率<ul>
+<li>基于腾讯云TSF提供的技术中台能力，快速响应海关关检合并的业务和流程需求，整合原有服务，提供服务注册发现、服务治理，CI/CD等能力，缩短开发周期，节约成本。</li>
+</ul>
+</li>
+<li>针对不同用户角色提供服务的权限控制和管理，提高业务的安全性和可控性。</li>
+<li>高效运维和数字化运营能力<ul>
+<li>可视化数字运营</li>
+<li>丰富的日志检索</li>
+<li>业务监控告警能力</li>
+<li>快速定位异常，节约运维成本，为业务保驾护航。</li>
+</ul>
+</li>
+<li>无缝对接腾讯云技术设施和PaaS层能力，提供更加丰富的基础能力<ul>
+<li>无缝对接腾讯云IaaS，大数据和人工智能等基础平台能力，实现资源和服务的统一纳管，为上层业务转型提供有效支撑。 </li>
+</ul>
+</li>
+</ul>
+<h4 id="思考题"><a href="#思考题" class="headerlink" title="思考题"></a>思考题</h4><ul>
+<li>微服务设计的原则有哪些？</li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%95%99%E7%A8%8B/">教程</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/TSF/">TSF</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">微服务</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/12/07/%E5%8D%81%E5%9B%9B%E3%80%81%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%8B%86%E5%88%86%E5%AE%9E%E6%88%98/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">十四、微服务拆分实战</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/12/03/%E5%8D%81%E4%BA%8C%E3%80%81TSF%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86/">
+                        <span class="hidden-mobile">十二、TSF分布式事务管理</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

@@ -1,0 +1,879 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="前面我们已经介绍了TSF的运维管理，服务治理功能，接下来我们看一下TSF的配置管理功能。">
+  <meta name="author" content="Mike">
+  <meta name="keywords" content="">
+  <meta name="description" content="前面我们已经介绍了TSF的运维管理，服务治理功能，接下来我们看一下TSF的配置管理功能。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="十、TSF配置管理">
+<meta property="og:url" content="http://example.com/2021/12/03/%E5%8D%81%E3%80%81TSF%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86/index.html">
+<meta property="og:site_name" content="KeepDive">
+<meta property="og:description" content="前面我们已经介绍了TSF的运维管理，服务治理功能，接下来我们看一下TSF的配置管理功能。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211203114325085.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211203114745424.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211203115130188.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211203115618496.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211203115950123.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211203120108959.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211203121236608.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211203150623409.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211203150807471.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211203151117672.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211203151921430.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211203152015670.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211203152340703.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211203152312232.png">
+<meta property="article:published_time" content="2021-12-03T03:20:32.000Z">
+<meta property="article:modified_time" content="2021-12-03T07:28:54.651Z">
+<meta property="article:author" content="Mike">
+<meta property="article:tag" content="TSF">
+<meta property="article:tag" content="微服务">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211203114325085.png">
+  
+  <title>十、TSF配置管理 - KeepDive</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>KeepDive</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="十、TSF配置管理">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-author" aria-hidden="true"></i>
+      Mike
+    </span>
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-12-03 11:20" pubdate>
+        2021年12月3日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      6.2k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      19 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">十、TSF配置管理</h1>
+            
+            <div class="markdown-body">
+              <h3 id="十、TSF配置管理"><a href="#十、TSF配置管理" class="headerlink" title="十、TSF配置管理"></a>十、TSF配置管理</h3><p>前面我们已经介绍了TSF的运维管理，服务治理功能，接下来我们看一下TSF的配置管理功能</p>
+<h4 id="学习目标"><a href="#学习目标" class="headerlink" title="学习目标"></a>学习目标</h4><p>通过本文的学习，你将可以：</p>
+<ul>
+<li>掌握TSF配置管理的基本操作</li>
+<li>掌握应用配置的基本操作</li>
+<li>掌握全局配置的基本操作</li>
+<li>掌握配置回调的基本操作</li>
+<li>掌握配置模板的基本操作</li>
+<li>掌握文件配置的基本操作</li>
+</ul>
+<h4 id="第一章-配置管理概述"><a href="#第一章-配置管理概述" class="headerlink" title="第一章 配置管理概述"></a>第一章 配置管理概述</h4><h5 id="1-1-配置管理概述"><a href="#1-1-配置管理概述" class="headerlink" title="1.1 配置管理概述"></a>1.1 配置管理概述</h5><ul>
+<li>配置管理：<ul>
+<li>为了更好的解决分布式环境下多台服务实例的配置不统一问题，TSF 提供了分布式配置功能。</li>
+</ul>
+</li>
+<li>TSF 的配置功能具有如下特点：<ul>
+<li>支持配置的分布式化管理</li>
+<li>支持在控制台上编写 YAML 格式的配置。</li>
+<li>配置异构系统管理<ul>
+<li>异构系统是指一个应用有多个部署组时（例如开发环境、测试环境的部署 组），由于配置不同，从而需要多个部署包的情况。使用分布式配置功能后，用户只需要同一个 部署包，不同部署组的配置会自动分配。</li>
+</ul>
+</li>
+<li>配置更新自动化：<ul>
+<li>用户在平台更新配置，使用该配置的系统会自动发现该情况，并应用新配置。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>目前 TSF 分布式配置功能仅支持 Spring Cloud 类型的应用。</li>
+</ul>
+<h5 id="1-2-配置管理分类"><a href="#1-2-配置管理分类" class="headerlink" title="1.2 配置管理分类"></a>1.2 配置管理分类</h5><ul>
+<li>配置管理分类：<ul>
+<li>应用配置</li>
+<li>全局配置</li>
+<li>本地配置</li>
+</ul>
+</li>
+<li>应用配置和全局配置属于 TSF 平台上的配置（下面称为远程配置），本地配置是应用程序在代码 工程中创建的配置（如 application.yml 和 bootstrap.yml）。应用配置和全局配置的根本区别 在于 配置发布的范围，应用配置发布的范围是部署组维度，全局配置发布的范围是命名空间维度。</li>
+<li>优先级：应用配置 &gt; 全局配置 &gt; 本地配置 </li>
+</ul>
+<h4 id="第二章-应用配置"><a href="#第二章-应用配置" class="headerlink" title="第二章 应用配置"></a>第二章 应用配置</h4><h5 id="2-1-使用方式-使用流程"><a href="#2-1-使用方式-使用流程" class="headerlink" title="2.1 使用方式-使用流程"></a>2.1 使用方式-使用流程</h5><ul>
+<li><p>TSF动态配置使用步骤：</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211203114325085.png" srcset="/img/loading.gif" lazyload alt="image-20211203114325085"></p>
+</li>
+<li><p>如上采用应用配置方式，全部配置使用方式跟应用配置类似，只是优先级不一样。</p>
+</li>
+<li><p>动态配置使用步骤：</p>
+<ul>
+<li>pom.xml 添加配置依赖项</li>
+<li>在代码中引用配置</li>
+<li>TSF平台填写配置</li>
+<li>通过 TSF 平台下发动态配置，配置的作用范围是部署组。</li>
+</ul>
+</li>
+</ul>
+<h6 id="2-1-1-添加依赖"><a href="#2-1-1-添加依赖" class="headerlink" title="2.1.1 添加依赖"></a>2.1.1 添加依赖</h6><ul>
+<li><p>步骤一：</p>
+<ul>
+<li><p>项目根目录pom.xml配置文件中添加依赖项：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>		<span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>		<span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-starter-consul-config<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><span class="hljs-comment">&lt;!-- 使用分布式配置自动刷新功能，需要显示添加actuator的依赖包 --&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>		<span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>		<span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-actuator<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<h6 id="2-1-2-引用配置"><a href="#2-1-2-引用配置" class="headerlink" title="2.1.2 引用配置"></a>2.1.2 引用配置</h6><ul>
+<li><p>步骤二：</p>
+<ul>
+<li><p>引用配置，二种方式：</p>
+<ul>
+<li>@ConfigurationProperties注解方式</li>
+<li>@Value 注解方式</li>
+</ul>
+</li>
+<li><p>@ConfigurationProperties 使用类映射多个配置，适合多个配置映射使用</p>
+</li>
+<li><p>@Value 单个属性映射配置，适合少量配置映射使用</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211203114745424.png" srcset="/img/loading.gif" lazyload alt="image-20211203114745424"></p>
+</li>
+</ul>
+</li>
+<li><p>@ConfigurationProperties支持松散语法， @Value不支持松散语法，松散语法也就是属性命 名规则示例如下：</p>
+<ul>
+<li> person.firstName:使用标准方式</li>
+<li> person.first-name:大写用-</li>
+<li>person.first_name:大写用_</li>
+<li>PERSON_FIRST_NAME: 系统属性推荐使用这种写法</li>
+</ul>
+</li>
+<li><p>@ConfigurationProperties @Validated 支持 JSR303数据校验，@Value不支持</p>
+</li>
+<li><p>@ConfigurationProperties不支持EL表达式（如：userAge = #{2*6}）</p>
+</li>
+<li><p>@Value支持EL表达式（如：@Value(userAge=#{2*6})）</p>
+</li>
+<li><p>在某个业务逻辑中需要获取一下配置文件中的某项值，使用@Value；如果专门编写了一个 javaBean来和配置文件进行映射，我们就直接使用@ConfigurationProperties</p>
+</li>
+</ul>
+<h6 id="2-1-2-引用配置（续）"><a href="#2-1-2-引用配置（续）" class="headerlink" title="2.1.2 引用配置（续）"></a>2.1.2 引用配置（续）</h6><ul>
+<li><p>使用配置类 @ConfigurationProperties</p>
+</li>
+<li><p>例如下图中使用@ConfigurationProperties方式，代码如下：</p>
+<ul>
+<li><p>使用 @ConfigurationProperties 注解来标明这个类是一个配置类。</p>
+</li>
+<li><p>使用@RefreshScope注解开启自动 刷新机制。</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211203115130188.png" srcset="/img/loading.gif" lazyload alt="image-20211203115130188"></p>
+</li>
+</ul>
+</li>
+<li><p>@ConfigurationProperties 注解中的prefix代表配置的前缀，也就是说需要符合这个前缀配置 才能映射到类中的属性</p>
+</li>
+<li><p>@RefreshScope注解开启 自动刷新机制，也就是在配置发生改变的时候回自动刷新，不需要重新应用</p>
+</li>
+</ul>
+<h6 id="2-1-2-引用配置-续）"><a href="#2-1-2-引用配置-续）" class="headerlink" title="2.1.2 引用配置(续）"></a>2.1.2 引用配置(续）</h6><ul>
+<li><p>使用属性配置注解： @Value；代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Value(&quot;$&#123;provider.config.name:name1&#125;&quot;)</span><br><span class="hljs-keyword">private</span> String name;<br></code></pre></td></tr></table></figure></li>
+<li><p>如上代码通过@Value注解指定配置的名称为： provider.config.name； 然后把provider.config.name配置对应的值注入到name属性中。</p>
+</li>
+<li><p>provider.config.name:name1：冒号后面的“name1”是默认值</p>
+</li>
+<li><p>上述代码演示了使用@value方式注入配置。在启动类 ProviderApplication 中，使用 @Value 注解来标识一个配置变量。</p>
+</li>
+</ul>
+<h6 id="2-1-3-配置内容填写"><a href="#2-1-3-配置内容填写" class="headerlink" title="2.1.3 配置内容填写"></a>2.1.3 配置内容填写</h6><ul>
+<li><p>步骤三：</p>
+<ul>
+<li><p>TSF控制台填写配置</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211203115618496.png" srcset="/img/loading.gif" lazyload alt="image-20211203115618496"></p>
+</li>
+</ul>
+</li>
+<li><p>具体操作步骤：</p>
+<ul>
+<li>登录 TSF 控制台。</li>
+<li>单击导航栏应用配置。</li>
+<li>选择新建配置。</li>
+<li>单击【新建】按钮。</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211203115950123.png" srcset="/img/loading.gif" lazyload alt="image-20211203115950123"></p>
+<ul>
+<li>填写配置内容。配置可以按照 YAML 方式进行编辑。YAML 格式规范参考 YAML 格式介绍，官网文档：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/document/product/649/17925%E3%80%82">https://cloud.tencent.com/document/product/649/17925。</a></li>
+<li>单击【提交】按钮。</li>
+</ul>
+<h6 id="2-1-4-发布配置"><a href="#2-1-4-发布配置" class="headerlink" title="2.1.4 发布配置"></a>2.1.4 发布配置</h6><ul>
+<li><p>步骤四：        </p>
+<ul>
+<li><p>发布配置：</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211203120108959.png" srcset="/img/loading.gif" lazyload alt="image-20211203120108959"></p>
+</li>
+</ul>
+</li>
+<li><p>在配置版本中选择对应的版本，点击“发布” ，然后选择对应的部署组就可以把配置发布到对应 的部署组中。</p>
+</li>
+<li><p>配置发布以后可以在日志查看对应配置的打印记录也可以通过浏览器访问配置对应链接的url验证配置更新情况</p>
+</li>
+</ul>
+<h5 id="2-2-应用配置管理的功能"><a href="#2-2-应用配置管理的功能" class="headerlink" title="2.2 应用配置管理的功能"></a>2.2 应用配置管理的功能</h5><ul>
+<li>应用配置的功能：<ul>
+<li>创建配置项：一个配置项管理多个版本的配置</li>
+<li>生成新版本：基于历史版本生成新版本</li>
+<li>发布配置：支持发布配置到部署组</li>
+<li>回滚：回滚到上一个版本的配置</li>
+</ul>
+</li>
+</ul>
+<h6 id="2-2-1-应用配置管理的功能"><a href="#2-2-1-应用配置管理的功能" class="headerlink" title="2.2.1 应用配置管理的功能"></a>2.2.1 应用配置管理的功能</h6><ul>
+<li>应用配置的创建、发布、更新、回滚操作都比较简单，都是直接点击对应的按钮就可以实现了， 参考官网文档：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/document/product/649/15539">https://cloud.tencent.com/document/product/649/15539</a></li>
+</ul>
+<h5 id="2-3-配置优先级"><a href="#2-3-配置优先级" class="headerlink" title="2.3 配置优先级"></a>2.3 配置优先级</h5><ul>
+<li><p>TSF 支持多份应用配置发布到同一个部署组，多份配置会根据发布时间的 先后顺序以 key 来进行合并。举例来说，应用 A 有两个应用配置项 config-1， config-2。</p>
+</li>
+<li><p>config-1 的配置内容：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-comment"># config-1配置</span><br><span class="hljs-attr">username</span>: <span class="hljs-string">test_user1</span><br><span class="hljs-meta">feature.status</span>: <span class="hljs-string">false</span><br><span class="hljs-meta">feature.color</span>: <span class="hljs-string">red</span><br></code></pre></td></tr></table></figure></li>
+<li><p>config-2 的配置内容：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-comment"># config-2配置</span><br><span class="hljs-attr">username</span>: <span class="hljs-string">test_user2</span><br><span class="hljs-meta">feature.status</span>: <span class="hljs-string">true</span><br></code></pre></td></tr></table></figure></li>
+<li><p>config-1 和 config-2 先后发布到部署组 group ，会按照 key 来进行合并。</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-comment"># config-1 与 config-2 合并结果</span><br><span class="hljs-attr">username</span>: <span class="hljs-string">test_user2</span><br><span class="hljs-meta">feature.status</span>: <span class="hljs-string">true</span><br><span class="hljs-meta">feature.color</span>: <span class="hljs-string">red</span><br></code></pre></td></tr></table></figure></li>
+<li><p>配置优先级：应用配置 &gt; 全局配置 &gt; 本地配置</p>
+</li>
+<li><p>多份应用发布到同一个部署组的时候按照优先级，先后循环进行合并；相同的配置项优先级高的 替换优先级低的，后发布的配置替换先发布的配置；不同的配置项之间合并</p>
+</li>
+</ul>
+<h4 id="第三章-全局配置"><a href="#第三章-全局配置" class="headerlink" title="第三章 全局配置"></a>第三章 全局配置</h4><h5 id="3-1-全局配置概述"><a href="#3-1-全局配置概述" class="headerlink" title="3.1 全局配置概述"></a>3.1 全局配置概述</h5><ul>
+<li>全局配置：<ul>
+<li>用于动态更新应用代码中的配置。全局配置可以保证配置内容在某个集群或者命名空间中全局生效。</li>
+</ul>
+</li>
+<li>全局配置包括管理配置和发布配置两部分。<ul>
+<li>管理配置包括创建配置、生成新版本配置和删除配置。</li>
+<li>配置可以发布到命名空间下的所有应用。</li>
+</ul>
+</li>
+<li>全局配置的使用跟前面提到的“应用配置”使用一致；优先级不一样：</li>
+<li>优先级：应用配置 &gt; 全局配置 &gt; 本地配置</li>
+</ul>
+<h5 id="3-1-全局配置概述（续）"><a href="#3-1-全局配置概述（续）" class="headerlink" title="3.1 全局配置概述（续）"></a>3.1 全局配置概述（续）</h5><p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211203121236608.png" srcset="/img/loading.gif" lazyload alt="image-20211203121236608"></p>
+<ul>
+<li>列表页面也跟应用页面一致。其中“新建”按钮可以直接新建配置，导入配置模块需要配置“配 置模板”功能使用，在后续会介绍；配置列表右侧的配置发布历史中可以查看配置的发布记录。</li>
+</ul>
+<h4 id="第四章-配置回调"><a href="#第四章-配置回调" class="headerlink" title="第四章 配置回调"></a>第四章 配置回调</h4><h5 id="4-1-配置回调使用场景"><a href="#4-1-配置回调使用场景" class="headerlink" title="4.1 配置回调使用场景"></a>4.1 配置回调使用场景</h5><ul>
+<li><p>配置更新触发回调功能允许程序在不重启的情况下动态修改业务逻辑。</p>
+</li>
+<li><p>当配置更新时，触发配置回调方法的调用。</p>
+</li>
+<li><p>配置更新触发回调功能的使用场景包括：</p>
+<ul>
+<li>程序使用一个防刷开关配置，当开关为启用状态时，启动防刷逻辑，当开关为关闭状 态时，停用防刷逻辑。</li>
+<li>程序使用一个 ReidsConfig 的动态配置类，包含 redis 的 host 和 port，当更新这个配置时，更新 Redis 实例。</li>
+<li>配置更新后发出通知消息，通知本地或者远程的其他模块执行变更逻辑。</li>
+</ul>
+</li>
+<li><p>前面我们已经使用了配置项的动态更新，但是如果更新配置项后需要刷新其它业务对象（比如更 改Redis配置后需要刷新Redis实例对象）怎么办？这个时候就需要用到我们的配置回调功能。</p>
+</li>
+</ul>
+<h5 id="4-2-使用方式-配置回调"><a href="#4-2-使用方式-配置回调" class="headerlink" title="4.2 使用方式-配置回调"></a>4.2 使用方式-配置回调</h5><ul>
+<li><p>如下图代码：如果配置项“io.test”发生变化，就会触发callback方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@ConfigChangeListener(prefix = &quot;io.test&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TestConfigListener</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">ConfigChangeCallback</span> </span>&#123;<br>    <span class="hljs-keyword">private</span> Logger logger =<br>    LoggerFactory.getLogger(SimpleConfigurationListener.class);<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">callback</span><span class="hljs-params">(ConfigProperty lastConfigItem, ConfigProperty</span></span><br><span class="hljs-params"><span class="hljs-function">    currentConfigItem)</span> </span>&#123;<br>    logger.info(<span class="hljs-string">&quot;config change=====&quot;</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>如上代码实现了监听“io.test”配置，当配置发生变化就触发callback方法打印日志</li>
+<li>实现方式：通过实现ConfigChangeCallback 接口（重新callback方法）实现配置回调。</li>
+</ul>
+</li>
+</ul>
+<h4 id="第五章-配置模板"><a href="#第五章-配置模板" class="headerlink" title="第五章 配置模板"></a>第五章 配置模板</h4><h5 id="5-1-配置模板概述"><a href="#5-1-配置模板概述" class="headerlink" title="5.1 配置模板概述"></a>5.1 配置模板概述</h5><ul>
+<li><p>配置模板</p>
+<ul>
+<li><p>是为了方便用户保存常用的配置信息，也提供了 Ribbon, Hystrix, Zuul 等 Spring Cloud 组件的配置模板。用户可以基于已有的配置模板进行修改。</p>
+</li>
+<li><p>用户可以基于配置模板来创建 应用配置 或者 全局配置。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="5-2-新建和使用配置模板"><a href="#5-2-新建和使用配置模板" class="headerlink" title="5.2 新建和使用配置模板"></a>5.2 新建和使用配置模板</h5><p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211203150623409.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211203150807471.png" srcset="/img/loading.gif" lazyload></p>
+<ul>
+<li><p>具体使用步骤：</p>
+<ul>
+<li><p>登录 TSF 控制台。</p>
+</li>
+<li><p>单击左侧导航栏 配置管理，再选择 配置模板。</p>
+</li>
+<li><p>单击【新建模板】</p>
+</li>
+<li><p>填写配置模板信息。</p>
+</li>
+<li><p>模板名：填写模板名。</p>
+</li>
+<li><p>类型：Ribbon、Hystrix、Zuul 或自定义。</p>
+</li>
+<li><p>配置内容：根据不同的类型，会自动生成对应的配置内容。用户可以进一步修改配置内容。</p>
+</li>
+<li><p>描述：填写描述信息。</p>
+</li>
+<li><p>单击【提交】按钮。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="5-2-新建和使用配置模板（续）"><a href="#5-2-新建和使用配置模板（续）" class="headerlink" title="5.2 新建和使用配置模板（续）"></a>5.2 新建和使用配置模板（续）</h5><p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211203151117672.png" srcset="/img/loading.gif" lazyload alt="image-20211203151117672"></p>
+<ul>
+<li>用户可以使用配置模板来创建应用配置或者全局配置，下面以全局配置举例。<ul>
+<li>登录 TSF 控制台。</li>
+<li>单击左侧导航栏 配置管理，再选择 全局配置。</li>
+<li>单击【导入配置模板】。</li>
+<li>选择要导入的配置模板</li>
+<li>在新建配置页面中，补充全局配置的其他信息</li>
+</ul>
+</li>
+</ul>
+<h4 id="第六章-文件配置"><a href="#第六章-文件配置" class="headerlink" title="第六章 文件配置"></a>第六章 文件配置</h4><h5 id="6-1-文件配置概述"><a href="#6-1-文件配置概述" class="headerlink" title="6.1 文件配置概述"></a>6.1 文件配置概述</h5><ul>
+<li><p>文件配置：</p>
+<ul>
+<li>文件配置功能支持用户通过控制台将配置下发到服务器的指定目录。应用程序通过读 取该目录下的配置文件来实现特殊的业务逻辑。</li>
+</ul>
+</li>
+<li><p>文件配置支持如下功能：</p>
+<ul>
+<li>创建文件配置项：一个文件配置项管理多个版本的配置。</li>
+<li>生成新版本：基于历史版本生成新版本。</li>
+<li>发布配置：支持发布配置到部署组。</li>
+<li>发布情况：查看配置项的发布到哪些部署组。</li>
+<li>回滚：回滚到上一个版本的配置。</li>
+</ul>
+</li>
+</ul>
+<h5 id="6-1-文件配置概述（续）"><a href="#6-1-文件配置概述（续）" class="headerlink" title="6.1 文件配置概述（续）"></a>6.1 文件配置概述（续）</h5><ul>
+<li><p>使用文件配置的前提条件：</p>
+<ul>
+<li><p>对于使用虚拟机部署的应用：只有2018年11月20号之后导入到集群的云主机上会具有 满足应用配置功能的环境。</p>
+</li>
+<li><p>对于容器部署的应用：该功能需要用户修改 Dockerfile 和启动脚本</p>
+<ul>
+<li><p>Dockerfile 中需要将 tsf-consul-template-docker.tar.gz添加到到 /root/ 目录下</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs dockerfile"><span class="hljs-comment">#copy consul-template</span><br><span class="hljs-keyword">ADD</span><span class="bash"> tsf-consul-template-docker.tar.gz /root/</span><br></code></pre></td></tr></table></figure></li>
+<li><p>启动脚本 run.sh 中，需要执行 /root/tsf-consul-template-docker/script 目录下的start.sh 脚本</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">sh /root/tsf-consul-template-docker/script/start.sh<br></code></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>tsf-consul-template-docker.tar.gz下载地址： <a target="_blank" rel="noopener" href="https://main.qcloudimg.com/raw/fa79996a5c995c35b9f948742df4d9d8/tsf-consultemplate-docker.tar.gz">https://main.qcloudimg.com/raw/fa79996a5c995c35b9f948742df4d9d8/tsf-consultemplate-docker.tar.gz</a></p>
+</li>
+</ul>
+<h5 id="6-2-文件配置使用场景"><a href="#6-2-文件配置使用场景" class="headerlink" title="6.2 文件配置使用场景"></a>6.2 文件配置使用场景</h5><ul>
+<li><p>定时检查配置是否更新</p>
+<ul>
+<li>应用程序中包含了读取指定目录配置文件的逻辑，例如定时去检查配置文件是否更新 （通过文件 md5 是否变化等方式检查），如果更新了会执行特定逻辑。</li>
+<li>在控制台上创建文件配置，下发到部署组。</li>
+</ul>
+</li>
+<li><p>动态替换 PHP 文件</p>
+<ul>
+<li>通过控制台发布一个 PHP 文件到指定目录，来达到动态替换服务器上 PHP 文件的目 的。</li>
+</ul>
+</li>
+</ul>
+<h5 id="6-3-文件配置操作步骤"><a href="#6-3-文件配置操作步骤" class="headerlink" title="6.3 文件配置操作步骤"></a>6.3 文件配置操作步骤</h5><ul>
+<li><p>文件配置的使用步骤：</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211203151921430.png" srcset="/img/loading.gif" lazyload alt="image-20211203151921430"></p>
+</li>
+</ul>
+<h6 id="6-3-1-新建配置"><a href="#6-3-1-新建配置" class="headerlink" title="6.3.1 新建配置"></a>6.3.1 新建配置</h6><ul>
+<li><p>步骤一：</p>
+<ul>
+<li><p>新建配置：</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211203152015670.png" srcset="/img/loading.gif" lazyload alt="image-20211203152015670"></p>
+</li>
+</ul>
+</li>
+<li><p>具体操作步骤：</p>
+<ul>
+<li>登录 TSF 控制台。</li>
+<li>在左侧导航栏中，单击【配置管理】&gt;【文件配置】。</li>
+<li>在文件配置页面，单击【新建】按钮。</li>
+</ul>
+</li>
+</ul>
+<h6 id="6-3-2-填写配置信息"><a href="#6-3-2-填写配置信息" class="headerlink" title="6.3.2 填写配置信息"></a>6.3.2 填写配置信息</h6><ul>
+<li><p>步骤二：</p>
+<ul>
+<li><p>填写配置信息：</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211203152340703.png" srcset="/img/loading.gif" lazyload alt="image-20211203152340703"></p>
+</li>
+</ul>
+</li>
+<li><p>文件配置信息</p>
+<ul>
+<li>配置名称</li>
+<li>关联应用</li>
+<li>文件保存编码</li>
+<li>配置内容：支持上传文件或者控制台编辑</li>
+<li>配置文件名称：下发到服务器的配置文件的文件名称</li>
+<li>版本号</li>
+<li>版本描述</li>
+</ul>
+</li>
+</ul>
+<h6 id="6-3-3-配置下发路径信息以及后置脚本"><a href="#6-3-3-配置下发路径信息以及后置脚本" class="headerlink" title="6.3.3 配置下发路径信息以及后置脚本"></a>6.3.3 配置下发路径信息以及后置脚本</h6><ul>
+<li>步骤三：<ul>
+<li>配置下发路径信息以及后置脚本：</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211203152312232.png" srcset="/img/loading.gif" lazyload alt="image-20211203152312232"></p>
+<ul>
+<li><p>配置下发路径：配置下发到服务器的路径</p>
+</li>
+<li><p>后置脚本（选填）：配置下发到服务器后执行的命令（不需要 包含 #! /bin/bash)</p>
+</li>
+<li><p>点击“完成”后就可以完成文件配置的创建功能，可以登录到具体服务目录下进行查看验证。</p>
+</li>
+</ul>
+<h5 id="6-4-文件配置基本操作说明"><a href="#6-4-文件配置基本操作说明" class="headerlink" title="6.4 文件配置基本操作说明"></a>6.4 文件配置基本操作说明</h5><ul>
+<li>基本操作包含：<ol>
+<li>生成新版本<ul>
+<li>在配置列表页，单击配置名称进入详情页。</li>
+<li>单击某个配置版本旁的【生成新版本】按钮。</li>
+<li>填写变更的新版本的配置内容和版本号。</li>
+<li>单击【完成】按钮。</li>
+</ul>
+</li>
+<li>发布配置<ul>
+<li>在配置列表页，单击配置名称进入详情页。</li>
+<li>单击某个配置版本旁的【发布】按钮。</li>
+<li>选择配置发布的目标部署组，填写发布描述。</li>
+<li>单击【提交】。</li>
+</ul>
+</li>
+<li>查看配置发布历史<ul>
+<li>在文件配置页，单击配置发布历史标签页。</li>
+<li>选择目标部署组 ，单击【查询】。</li>
+</ul>
+</li>
+<li>配置回滚<ul>
+<li>在文件配置页，单击配置发布历史标签页。</li>
+<li>单击配置发布历史列表右侧的【回滚】按钮。</li>
+<li>填写回滚说明，单击【提交】。</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<h4 id="思考题"><a href="#思考题" class="headerlink" title="思考题"></a>思考题</h4><ul>
+<li>TSF配置管理的方式有哪几种？</li>
+<li>TSF配置的优先级是怎么样的？</li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%95%99%E7%A8%8B/">教程</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/TSF/">TSF</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">微服务</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/12/03/%E5%8D%81%E4%B8%80%E3%80%81TSF%E4%B8%8EAPI%E7%BD%91%E5%85%B3/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">十一、TSF与API网关</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/12/02/%E4%B9%9D%E3%80%81TSF%E6%9C%8D%E5%8A%A1%E6%B2%BB%E7%90%86/">
+                        <span class="hidden-mobile">九、TSF服务治理</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

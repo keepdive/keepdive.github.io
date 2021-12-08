@@ -1,0 +1,953 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="Service Mesh被称为云原生的三驾马车之一（k8s, Service Mesh, serverless），本章节主要是介绍TSF与ServiceMesh集成。">
+  <meta name="author" content="Mike">
+  <meta name="keywords" content="">
+  <meta name="description" content="Service Mesh被称为云原生的三驾马车之一（k8s, Service Mesh, serverless），本章节主要是介绍TSF与ServiceMesh集成。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="五、TSF与ServiceMesh的集成">
+<meta property="og:url" content="http://example.com/2021/11/25/%E4%BA%94%E3%80%81TSF%E4%B8%8EServiceMesh%E7%9A%84%E9%9B%86%E6%88%90/index.html">
+<meta property="og:site_name" content="KeepDive">
+<meta property="og:description" content="Service Mesh被称为云原生的三驾马车之一（k8s, Service Mesh, serverless），本章节主要是介绍TSF与ServiceMesh集成。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211125095524052.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211125095827767.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211125100215008.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211125101750236.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211130101230478.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211130102403500.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211130105736218.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211130110158397.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211130110747167.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211130111859206.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211130113943384.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211130114154373.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211130114304350.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211130115005183.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211130145504240.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211130145927804.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211130150007640.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211130150048127.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211130150935619.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211130151007567.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211130151701522.png">
+<meta property="article:published_time" content="2021-11-25T01:42:16.000Z">
+<meta property="article:modified_time" content="2021-11-30T08:16:52.619Z">
+<meta property="article:author" content="Mike">
+<meta property="article:tag" content="微服务">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211125095524052.png">
+  
+  <title>五、TSF与ServiceMesh的集成 - KeepDive</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>KeepDive</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="五、TSF与ServiceMesh的集成">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-author" aria-hidden="true"></i>
+      Mike
+    </span>
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-11-25 09:42" pubdate>
+        2021年11月25日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      11k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      35 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">五、TSF与ServiceMesh的集成</h1>
+            
+            <div class="markdown-body">
+              <h3 id="五、TSF与ServiceMesh的集成"><a href="#五、TSF与ServiceMesh的集成" class="headerlink" title="五、TSF与ServiceMesh的集成"></a>五、TSF与ServiceMesh的集成</h3><p>微服务自2014年3月由Martin Fowler首次提出以来，在Spring Cloud、Dubbo等各类微服务框架的帮助下，以燎原之势席卷了整个IT技术界，成为了最主流的分布式应用解决方案。但仍然还有很多问题没有得到根本性的解决，比如技术门槛高、多语言支持不足、代码侵入性强等。如何应对这些挑战成为了下一代微服务首要回答的问题。直到服务网格（Service Mesh）被提出，这 一切都有了答案。</p>
+<p>Service Mesh被称为云原生的三驾马车之一（k8s, Service Mesh, serverless）。</p>
+<h4 id="学习目标"><a href="#学习目标" class="headerlink" title="学习目标"></a>学习目标</h4><p>通过本文的学习，您将可以：</p>
+<ul>
+<li>了解Service Mesh的概念和应用场景</li>
+<li>了解Service Mesh的架构</li>
+<li>掌握TSF接入Service Mesh应用</li>
+</ul>
+<h4 id="第一章-Service-Mesh的概念"><a href="#第一章-Service-Mesh的概念" class="headerlink" title="第一章 Service Mesh的概念"></a>第一章 Service Mesh的概念</h4><h5 id="1-1-Service-Mesh概念"><a href="#1-1-Service-Mesh概念" class="headerlink" title="1.1 Service Mesh概念"></a>1.1 Service Mesh概念</h5><ul>
+<li>老系统，异构语言的困境：</li>
+</ul>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211125095524052.png" srcset="/img/loading.gif" lazyload alt="image-20211125095524052"></p>
+<ul>
+<li><p>在介绍Service Mesh之前我们先来看一下上面这个图。使用微服务架构确实给我们的开发带来了很大的便利，前面我们也介绍了使用Spring Cloud作为微服务架构；但是使用Spring Cloud还存 在几个明显的问题：首先Spring Cloud只能使用Java语言做开发，那如果不是Java 语言怎么办？ 老系统怎么办，老系统很多情况下可能并没有改造的价值，如果再重新使用Spring Cloud进行重构得不偿失，这些问题是使用Spring Cloud框架无法解决的。既然有问题，人们总是会去寻找解 决方案，经过不断的演变发展，对于异构语言，老系统这种困境目前最好的解决办法就是使用 Service Mesh；接下来我们看一下Service Mesh到底是什么？它是如何帮助我们解决这些困难的。</p>
+</li>
+<li><p>什么是Service Mesh？</p>
+<ul>
+<li><p>Service Mesh又被称之为“服务网格”，是致力于解决服务间通讯的基础设施层。</p>
+</li>
+<li><p>Service Mesh 通常是由一系列轻量级的网络代理组成的，它们与应用程序部署在一起， 但应用程序不需要知道它们的存在。</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211125095827767.png" srcset="/img/loading.gif" lazyload alt="image-20211125095827767"></p>
+</li>
+<li><p>根据Linkerd CEO William Morgan定义，Service Mesh是用于处理服务间通信的基础设施层， 用于在云原生应用复杂的服务拓扑中实现可靠的请求传递。在实践中，Service Mesh通常是一组 与应用一起部署，但对应用透明的轻量级网络代理。</p>
+</li>
+<li><p>Service Mesh 通常是由一系列轻量级的网络代理组成的，如上图中的蓝色块就是网络代理（这个网络代理也被称之为Sidecar），绿色块就是我们的应用。各个微服务应用之间的通信都被网络代理劫持，相当于在服务之间加了一个中间层，应用之间要想通信，必须要通过这个中间层；这个网络代理与应用程序部署在一起，但是相对于应用程序来说它是完全不需要知道有这个网络代理的。</p>
+</li>
+<li><p>接下来我们看一下这个网络代理（Sidecar）到底是什么？</p>
+</li>
+</ul>
+</li>
+</ul>
+<h6 id="1-1-1-Sidecar-模式"><a href="#1-1-1-Sidecar-模式" class="headerlink" title="1.1.1 Sidecar 模式"></a>1.1.1 Sidecar 模式</h6><ul>
+<li><p>什么是Sidecar模式？</p>
+<ul>
+<li><p>Sidecar模式是一种将应用功能从应用本身剥离出来作为单独进程的方式。该模式允许我们向应用无侵入添加多种功能，避免了为满足第三方组件需求而向应用添加额外的配置代码。</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211125100215008.png" srcset="/img/loading.gif" lazyload alt="image-20211125100215008"></p>
+</li>
+</ul>
+</li>
+<li><p>Sidecar 在软件系统架构中特指边车模式。这个模式的灵感来源于我们生活中的边三轮：即在两轮摩托车的旁边添加一个边车的方式扩展现有的服务和功能。</p>
+</li>
+<li><p>Sidecar模式是一种将应用功能从应用本身剥离出来作为单独进程的方式。该模式允许我们向应用无侵入添加多种功能，避免了为满足第三方组件需求而向应用添加额外的配置代码。</p>
+</li>
+<li><p>Sidecar模式如何工作（如上图）：</p>
+<ul>
+<li>Service Mesh层可以位于应用程序侧的Sidecar容器中，同一sidecar的多个副本可以附在每个应用旁。</li>
+<li>来自单个服务的所有传入和传出网络流量均通过Sidecar代理，完成微服务之间的流量管理、 遥测数据收集以及策略的执行等等。从某种意义上来说，服务对于网络是无感知的，只知道所附加的sidecar代理。这就是Sidecar模式工作的本质，它将网络依赖抽象成了Sidecar。</li>
+</ul>
+</li>
+</ul>
+<h6 id="1-1-2-Service-Mesh-架构分层"><a href="#1-1-2-Service-Mesh-架构分层" class="headerlink" title="1.1.2 Service Mesh 架构分层"></a>1.1.2 Service Mesh 架构分层</h6><ul>
+<li><p>Service Mesh 架构分层</p>
+<ul>
+<li>数据面（ Data Plane ）：由独立部署的智能 代理进行组成，接管及控制微服务进程间的 业务数据流量。</li>
+<li>控制面（ Control Plane ）：对数据面进行管 理及配置流量路由，策略加强及统计数据采集。</li>
+</ul>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211125101750236.png" srcset="/img/loading.gif" lazyload alt="image-20211125101750236"></p>
+</li>
+<li><p>在Service Mesh中，我们需要了解Data Plane和Control Plane两个概念</p>
+<ul>
+<li>Data Plane的作用是处理网格内服务间的通信，并完成服务发现、负载均衡、流量管理、健康检查等功能；</li>
+<li>Control Plane的作用是管理和配置Sidecar来执行策略并收集遥测（telemetry）</li>
+</ul>
+</li>
+</ul>
+<h6 id="1-1-3-Service-Mesh-开源项目"><a href="#1-1-3-Service-Mesh-开源项目" class="headerlink" title="1.1.3 Service Mesh 开源项目"></a>1.1.3 Service Mesh 开源项目</h6><ul>
+<li><p>Service Mesh 开源项目：</p>
+<ul>
+<li>Linkerd ：William Morgan创办的Buoyant 公司开发</li>
+<li>Envoy ：由 Matt Klein 个人开发（Lyft 工程师）</li>
+<li>Istio ：2017 年 5 月 24 日首发布，由 Google、IBM 和 Lyft 联合开发</li>
+<li>Conduit ： Linkerd 的下一代产品</li>
+</ul>
+</li>
+<li><p>Service Mesh 开源项目简介：</p>
+<ul>
+<li>Linkerd：第一代 Service Mesh，2016 年 1 月 15 日首发布，业界第一个 Service Mesh 项目， 由 Buoyant 创业小公司开发（前 Twitter 工程师），2017 年 7 月 11 日，宣布和 Istio 集成， 成为 Istio 的数据面板。</li>
+<li>Envoy：第一代 Service Mesh，2016 年 9 月 13 日首发布，由 Matt Klein 个人开发（Lyft 工 程师），之后默默发展，版本较稳定。</li>
+<li>Istio：第二代 Service Mesh，2017 年 5 月 24 日首发布，由 Google、IBM 和 Lyft 联合开发， 只支持 Kubernetes 平台，2017 年 11 月 30 日发布 0.3 版本，开始支持非 Kubernetes 平台， 之后稳定的开发和发布。</li>
+<li>Conduit：第二代 Service Mesh，2017 年 12 月 5 日首发布，由 Buoyant 公司开发（借鉴 Istio 整体架构，部分进行了优化），对抗 Istio 压力山大，也期待 Buoyant 公司的毅力。</li>
+</ul>
+</li>
+</ul>
+<h6 id="1-1-4-Istio-架构"><a href="#1-1-4-Istio-架构" class="headerlink" title="1.1.4 Istio 架构"></a>1.1.4 Istio 架构</h6><ul>
+<li><p>Istio 服务网格逻辑上分为数据平面和控制平面:</p>
+<ul>
+<li><p><strong>数据平面</strong>由一组以 sidecar 方式部署的智能代理 （Envoy）组成。这些代理可以调节和控制微服务及 Mixer 之间所有的网络通信。</p>
+</li>
+<li><p><strong>控制平面</strong>负责管理和配置代理来路由流量。 此外控制平面配置 Mixer 以实施策略和收集遥测数据。</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211130101230478.png" srcset="/img/loading.gif" lazyload alt="image-20211130101230478"></p>
+</li>
+</ul>
+</li>
+<li><p>Istio的很多设计理念的确非常吸引人，又有 Google 和 IBM 两个巨人加持，所以其竞争力非常之强，如上图是Istio的架构图，在TSF中也是采用的Istio/Envoy开源项目作为Service Mesh的落地方案。</p>
+</li>
+<li><p>Proxy：上图中的Proxy就是采用的Envoy代理（Envoy是一个高性能的C++写的proxy转发器）， </p>
+</li>
+<li><p>Envoy:  是lstio的数据面，扮演sidecar的功能，协调服务网格中所有服务的出入站流量，并提供服务发现、负载均衡、限流熔断等能力，还可以收集大量与流量相关的性能指标。</p>
+</li>
+<li><p>Pilot：负责部署在service mesh中的Envoy实例的生命周期管理。本质上是负责流量管理和控制， 是将流量和基础设施扩展解耦，这是Istio的核心。感性上，可以把Pilot看做是管理sidecar的 sidecar, 但是这个特殊的sidacar并不承载任何业务流量。</p>
+</li>
+<li><p>Mixer：Mixer 是一个独立于平台的组件，负责在服务网格上执行访问控制和使用策略，并从 Envoy 代理和其他服务收集遥测数据，Mixer可以认为是其他后端基础设施（如数据库、监控、 日志、配额等）的sidecar proxy。</p>
+</li>
+<li><p>Citadel：Citadel 通过内置身份和凭证管理可以提供强大的服务间和最终用户身份验证。可用于升级服务网格中未加密的流量，并为运维人员提供基于服务标识而不是网络控制的强制执行策略的能力</p>
+</li>
+</ul>
+<h4 id="第二章-为什么需要Service-Mesh"><a href="#第二章-为什么需要Service-Mesh" class="headerlink" title="第二章 为什么需要Service Mesh"></a>第二章 为什么需要Service Mesh</h4><h5 id="2-1-Service-Mesh典型场景"><a href="#2-1-Service-Mesh典型场景" class="headerlink" title="2.1 Service Mesh典型场景"></a>2.1 Service Mesh典型场景</h5><p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211130102403500.png" srcset="/img/loading.gif" lazyload alt="image-20211130102403500"></p>
+<ul>
+<li>Service Mesh 并非新出现的功能。Web 应用程序一直需要自己管理复杂的服务间通信， Service Mesh 的起源可以追溯到过去十五年来这些应用的发展。</li>
+<li>当微服务存在多语言场景，底层并非使用SpringBoot框架开发，旧系统微服务化，希望服务框架的升级无需业务联动升级都推荐使用Service Mesh方式。</li>
+</ul>
+<h5 id="2-2-Service-Mesh优势"><a href="#2-2-Service-Mesh优势" class="headerlink" title="2.2 Service Mesh优势"></a>2.2 Service Mesh优势</h5><ul>
+<li><p>Service Mesh优势？</p>
+<ul>
+<li>轻量级网络代理</li>
+<li>应用程序无感知</li>
+<li>多编程语言应用兼容。</li>
+<li>业务代码零侵入，代码无须改造。</li>
+<li>解耦应用程序的重试、超时、监控、追踪和服务发现；</li>
+<li>实施便利：在mesh部署完成后，应用仅需退回原始的直接调用模式即可使用mesh带来的收益。</li>
+</ul>
+</li>
+<li><p>如果用一句话来解释什么是 Service Mesh，可以将它比作是应用程序或者说微服务间的 TCP/IP， 负责服务之间的网络调用、限流、熔断和监控。对于编写应用程序来说一般无须关心 TCP/IP 这 一层（比如通过 HTTP 协议的 RESTful 应用），同样使用 Service Mesh 也就无须关心服务之间 的那些原来是通过应用程序或者其他框架实现的事情，比如 Spring Cloud、OSS，现在只要交 给 Service Mesh 就可以了。</p>
+</li>
+<li><p>微服务更像是一个服务之间的生态，专注于服务治理等方面，而服务网格更专注于服务之间的通信，以及和 DevOps 更好的结合。</p>
+</li>
+<li><p>优点主要有几点：</p>
+<ul>
+<li>应用内部不必再嵌入复杂的微服务Client：应用不再涉及框架相关的服务发现等功能，每个接口仅需配置一个本地地址进行调用，不必知道集群的情况。</li>
+<li>语言无关：由于不需嵌入语言特定的Client，使用标准协议通信的双方均可由任意语言编写， 即使是外采的二进制系统，也可以简单的嵌入集群中。</li>
+<li>大量减少应用间连接数，数据库连接数：同一主机的调用方所涉及的连接可以被Proxy连接复用，因此应用间连接数可大幅减少，同时也避免避免微服务带来的数据库连接数爆炸问题。</li>
+<li>提升通信加密的效率：可以将通信加密统一放置于由高运行性能语言编写的Proxy上，而非由运行效率较低的应用来进行。</li>
+<li>调用过程的集中诊断：由于请求均通过Proxy进行，可以便利的进行统计并收集日志、报文等。</li>
+<li>运维控制的统一认证和调度：由于服务发现和调用路由放置在了独立的系统中，运维可以完全掌控调用的过程，包括设置调用的路径，调用权限等。</li>
+<li>容器友好：service mesh框架同K8S等编排系统集成度较高，可无缝协同运行。</li>
+<li>实施便利：mesh部署完成后，应用仅需退回原始的直接调用模式即可使用mesh带来的收益。</li>
+</ul>
+</li>
+</ul>
+<h4 id="第三章-TSF-Service-Mesh架构"><a href="#第三章-TSF-Service-Mesh架构" class="headerlink" title="第三章 TSF Service Mesh架构"></a>第三章 TSF Service Mesh架构</h4><h5 id="3-1-TSF-Mesh简介"><a href="#3-1-TSF-Mesh简介" class="headerlink" title="3.1 TSF Mesh简介"></a>3.1 TSF Mesh简介</h5><ul>
+<li>TSF Mesh是腾讯云TSF团队遵循Service Mesh设计理念，基于CNCF云原生开源软件Istio/envoy进行构建的一款服务框架产品。</li>
+<li>TSF Mesh与开源ServiceMesh相比具有如下优势：<ul>
+<li>与k8s解耦，能同时支持虚拟机及容器服务进行部署及互通；</li>
+<li>与SpringCloud应用可无缝对接互通;</li>
+<li>支持API级别的服务治理;</li>
+<li>支持基于本地配置及远程配置的服务定义及自动注册。</li>
+</ul>
+</li>
+<li>TSF Service Mesh (以下简称为 TSF Mesh) 是一个基础设施层，用于处理服务间的通信。TSF Mesh 是由一系列轻量级网络代理组成，这些代理（又称 sidecar），与应用程序部署在一起， 而应用程序不感知 sidecar 的存在。</li>
+<li>TSF Mesh 是处于 TCP / IP 之上的一个抽象层。TCP 解决了网络端点键字节传输问题，TSF Mesh 解决服务节点间请求的路由问题。</li>
+<li>TSF Mesh 具有如下优势：<ul>
+<li>多编程语言应用兼容；</li>
+<li>业务代码零侵入，代码无须改造。</li>
+</ul>
+</li>
+<li>CNCF，全称Cloud Native Computing Foundation（云原生计算基金会），口号是坚持和整合开源技术来编排容器作为微服务架构的一部分 ，其作为致力于云原生应用推广和普及的一支重要力量。</li>
+<li>Istio主要由Envoy、Pilot、Mixer三部分组成<ul>
+<li>Envoy：以sidecar的形式和应用程序运行与同一个pod中，通过修改iptables来代理应用程序的所有出入流量</li>
+<li>Pilot：接受系统管理员发出的指令或者规则，遥控所有Envoy的行为</li>
+<li>Mixer：从Envoy处获取流量属性，根据自定义的属性匹配规则进行流量处理，如：流量限制、 日志记录等</li>
+</ul>
+</li>
+</ul>
+<h5 id="3-2-TSF-Mesh架构"><a href="#3-2-TSF-Mesh架构" class="headerlink" title="3.2 TSF Mesh架构"></a>3.2 TSF Mesh架构</h5><ul>
+<li>TSF Mesh整体架构：</li>
+</ul>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211130105736218.png" srcset="/img/loading.gif" lazyload alt="image-20211130105736218"></p>
+<ul>
+<li>TSF Mesh的整体架构如上图；</li>
+<li>TSF Mesh组网架构从逻辑上划分为控制面和数据面两大部分<ul>
+<li>控制面主要提供配置及控制指令支撑sidecar的正常运行</li>
+<li>数据面主要是提供通信代理（sidecar）来进行透明的服务调用，支撑正常的业务流程</li>
+</ul>
+</li>
+</ul>
+<h6 id="3-2-1-基本实现原理"><a href="#3-2-1-基本实现原理" class="headerlink" title="3.2.1 基本实现原理"></a>3.2.1 基本实现原理</h6><p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211130110158397.png" srcset="/img/loading.gif" lazyload alt="image-20211130110158397"></p>
+<ul>
+<li>控制面，数据面架构如上图；</li>
+<li>控制面组件<ul>
+<li>api-server：提供mesh的对外REST API入口，通过API可以进行mesh的功能配置管理</li>
+<li>pilot：mesh调度控制中心，提供服务注册信息、以及服务配置下发，以控制数据面组件的功能</li>
+<li>mixer：mesh策略控制及采集分析中心，提供访问策略控制的能力</li>
+</ul>
+</li>
+<li>数据面组件 (sidecar)<ul>
+<li>pilot-agent：负责环境的初始化及清理，envoy/mesh-dns的生命周期管理</li>
+<li>envoy：数据面，通信代理，提供服务与服务之间RPC通信的能力</li>
+<li>mesh-dns：提供mesh的组件及业务服务的本地域名解析的能力</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211130110747167.png" srcset="/img/loading.gif" lazyload alt="image-20211130110747167"></p>
+<ul>
+<li>实现原理如下：<ul>
+<li>Proxy，Pilot-agent组件在虚拟机创建或者容器创建的时候已经安装好了，应用（如上图中的 ServiceA ，ServiceB）部署到虚拟机/容器时，Pilot-agent会根据应用中的服务描述文件自动进行服务注册，最终通过Pilot把服务与配置注册到Consul 服务注册中心。</li>
+<li>Proxy使用envoy原生的健康上报能力把节点健康信息上报到Pilot中；同时提供服务发现功能； Proxy通过修改iptables代理了应用（如上ServiceA，ServiceB）的所有出入流量。</li>
+<li>如上图ServiceA要访问ServiceB是通过服务名称访问，其中就涉及到Mesh-dns（数据面组件， 提供mesh的组件及业务服务的本地域名解析的能力），首先访问会经过的Mesh-dns组件进行解析，解析完对应的服务名称以后就可以找到对应的服务节点进行访问。</li>
+<li>APIServer对接Consul，负责配置的CURD，屏蔽底层配置中心，对外提供简单的REST接口；</li>
+</ul>
+</li>
+</ul>
+<h6 id="3-2-2-服务寻址"><a href="#3-2-2-服务寻址" class="headerlink" title="3.2.2 服务寻址"></a>3.2.2 服务寻址</h6><p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211130111859206.png" srcset="/img/loading.gif" lazyload alt="image-20211130111859206"></p>
+<ul>
+<li>Mesh-dns解析如上图：<ul>
+<li>应用（app）发起的请求通过iptables重定向到mesh-dns，mesh-dns解析服务名后就可以找到对应的服务节点；</li>
+<li>如果不是服务名访问的方式会升级到其它非服务名DNS服务器解析，从而兼容服务名访问与非服务名访问方式；</li>
+<li>mesh-dns 通过 inotify 监听 /etc/resolv.conf，可以随时获取环境中 dns 配置的更改。</li>
+</ul>
+</li>
+</ul>
+<h4 id="第四章-TSF接入Service-Mesh应用"><a href="#第四章-TSF接入Service-Mesh应用" class="headerlink" title="第四章 TSF接入Service Mesh应用"></a>第四章 TSF接入Service Mesh应用</h4><h5 id="4-1-基本实现原理"><a href="#4-1-基本实现原理" class="headerlink" title="4.1 基本实现原理"></a>4.1 基本实现原理</h5><ul>
+<li><p>TSF Mesh实现原理：</p>
+<ul>
+<li>TSF Mesh 可以代理使用云服务器或者容器部署的应用。</li>
+<li>Sidecar 和服务运行在同一个 Pod 中，与 Pod 共享网络。</li>
+<li> Sidecar 与服务的关系如下：</li>
+<li>Sidecar 代理服务向注册中心注册服务相关信息，以便其他服务发现自身。</li>
+<li>Sidecar 作为 Pod 内服务的 HTTP 代理，可以自动发现其他服务。</li>
+</ul>
+</li>
+<li><p>TSF Mesh的基本实现原理参照3.2内容。</p>
+</li>
+</ul>
+<h5 id="4-2-TSF-Mesh使用场景"><a href="#4-2-TSF-Mesh使用场景" class="headerlink" title="4.2 TSF Mesh使用场景"></a>4.2 TSF Mesh使用场景</h5><ul>
+<li>TSF Mesh 主要有三种使用场景：<ol>
+<li>仅服务消费者作为 Mesh 应用部署。</li>
+<li>仅服务提供者作为 Mesh 应用部署。</li>
+<li>服务消费者和服务提供者均作为 Mesh 应用部署</li>
+</ol>
+</li>
+</ul>
+<h6 id="4-2-1-TSF-Mesh使用场景1"><a href="#4-2-1-TSF-Mesh使用场景1" class="headerlink" title="4.2.1 TSF Mesh使用场景1"></a>4.2.1 TSF Mesh使用场景1</h6><ul>
+<li><p>仅服务消费者作为 Mesh 应用部署</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211130113943384.png" srcset="/img/loading.gif" lazyload alt="image-20211130113943384"></p>
+</li>
+<li><p>服务提供者使用 TSF-Spring Cloud 框架实现，注册到服务注册中心；</p>
+</li>
+<li><p>服务消费者作为 Mesh 应用部署，由 Sidecar 注册到服务注册中心。</p>
+</li>
+</ul>
+<h6 id="4-2-2-TSF-Mesh使用场景2"><a href="#4-2-2-TSF-Mesh使用场景2" class="headerlink" title="4.2.2 TSF Mesh使用场景2"></a>4.2.2 TSF Mesh使用场景2</h6><ul>
+<li><p>仅服务提供者作为 Mesh 应用部署</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211130114154373.png" srcset="/img/loading.gif" lazyload alt="image-20211130114154373"></p>
+</li>
+<li><p>服务提供者作为 Mesh 应用部署，由 Sidecar 注册到服务注册中心；</p>
+</li>
+<li><p>服务消费者使用 TSF-Spring Cloud 框架实现，注册到服务注册中心。</p>
+</li>
+</ul>
+<h6 id="4-2-3-TSF-Mesh使用场景3"><a href="#4-2-3-TSF-Mesh使用场景3" class="headerlink" title="4.2.3 TSF Mesh使用场景3"></a>4.2.3 TSF Mesh使用场景3</h6><ul>
+<li><p>服务消费者和服务提供者均作为 Mesh 应用部署</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211130114304350.png" srcset="/img/loading.gif" lazyload alt="image-20211130114304350"></p>
+</li>
+<li><p>服务提供者作为 Mesh 应用部署，由 Sidecar 注册到服务注册中心；</p>
+</li>
+<li><p>服务消费者作为 Mesh 应用部署，由 Sidecar 注册到服务注册中心。</p>
+</li>
+</ul>
+<h5 id="4-3-TSF-Mesh应用接入"><a href="#4-3-TSF-Mesh应用接入" class="headerlink" title="4.3 TSF Mesh应用接入"></a>4.3 TSF Mesh应用接入</h5><ul>
+<li><p>Demo示例说明</p>
+</li>
+<li><p>Demo for Python 提供了 3 个 Python 应用及 Dockerfile：</p>
+<ul>
+<li>user</li>
+<li>shop</li>
+<li>promotion</li>
+</ul>
+</li>
+<li><p>3个应用之间的调用关系是：user =&gt; shop =&gt; promotion</p>
+</li>
+<li><p>虚拟机demo下载地址：</p>
+<p><a target="_blank" rel="noopener" href="https://main.qcloudimg.com/raw/cfc64e09c79e05581275ad6baaa1b20c/tsf_python_vm">https://main.qcloudimg.com/raw/cfc64e09c79e05581275ad6baaa1b20c/tsf_python_vm</a>_ demo-1108.zip</p>
+</li>
+<li><p>容器部署demo下载地址：</p>
+<p><a target="_blank" rel="noopener" href="https://main.qcloudimg.com/raw/449b92688fabd8903e1486f1d00577be/tsf_python_doc">https://main.qcloudimg.com/raw/449b92688fabd8903e1486f1d00577be/tsf_python_doc</a> ker_demo-1115.zip</p>
+</li>
+<li><p>开发说明：</p>
+<ul>
+<li><p>以 Python 应用说明如何改造来接入 TSF。Python 服务代码本身不需要修改，只需要修改服务间调用的 host。</p>
+</li>
+<li><p>Mesh 应用接入步骤：</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211130115005183.png" srcset="/img/loading.gif" lazyload alt="image-20211130115005183"></p>
+</li>
+</ul>
+</li>
+<li><p>Demo工程详细概述：</p>
+<p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/document/product/649/30436">https://cloud.tencent.com/document/product/649/30436</a></p>
+</li>
+<li><p>下面以 Python 应用为例说明如何改造代码来接入 TSF。Python 服务代码本身不需要修改，只需要修改服务间调用的 host。</p>
+<ul>
+<li><p> 将原来的 IP:Port 替换为服务名。</p>
+</li>
+<li><p>端口使用 80 或者 443。</p>
+</li>
+<li><p>其他代码不做修改。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h6 id="4-3-1-开发说明"><a href="#4-3-1-开发说明" class="headerlink" title="4.3.1 开发说明"></a>4.3.1 开发说明</h6><ul>
+<li><p>步骤一：</p>
+<ul>
+<li>开发Python应用（以虚拟机 tsf_python_vm_demo项目为例）：<ul>
+<li>userService.py 和 common.py：Python 应用程序</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>步骤二：</p>
+<ul>
+<li><p>修改应用中IP:Port访问方式为服务名访问<img src="https://gitee.com/divemaven/git-project/raw/master/image-20211130145504240.png" srcset="/img/loading.gif" lazyload alt="image-20211130145504240"></p>
+</li>
+<li><p>此处把ip地址访问改为服务名访问以后，后续所有的访问服务方式的调用都会被Sidecar代理拦截， 拦截后会先经过mesh-dns进行本地域名解析（此处名称就是服务的名称，也可以理解为就是本地域名)，最终就可以找到对应的服务节点。</p>
+</li>
+<li><p>其中第一行sidecarPort = 80；这里的sidecarPort 只是命名而已，应用在改造之前只是Python 应用程序，无需任何跟Mesh相关的开发。</p>
+</li>
+<li><p>虚拟机demo下载地址：</p>
+<p><a target="_blank" rel="noopener" href="https://main.qcloudimg.com/raw/cfc64e09c79e05581275ad6baaa1b20c/tsf_python_vm">https://main.qcloudimg.com/raw/cfc64e09c79e05581275ad6baaa1b20c/tsf_python_vm</a>_ demo-1108.zip</p>
+</li>
+</ul>
+</li>
+</ul>
+<h6 id="4-3-2-开发说明-虚拟机篇"><a href="#4-3-2-开发说明-虚拟机篇" class="headerlink" title="4.3.2 开发说明 - 虚拟机篇"></a>4.3.2 开发说明 - 虚拟机篇</h6><ul>
+<li><p>步骤三：</p>
+<ul>
+<li><p>添加Mesh应用相应脚本（虚拟机部署方式）</p>
+<ul>
+<li><p>start.sh：启动脚本，示例：如图一。<img src="https://gitee.com/divemaven/git-project/raw/master/image-20211130145927804.png" srcset="/img/loading.gif" lazyload alt="image-20211130145927804"></p>
+</li>
+<li><p>stop.sh：停止脚本，示例：如图二。</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211130150007640.png" srcset="/img/loading.gif" lazyload alt="image-20211130150007640"></p>
+</li>
+<li><p>cmdline：检查进程是否存活的文件， 示例：如图三</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211130150048127.png" srcset="/img/loading.gif" lazyload alt="image-20211130150048127"></p>
+</li>
+<li><p>spec.yml：服务描述文件。</p>
+</li>
+<li><p>apis 目录：存放 API 定义的目录。</p>
+</li>
+</ul>
+</li>
+<li><p>此处start.sh；stop.sh脚本只是用来启动应用；应用部署后，启动的时候就会自动调用start.sh脚本，停止的时候就会调用stop.sh脚本。</p>
+</li>
+<li><p>官网文档：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/document/product/649/30436">https://cloud.tencent.com/document/product/649/30436</a></p>
+</li>
+<li><p>具体脚本内容见demo中脚本</p>
+</li>
+<li><p>虚拟机工程目录，以 tsf_python_vm_demo 中的 userService 为例说明虚拟机应用工程目录：</p>
+<ul>
+<li><p>userService.py 和 common.py：Python 应用程序</p>
+</li>
+<li><p>start.sh：启动脚本。</p>
+</li>
+<li><p>stop.sh：停止脚本。</p>
+</li>
+<li><p>cmdline：检查进程是否存活的文件。</p>
+</li>
+<li><p>spec.yml：服务描述文件，具体解释请参考 Mesh 开发使用指引。</p>
+</li>
+<li><p>apis 目录：存放 API 定义的目录， 具体解释请参考 Mesh 开发使用指引。</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h6 id="4-3-3-开发说明-–-容器应用篇"><a href="#4-3-3-开发说明-–-容器应用篇" class="headerlink" title="4.3.3 开发说明 – 容器应用篇"></a>4.3.3 开发说明 – 容器应用篇</h6><ul>
+<li><p>步骤三：</p>
+<ul>
+<li><p>添加Mesh应用相应脚本（容器部署方式）</p>
+</li>
+<li><p>spec.yml：服务描述文件。</p>
+</li>
+<li><p>apis 目录：存放 API 定义的目录。</p>
+</li>
+<li><p>start.sh：在启动脚本中创建 /opt/tsf/app_config/ 目录，然后将 spec.yml 文件和 apis 目 录拷贝到 /opt/tsf/app_config/ 中。</p>
+</li>
+<li><p>start.sh ：目录中 start.sh 脚本来启动 Python 应用。</p>
+</li>
+<li><p>Dockerfile：打包生成镜像文件</p>
+</li>
+<li><p>start.sh注意事项：您需要在容器启动后通过用户程序的启动脚本（start.sh）拷贝目录，不可以在 Dockerfile 中提前拷贝;</p>
+</li>
+<li><p>如下是start.sh示例代码：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">#</span><span class="bash">! /bin/bash</span><br>mkdir -p /opt/tsf/app_config/apis<br>cp /root/app/userService/spec.yaml /opt/tsf/app_config/<br>cp -r /root/app/userService/apis /opt/tsf/app_config/<br>cd /root/app/userService/<br>python ./userService.py 80 1&gt;./logs/user.log 2&gt;&amp;1<br></code></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>容器部署demo下载地址：</p>
+<p><a target="_blank" rel="noopener" href="https://main.qcloudimg.com/raw/449b92688fabd8903e1486f1d00577be/tsf_python_doc">https://main.qcloudimg.com/raw/449b92688fabd8903e1486f1d00577be/tsf_python_doc</a> ker_demo-1115.zip</p>
+</li>
+<li><p>官网文档：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/document/product/649/30436">https://cloud.tencent.com/document/product/649/30436</a></p>
+</li>
+<li><p>容器应用工程目录，以 tsf_python_docker_demo 中的 demo-mesh-user 为例说明容器应用工 程目录。</p>
+<ul>
+<li>Dockerfile：使用 userService 目录中 start.sh 脚本来启动 Python 应用。</li>
+<li>userService目录：基本结构和 tsf_python_vm_demo中 userService 目录类似，除了没有 stop.sh 和 cmdline 文件。</li>
+<li>start.sh：在启动脚本中创建 /opt/tsf/app_config/ 目录，然后将 spec.yml 文件和 apis 目录拷贝到 /opt/tsf/app_config/ 中。</li>
+</ul>
+</li>
+</ul>
+<h6 id="4-3-4-开发说明（续）"><a href="#4-3-4-开发说明（续）" class="headerlink" title="4.3.4 开发说明（续）"></a>4.3.4 开发说明（续）</h6><ul>
+<li><p>步骤四：</p>
+<ul>
+<li>前面的改造是为普通应用转变为Mesh应用提供必要的脚本以及配置信息；</li>
+<li>部署应用到TSF以后，Mesh的所有底层操作由平台完成，只需要部署成功就可以把普通应用转变为Mesh应用:</li>
+</ul>
+</li>
+<li><p>虚拟机部署:</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211130150935619.png" srcset="/img/loading.gif" lazyload alt="image-20211130150935619"></p>
+</li>
+<li><p>容器部署:</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211130151007567.png" srcset="/img/loading.gif" lazyload alt="image-20211130151007567"></p>
+</li>
+<li><p>注意此处是改造原有应用，然后添加对应脚本，为应用转变为TSF Mesh应用提供必要的脚本以及配置信息；应用部署到TSF以后Mesh的所有底层操作都有平台完成，只要完成部署成功以后， 应用就已经转变为Mesh应用。</p>
+</li>
+<li><p>具体部署操作将在下一部分内容介绍；</p>
+</li>
+<li><p>官网文档：</p>
+<ul>
+<li><p>容器部署：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/document/product/649/17930">https://cloud.tencent.com/document/product/649/17930</a></p>
+</li>
+<li><p>虚拟机部署： <a target="_blank" rel="noopener" href="https://cloud.tencent.com/document/product/649/18787">https://cloud.tencent.com/document/product/649/18787</a></p>
+</li>
+</ul>
+</li>
+</ul>
+<h6 id="4-3-5-服务定义和注册"><a href="#4-3-5-服务定义和注册" class="headerlink" title="4.3.5 服务定义和注册"></a>4.3.5 服务定义和注册</h6><ul>
+<li><p>在应用程序所在目录中设置创建 spec.yml 文件，该文件用于描述服务信息</p>
+<ul>
+<li><p>sidecar 制定了服务名、端口号和健康检查URL</p>
+</li>
+<li><p>sidecar 根据服务描述文件将服务注册到注册中心</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs yml"><span class="hljs-attr">apiVersion:</span> <span class="hljs-string">v1</span><br><span class="hljs-attr">kind:</span> <span class="hljs-string">Application</span><br><span class="hljs-attr">spec:</span><br><span class="hljs-attr">services:</span><br><span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">user</span> <span class="hljs-comment"># service name</span><br><span class="hljs-attr">ports:</span><br><span class="hljs-bullet">-</span> <span class="hljs-attr">targetPort:</span> <span class="hljs-number">8091</span><br><span class="hljs-attr">protocol:</span> <span class="hljs-string">http</span><br><span class="hljs-attr">healthCheck:</span><br><span class="hljs-attr">path:</span> <span class="hljs-string">/health</span><br></code></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>TSF Mesh应用可以通过sidecar实现服务注册与发现，这里就需要用到spec.yml配置文件，应用部署启动的时候同时会自动启动Sidecar，在spec.yml配置文件中就定义了服务的相关信息，如服务名，端口，健康检查url等，通过在spec.yml配置的服务名称，端口，Sidecar会自动把服务注册到TSF的服务注册中心，同时也会通过Sidecar代理应用的出入站流量。</p>
+</li>
+</ul>
+<h5 id="4-4-Mesh-应用-API-定义和上报"><a href="#4-4-Mesh-应用-API-定义和上报" class="headerlink" title="4.4 Mesh 应用-API 定义和上报"></a>4.4 Mesh 应用-API 定义和上报</h5><ul>
+<li><p>API 定义文件（如 user.yml)</p>
+<ul>
+<li><p>API 定义文件放在 apis 目录下</p>
+</li>
+<li><p>文件名规则： &lt;服务名&gt;.yml</p>
+</li>
+<li><p>符合 openapi 3.0 规范</p>
+</li>
+<li><p>sidecar 根据api 定义上报到配置中心</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs yml"><span class="hljs-attr">openapi:</span> <span class="hljs-number">3.0</span><span class="hljs-number">.0</span><br><span class="hljs-attr">info:</span><br><span class="hljs-attr">version:</span> <span class="hljs-string">&quot;1.0.0&quot;</span><br><span class="hljs-attr">title:</span> <span class="hljs-string">user</span> <span class="hljs-string">service</span><br><span class="hljs-attr">paths:</span><br><span class="hljs-string">/api/v6/user/create:</span><br><span class="hljs-attr">get:</span><br><span class="hljs-attr">responses:</span><br><span class="hljs-attr">&#x27;200&#x27;:</span><br><span class="hljs-attr">description:</span> <span class="hljs-string">OK</span><br><span class="hljs-attr">&#x27;401&#x27;:</span><br><span class="hljs-attr">description:</span> <span class="hljs-string">Unauthorized</span><br><span class="hljs-attr">&#x27;402&#x27;:</span><br><span class="hljs-attr">description:</span> <span class="hljs-string">Forbidden</span><br><span class="hljs-attr">&#x27;403&#x27;:</span><br><span class="hljs-attr">description:</span> <span class="hljs-string">Not</span> <span class="hljs-string">Found</span><br></code></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>TSF 支持 Mesh 应用 API 上报功能。在应用程序所在目录中创建 apis 目录，用来放置服务的 API 定义。一个服务对应一个 yaml 文件，文件名就是服务名，如 petstore 服务对应的配置是 petstore.yaml。API 遵循 OPENAPI 3.0 规范 。user.yml 的 API 定义如上述代码所示：</p>
+</li>
+<li><p>官网文档：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/document/product/649/19049%EF%BC%88%E5%8F%82%E8%80%83%E5%85%B6%E4%B8%AD%E7%9A%84API">https://cloud.tencent.com/document/product/649/19049（参考其中的API</a> 定义和上报）</p>
+</li>
+<li><p>添加API配置文件后，在TSF的服务详情界面可以显示api列表。</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211130151701522.png" srcset="/img/loading.gif" lazyload alt="image-20211130151701522"></p>
+</li>
+<li><p>在定义了API配置文件后，框架会自动将接口注册到服务注册中心，实现接口级别的路由、鉴权和限流。</p>
+</li>
+</ul>
+<h5 id="4-5-Mesh-应用-服务治理功能"><a href="#4-5-Mesh-应用-服务治理功能" class="headerlink" title="4.5 Mesh 应用-服务治理功能"></a>4.5 Mesh 应用-服务治理功能</h5><ul>
+<li><p>Mesh 应用支持服务限流、服务鉴权、服务路由功能，无须额外依赖 SDK</p>
+</li>
+<li><p>Mesh 支持通过 HTTP Header 设置自定义标签</p>
+<ul>
+<li><p>以 Python 应用为例说明如何设置自定义标签，如下代码：（其中第三行代码： custom-key是自定义标签的名称，custom-value是自定义标签的值）。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-keyword">import</span> requests<br><span class="hljs-meta">&gt;&gt;&gt; </span>url = <span class="hljs-string">&#x27;https://api.github.com/some/endpoint&#x27;</span><br><span class="hljs-meta">&gt;&gt;&gt; </span>headers = &#123;<span class="hljs-string">&#x27;custom-key&#x27;</span>: <span class="hljs-string">&#x27;custom-value&#x27;</span>&#125;<br><span class="hljs-meta">&gt;&gt;&gt; </span>r = requests.get(url, headers=headers)<br></code></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>具体操作步骤会在TSF服务治理中介绍，这里大家先了解概念即可</p>
+</li>
+</ul>
+<h5 id="4-6-Mesh-应用-采集日志"><a href="#4-6-Mesh-应用-采集日志" class="headerlink" title="4.6 Mesh 应用-采集日志"></a>4.6 Mesh 应用-采集日志</h5><ul>
+<li>创建日志配置项时，选择日志格式为“无解析规则”，会使用日志采集时 间作为日志检索时的时间参数</li>
+<li>官网文档：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/document/product/649/18196">https://cloud.tencent.com/document/product/649/18196</a></li>
+<li>具体操作步骤会在TSF的日志管理功能中详细介绍。</li>
+</ul>
+<h4 id="思考题"><a href="#思考题" class="headerlink" title="思考题"></a>思考题</h4><p>Service Mesh的应用场景有哪些？</p>
+<p>相对于Spring Cloud框架，Service Mesh有哪些独特的优势？</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%95%99%E7%A8%8B/">教程</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">微服务</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/11/30/%E5%85%AD%E3%80%81TSF%E5%B9%B3%E5%8F%B0%E7%AE%A1%E7%90%86%E8%83%BD%E5%8A%9B/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">六、TSF平台管理能力</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/11/19/%E5%9B%9B%E3%80%81TSF%E4%B8%8ESpring-cloud%E7%9A%84%E9%9B%86%E6%88%90/">
+                        <span class="hidden-mobile">四、TSF与Spring cloud的集成</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

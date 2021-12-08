@@ -1,0 +1,1195 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="在介绍完TSF的运维管理能力以后，我们接下来看一下TSF的服务治理功能。">
+  <meta name="author" content="Mike">
+  <meta name="keywords" content="">
+  <meta name="description" content="在介绍完TSF的运维管理能力以后，我们接下来看一下TSF的服务治理功能。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="九、TSF服务治理">
+<meta property="og:url" content="http://example.com/2021/12/02/%E4%B9%9D%E3%80%81TSF%E6%9C%8D%E5%8A%A1%E6%B2%BB%E7%90%86/index.html">
+<meta property="og:site_name" content="KeepDive">
+<meta property="og:description" content="在介绍完TSF的运维管理能力以后，我们接下来看一下TSF的服务治理功能。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211202170132555.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211202171358609.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211202171847331.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211202172059493.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211202172159941.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211202173105996.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211202174810728.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211202175343067.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211202175822199.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211202181653474.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211202181909263.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211202182154734.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211202182314496.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211202182458533.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211202182601520.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211202182751252.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211202183633682.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211202183931960.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211202184047378.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211202184058901.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211202184212849.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211202184943788.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211202185051639.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211203100311394.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211203100510558.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211203100632559.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211203100742051.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211203100921263.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211203101056321.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211203101336698.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211203103734571.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211203105140575.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211203110549101.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211203111741031.png">
+<meta property="article:published_time" content="2021-12-02T08:49:40.000Z">
+<meta property="article:modified_time" content="2021-12-03T03:20:43.373Z">
+<meta property="article:author" content="Mike">
+<meta property="article:tag" content="TSF">
+<meta property="article:tag" content="微服务">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211202170132555.png">
+  
+  <title>九、TSF服务治理 - KeepDive</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>KeepDive</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="九、TSF服务治理">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-author" aria-hidden="true"></i>
+      Mike
+    </span>
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-12-02 16:49" pubdate>
+        2021年12月2日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      11k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      35 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">九、TSF服务治理</h1>
+            
+            <div class="markdown-body">
+              <h3 id="九、TSF服务治理"><a href="#九、TSF服务治理" class="headerlink" title="九、TSF服务治理"></a>九、TSF服务治理</h3><p>在介绍完TSF的运维管理能力以后，我们接下来看一下TSF的服务治理功能。</p>
+<h4 id="学习目标"><a href="#学习目标" class="headerlink" title="学习目标"></a>学习目标</h4><p>通过本文的学习，你将可以：</p>
+<ul>
+<li>掌握服务基本操作</li>
+<li>掌握服务鉴权概述与基本操作</li>
+<li>了解服务限流</li>
+<li>掌握服务路由基本原理</li>
+<li>掌握服务路由使用方法</li>
+<li>了解服务路由最佳实践</li>
+</ul>
+<h4 id="第一章-服务基本操作"><a href="#第一章-服务基本操作" class="headerlink" title="第一章 服务基本操作"></a>第一章 服务基本操作</h4><p>首先我们来看一下在TSF平台中的服务基本操作</p>
+<h5 id="1-1-服务发现"><a href="#1-1-服务发现" class="headerlink" title="1.1 服务发现"></a>1.1 服务发现</h5><ul>
+<li><p>Spring Cloud、Dubbo、Mesh都可以在服务注册中心直接发现服务，并展示在服务列表中。</p>
+</li>
+<li><p>创建服务的服务名和注册中心服务一致时，会认为是同一个服务。</p>
+</li>
+<li><p>手动创建服务的应用场景：支持用户在服务上线之前配置服务治理规则。</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211202170132555.png" srcset="/img/loading.gif" lazyload alt="image-20211202170132555"></p>
+</li>
+<li><p>服务发现通俗的讲就是不同服务查找发现其它服务的过程。</p>
+</li>
+<li><p>微服务框架，如Spring Cloud,Dubbo,TSF都提供了服务注册中心。通过服务注册中心微服务可 以很简单的发现其它服务。</p>
+</li>
+</ul>
+<h5 id="1-2-服务治理概述"><a href="#1-2-服务治理概述" class="headerlink" title="1.2 服务治理概述"></a>1.2 服务治理概述</h5><ul>
+<li>服务治理：<ul>
+<li>用于对用户运行业务的统一管理，包含对线上流量的管控、服务监控与告警、权限的 限制、抑制线上突发情况等。</li>
+<li>TSF提供了一个统一的入口对线上服务进行管理。</li>
+</ul>
+</li>
+<li>现阶段 TSF 服务治理功能包含：<ul>
+<li>服务鉴权</li>
+<li>服务路由</li>
+<li>服务限流</li>
+</ul>
+</li>
+<li>通过服务注册中心解决了服务发现的问题后，接下来就可以对服务进行治理，比如对已经注册的服务进行监控告警，权限控制等。</li>
+</ul>
+<h5 id="1-2-服务治理概述-续"><a href="#1-2-服务治理概述-续" class="headerlink" title="1.2 服务治理概述(续)"></a>1.2 服务治理概述(续)</h5><ul>
+<li>常见服务治理能力实现的功能：<ul>
+<li>设置服务访问权限控制：白名单黑名单</li>
+<li>设置带有某些标签的请求访问控制</li>
+<li>设置流量最大限制，保护核心服务</li>
+<li>灰度发布、蓝绿发布</li>
+<li>部分用户内测功能</li>
+<li>就近IP访问</li>
+<li>容灾与熔断</li>
+<li>服务API的管理</li>
+</ul>
+</li>
+<li>灰度发布：灰度发布是指在黑与白之间，能够平滑过渡的一种发布方式。AB Test 就是一种灰度 发布方式，让一部分用户继续用 A，一部分用户开始用 B，如果用户对 B 没有什么反对意见，那 么逐步扩大范围，把所有用户都迁移到 B 上面来。灰度发布可以保证整体系统的稳定，在初始灰度的时候就可以发现、调整问题，以保证其影响度。</li>
+<li>蓝绿发布：蓝绿部署是不停老版本，部署新版本然后进行测试。确认OK后将流量切到新版本，然后老版本同时也升级到新版本。</li>
+<li>服务容灾与熔断：服务器故障死机，服务雪崩，网络环境恶劣等都属于服务事故，为了避免出现服务的雪崩，我们需要对服务做容灾/熔断处理等策略避免导致服务不可用对用户造成影响。 2015年9月7日，上交所、深交所、中金所宣布，拟在保留现有个股涨跌幅制度前提下，引入指数熔断机制。随后A股联系两天下跌熔断，提前收盘。其中这里的熔断机制和我们今天讨论的熔 断器思路一致，但是反而导致了A股暴跌，这也说明了我们还是得从根源产出高可用的服务，而 不是依赖某些外部措施帮助我们提高可用性。</li>
+</ul>
+<h6 id="1-2-1-API列表"><a href="#1-2-1-API列表" class="headerlink" title="1.2.1 API列表"></a>1.2.1 API列表</h6><ul>
+<li>查看服务提供哪些 API</li>
+<li>查看 API 的详情</li>
+<li>TSF提供了API列表功能，用户登录TSF控制台以后可以在服务治理中查看对应的服务，点击进入具体服务后可以查看当前服务的AIP列表。</li>
+</ul>
+<h6 id="1-2-2-API列表-（Spring-Cloud）"><a href="#1-2-2-API列表-（Spring-Cloud）" class="headerlink" title="1.2.2 API列表 （Spring Cloud）"></a>1.2.2 API列表 （Spring Cloud）</h6><ul>
+<li><p>Spring Cloud应用如果需要使用TSF平台的API列表功能，需执行如下操作：</p>
+<ul>
+<li><p>在项目根路径下的pom.xml 配置文件中引用如下依赖项：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.tencent.tsf<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-tsf-swagger<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.1.2-RELEASE<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span> <span class="hljs-comment">&lt;!-- 调整为 SDK 最新版本号 --&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>compile<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></td></tr></table></figure></li>
+<li><p>在代码中无须额外设置</p>
+</li>
+</ul>
+</li>
+<li><p>TSF 框架在微服务注册时，会自动收集并注册微服务提供的 API 接口，用户可通过 TSF 控制台实 时掌握当前微服务提供的 API 情况。API 注册功能基于 OpenApi Specification 3.0 规范注册 API 元数据信息。 用户在查看 API 接口的同时，可查看到 API 出入参数据结构信息。</p>
+</li>
+<li><p> 添加依赖包后，TSF API 注册功能即生效。</p>
+</li>
+</ul>
+<h6 id="1-2-3-API列表-（Mesh）"><a href="#1-2-3-API列表-（Mesh）" class="headerlink" title="1.2.3 API列表 （Mesh）"></a>1.2.3 API列表 （Mesh）</h6><ul>
+<li><p>若Mesh应用需要使用TSF的API列表查询功能，需执行如下操作：</p>
+<ul>
+<li><p>在 Mesh 应用中创建apis目录，在目录中创建 API 描述文件（如：user.yaml）</p>
+</li>
+<li><p>API 描述文件格式参考下图</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211202171358609.png" srcset="/img/loading.gif" lazyload alt="image-20211202171358609"></p>
+</li>
+</ul>
+</li>
+<li><p>API 定义和上报：TSF 支持 Mesh 应用 API 上报功能。在应用程序所在目录中创建 apis 目录， 用来放置服务的 API 定义。一个服务对应一个 yaml 文件，文件名就是服务名，如 petstore 服 务对应的配置是 petstore.yaml。API 遵循 OPENAPI 3.0 规范 。配置文件遵循</p>
+</li>
+<li><p>官网文档：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/document/product/649/19049">https://cloud.tencent.com/document/product/649/19049</a></p>
+</li>
+</ul>
+<h6 id="1-2-4-标签设置"><a href="#1-2-4-标签设置" class="headerlink" title="1.2.4 标签设置"></a>1.2.4 标签设置</h6><ul>
+<li>标签：<ul>
+<li>用于信息分类，</li>
+</ul>
+</li>
+<li>使用场景包括：<ul>
+<li>服务鉴权：被调方通过标签决定是否提供服务。</li>
+<li>服务路由：通过标签判断应该访问什么服务，可用于金丝雀发布。</li>
+<li>服务限流：通过标签判断应用应该限制哪些请求。</li>
+<li>调用链：可用于调用链的筛选和附带业务信息。</li>
+</ul>
+</li>
+<li>标签主要用于信息分类，比如：给某个接口打上标签，后续在使用的时候可以根据标签进行鉴权， 路由操作。</li>
+</ul>
+<h6 id="1-2-5-标签设置（Spring-Cloud）"><a href="#1-2-5-标签设置（Spring-Cloud）" class="headerlink" title="1.2.5 标签设置（Spring Cloud）"></a>1.2.5 标签设置（Spring Cloud）</h6><ul>
+<li><p>标签分类：</p>
+<ul>
+<li><p>系统自带标签：不需要代码改动。</p>
+</li>
+<li><p>自定义标签：需要在代码中设置标签内容（KV对）。</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211202171847331.png" srcset="/img/loading.gif" lazyload alt="image-20211202171847331"></p>
+</li>
+</ul>
+</li>
+<li><p>标签分为：系统标签和自定义标签；系统标签是TSF已经定义好的标签（如服务名），可以直接 在TSF控制台使用，无需代码改动；自定义标签是需要在代码中设置的标签，标签以键值对的形 式设置，然后再通过TSF控制台配置使用。</p>
+</li>
+</ul>
+<h6 id="1-2-5-标签设置（Spring-Cloud）-续"><a href="#1-2-5-标签设置（Spring-Cloud）-续" class="headerlink" title="1.2.5 标签设置（Spring Cloud）(续)"></a>1.2.5 标签设置（Spring Cloud）(续)</h6><ul>
+<li><p>自定义标签：需要在代码中设置</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211202172059493.png" srcset="/img/loading.gif" lazyload alt="image-20211202172059493"></p>
+</li>
+<li><p>自定义标签可以在代码中通过TsfContext.putTag(tagName, tagValue);方式设置标签。</p>
+</li>
+</ul>
+<h6 id="1-2-6-标签设置（Mesh）"><a href="#1-2-6-标签设置（Mesh）" class="headerlink" title="1.2.6 标签设置（Mesh）"></a>1.2.6 标签设置（Mesh）</h6><ul>
+<li><p>Mesh 支持通过 HTTP Header 设置自定义标签。</p>
+</li>
+<li><p>下图为 Python 应用中通过 HTTP header 设置自定义标签。</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211202172159941.png" srcset="/img/loading.gif" lazyload alt="image-20211202172159941"></p>
+</li>
+<li><p>Mesh应用对于系统标签的使用跟Spring Cloud应用是一致的；Mesh应用使用自定义标签需要在 http请求的header中设置自定义标签。</p>
+</li>
+</ul>
+<h4 id="第二章-服务鉴权概述与基本操作"><a href="#第二章-服务鉴权概述与基本操作" class="headerlink" title="第二章 服务鉴权概述与基本操作"></a>第二章 服务鉴权概述与基本操作</h4><p>介绍完服务的基本操作，我们接下来看一下TSF中的服务鉴权功能</p>
+<h5 id="2-1-服务鉴权概述"><a href="#2-1-服务鉴权概述" class="headerlink" title="2.1 服务鉴权概述"></a>2.1 服务鉴权概述</h5><ul>
+<li>服务鉴权：<ul>
+<li> 服务鉴权是处理微服务之间相互访问权限问题的解决方案。配置中心下发鉴权规则到服务，当请 求到来时，服务根据鉴权规则判断鉴权结果，如果鉴权通过，则继续处理请求，否则返回鉴权失败的 HTTP 状态码 403（Forbidden）。</li>
+<li>使用场景：<ul>
+<li>控制核心服务（如账户钱财相关服务）的访问权限</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>目前 TSF 提供两种类型的服务鉴权规则：<ul>
+<li>基于黑名单的鉴权规则</li>
+<li>基于白名单的鉴权规则</li>
+</ul>
+</li>
+<li>鉴权规则支持标签形式配置：系统标签，自定义标签</li>
+</ul>
+<h6 id="2-1-1-服务鉴权图解"><a href="#2-1-1-服务鉴权图解" class="headerlink" title="2.1.1 服务鉴权图解"></a>2.1.1 服务鉴权图解</h6><p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211202173105996.png" srcset="/img/loading.gif" lazyload alt="image-20211202173105996"></p>
+<ul>
+<li>上图为基于 标签（Tag）的鉴权流程：<ul>
+<li>在服务消费者的业务代码中设置 标签信息。</li>
+<li>通过 TSF 控制台下发鉴权规则给服务提供者。</li>
+<li>服务消费者在调用服务提供者的接口时，会带上标签信息。服务提供者的鉴权模块会根据鉴 权规则和请求来判断鉴权是否通过，如果通过，继续处理请求；如果不通过，将收到 HTTP 返回码 403（Forbidden）。</li>
+</ul>
+</li>
+</ul>
+<h6 id="2-1-2-黑白名单概述"><a href="#2-1-2-黑白名单概述" class="headerlink" title="2.1.2 黑白名单概述"></a>2.1.2 黑白名单概述</h6><ul>
+<li>白名单：<ul>
+<li>当请求匹配 任意一条 鉴权规则 时，允许调用；否则拒绝调用。</li>
+</ul>
+</li>
+<li>黑名单：<ul>
+<li>当请求匹配 任意一条 鉴权规则 时，拒绝调用；否则允许调用。</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211202174810728.png" srcset="/img/loading.gif" lazyload alt="image-20211202174810728"></p>
+<ul>
+<li>服务鉴权分为二大类：黑名单鉴权方式，白名单鉴权方式，鉴权的基本流程如上图</li>
+</ul>
+<h6 id="2-1-3-黑白名单示例"><a href="#2-1-3-黑白名单示例" class="headerlink" title="2.1.3 黑白名单示例"></a>2.1.3 黑白名单示例</h6><ul>
+<li>白名单鉴权方式示例：<ul>
+<li>如：鉴权规则内容是 username 等于 foo，当请求中带有 username=foo 的 tag 时 ，因为匹配规则，服务允许调用；当请求中带有 username=bar 的 tag 时，因为不匹 配规则，服务拒绝调用。</li>
+</ul>
+</li>
+<li>黑名单鉴权方式示例：<ul>
+<li>如：鉴权规则内容是 username 等于 foo，当请求中带有 username=foo 的 tag 时 ，因为匹配规则，服务拒绝调用；当请求中带有 username=bar 的 tag 时，因为不匹 配规则，服务允许调用。</li>
+</ul>
+</li>
+<li>如上用2个例子来说明二种鉴权方式</li>
+<li> 鉴权规则</li>
+<li>鉴权规则的关系：一个服务可能有多个鉴权规则，多个鉴权规则之间是逻辑或（OR）的关系， 只要请求满足任意一条鉴权规则，就相当于匹配成功。</li>
+<li>逻辑关系与值个数的关系：一条标签中，值的个数与逻辑关系的关系如下：<ul>
+<li>逻辑关系 值个数</li>
+<li>包含（IN）                    多个</li>
+<li>不包含（ NOT IN）       多个</li>
+<li>等于（==）                   一个</li>
+<li>不等于（!=）                 一个</li>
+<li>正则表达式（regex）    一个</li>
+</ul>
+</li>
+</ul>
+<h5 id="2-2-服务鉴权基本操作"><a href="#2-2-服务鉴权基本操作" class="headerlink" title="2.2 服务鉴权基本操作"></a>2.2 服务鉴权基本操作</h5><ul>
+<li><p>服务鉴权功能基本操作步骤：</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211202175343067.png" srcset="/img/loading.gif" lazyload alt="image-20211202175343067"></p>
+</li>
+<li><p>服务鉴权的基本操作如上图所示</p>
+</li>
+</ul>
+<h6 id="2-2-1-配置依赖项"><a href="#2-2-1-配置依赖项" class="headerlink" title="2.2.1 配置依赖项"></a>2.2.1 配置依赖项</h6><ul>
+<li>步骤 一：<ul>
+<li>应用配置依赖项：添加依赖配置<ul>
+<li>Spring Cloud 应用，添加spring-cloud-tsf-auth依赖</li>
+<li>Mesh 应用，无须额外配置</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>对于 Spring Cloud 应用，需要添加spring-cloud-tsf-auth依赖。</li>
+<li>对于 Mesh 应用，无须额外配置。</li>
+<li>官网文档：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/document/product/649/15549">https://cloud.tencent.com/document/product/649/15549</a></li>
+</ul>
+<h6 id="2-2-1-配置依赖项（Spring-Cloud）"><a href="#2-2-1-配置依赖项（Spring-Cloud）" class="headerlink" title="2.2.1 配置依赖项（Spring Cloud）"></a>2.2.1 配置依赖项（Spring Cloud）</h6><ul>
+<li><p>Spring Cloud 应用添加配置项：</p>
+<ul>
+<li><p>在项目工程根目录的pom.xml中添加依赖，具体依赖如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>		<span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.tencent.tsf<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>		<span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-tsf-auth<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>		<span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.1.1-RELEASE<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><span class="hljs-comment">&lt;!-- 调整为 SDK 最新版本号 --&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></td></tr></table></figure></li>
+<li><p>项目启动类上添加@EnableTsfAuth注解，如下图</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211202175822199.png" srcset="/img/loading.gif" lazyload alt="image-20211202175822199"></p>
+</li>
+</ul>
+</li>
+</ul>
+<h6 id="2-2-2-配置鉴权规则"><a href="#2-2-2-配置鉴权规则" class="headerlink" title="2.2.2 配置鉴权规则"></a>2.2.2 配置鉴权规则</h6><ul>
+<li><p>步骤二：</p>
+<ul>
+<li>配置鉴权规则：<ul>
+<li>步骤 1：选择鉴权方式，如白名单</li>
+<li>步骤 2：新建鉴权规则</li>
+<li>步骤 3：填写规则名</li>
+<li>填写鉴权标签：系统标签或者自定义标签</li>
+<li>选择是否立即生效规则</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>可以通过黑名单，白名单的方式添加鉴权规则；</p>
+</li>
+<li><p>在服务详情的【服务鉴权】标签页，选择鉴权方式：</p>
+<ul>
+<li>不启用：关闭鉴权功能。</li>
+<li>白名单：匹配任意一条规则的请求，允许调用。</li>
+<li>黑名单：匹配任意一条规则的请求，拒绝调用。</li>
+</ul>
+</li>
+</ul>
+<h6 id="2-2-3-切换鉴权规则（可选）"><a href="#2-2-3-切换鉴权规则（可选）" class="headerlink" title="2.2.3 切换鉴权规则（可选）"></a>2.2.3 切换鉴权规则（可选）</h6><ul>
+<li><p>步骤三：</p>
+<ul>
+<li>切换鉴权方式：该步骤可以选：从一种鉴权模式切换到另外一种鉴权模式<ul>
+<li>白名单切换到黑名单（或黑名单切换到白名单）：保留鉴权规则，但鉴权逻辑逆转。如果用 户希望切换后，使用新的规则，则需要删除原有的，再创建新的规则。</li>
+<li>白名单（或黑名单）切换到不启用：关闭鉴权功能。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>鉴权的效果检查：设置并启用了鉴权规则以后只需要访问对应的服务，可通过在浏览器访问接口 方式验证，如：启用黑名单，当符合黑名单规则后接口应该不能访问；使用白名单规则：只有在 符合白名单里面的规则才能正常访问接口；</p>
+</li>
+</ul>
+<h4 id="第三章-服务限流概述与基本操作"><a href="#第三章-服务限流概述与基本操作" class="headerlink" title="第三章 服务限流概述与基本操作"></a>第三章 服务限流概述与基本操作</h4><p>接下来我们看一下TSF的服务限流功能</p>
+<h5 id="3-1-服务限流"><a href="#3-1-服务限流" class="headerlink" title="3.1 服务限流"></a>3.1 服务限流</h5><ul>
+<li><p>服务限流：</p>
+<ul>
+<li><p><strong>服务限流主要是保护服务节点或者数据节点，防止瞬时流量过大使服务和数据崩溃， 造成服务不可用。</strong></p>
+</li>
+<li><p>限流原理：</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211202181653474.png" srcset="/img/loading.gif" lazyload alt="image-20211202181653474"></p>
+</li>
+</ul>
+</li>
+<li><p>服务限流目的</p>
+<ul>
+<li>限流主要是保护服务节点或者数据节点，防止瞬时流量过大使服务和数据崩溃，造成服务不可用。当资源成为瓶颈时，服务框架需要对请求做限流，启动流控保护机制</li>
+</ul>
+</li>
+<li><p>服务限流原理</p>
+<ul>
+<li>在服务提供者端配置限流依赖项，在 TSF 控制台配置限流规则。此时服务消费者去调用服务 提供者时，所有的访问请求都会通过限流模块进行计算，若服务消费者调用量在一定时间内超 过了预设阈值，则会触发限流策略，进行限流处理。</li>
+</ul>
+</li>
+<li><p>TSF限流方案</p>
+<ul>
+<li>TSF 限流方案采用了动态配额分配制，限流中控根据实例的历史流量记录，动态计算预测下一时刻该实例的流量，若所有实例的流量预测值都小于额定平均值（总配额/在线实例数），则以该平均值作为所有实例分配的配额；否则按预测流量的比例分配，且保证一个最小值。</li>
+</ul>
+</li>
+</ul>
+<h5 id="3-2-服务限流使用场景"><a href="#3-2-服务限流使用场景" class="headerlink" title="3.2 服务限流使用场景"></a>3.2 服务限流使用场景</h5><ul>
+<li><p>限流粒度-全局限流</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211202181909263.png" srcset="/img/loading.gif" lazyload alt="image-20211202181909263"></p>
+</li>
+<li><p>全局限流：服务设置一个最大的 QPS（每秒请求数） 阈值 T，当服务实际接收到的每秒请求数超 过 T 时，触发限流。</p>
+</li>
+</ul>
+<ul>
+<li><p>限流粒度-标签限流</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211202182154734.png" srcset="/img/loading.gif" lazyload alt="image-20211202182154734"></p>
+</li>
+<li><p>基于标签限流：服务设置【基于标签】的限流规则（更细粒度的限流）</p>
+<ul>
+<li>示例1：设置自定义标签 username=foo 的 QPS 阈值 1000 次/秒，当服务实际接收到的请求中包含了标签username=foo 的 QPS 超过 1000 次/秒 时，触发限流。</li>
+<li>示例2：设置自定义标签 “ username 包含 foo, bar “ 的 QPS 阈值 1000 次/秒，当服务实际 接收到的请求中包含了标签 username=foo 或 username=bar 的 QPS 超过 1000 次/秒 时， 触发限流。</li>
+</ul>
+</li>
+</ul>
+<h5 id="3-3-服务限流实现步骤"><a href="#3-3-服务限流实现步骤" class="headerlink" title="3.3 服务限流实现步骤"></a>3.3 服务限流实现步骤</h5><ul>
+<li><p>服务限流操作步骤：</p>
+<ul>
+<li><p>Mesh 应用：不需要改造代码，如果希望使用基于标签的限流，需要在代码中设置标签</p>
+</li>
+<li><p>Spring Cloud应用：实现步骤如下图：</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211202182314496.png" srcset="/img/loading.gif" lazyload alt="image-20211202182314496"></p>
+</li>
+</ul>
+</li>
+<li><p>Spring Cloud应用实现限流功能操作步骤如上图：</p>
+</li>
+</ul>
+<h6 id="3-3-1-添加服务限流依赖"><a href="#3-3-1-添加服务限流依赖" class="headerlink" title="3.3.1 添加服务限流依赖"></a>3.3.1 添加服务限流依赖</h6><ul>
+<li><p>步骤一：</p>
+<ul>
+<li><p>Spring Cloud项目根目录pom.xml配置文件中添加依赖配置：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>		<span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.tencent.tsf<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>		<span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-tsf-ratelimit<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>		<span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.1.1-RELEASE<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span> <span class="hljs-comment">&lt;!-- 调整为 SDK 最新版本号 --&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></td></tr></table></figure></li>
+<li><p>项目根目录的pom.xml配置文件中添加如上依赖包</p>
+</li>
+</ul>
+</li>
+</ul>
+<h6 id="3-3-2-添加限流注解"><a href="#3-3-2-添加限流注解" class="headerlink" title="3.3.2 添加限流注解"></a>3.3.2 添加限流注解</h6><ul>
+<li><p>步骤二：</p>
+<ul>
+<li><p>Spring Cloud项目启动类中添加 @EnableTsfRateLimit 注解（开启服务限流功能）：</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211202182458533.png" srcset="/img/loading.gif" lazyload alt="image-20211202182458533"></p>
+</li>
+</ul>
+</li>
+</ul>
+<h6 id="3-3-3-新建限流规则并启用"><a href="#3-3-3-新建限流规则并启用" class="headerlink" title="3.3.3 新建限流规则并启用"></a>3.3.3 新建限流规则并启用</h6><ul>
+<li><p>步骤三：</p>
+<ul>
+<li><p>新建限流规则并启用：</p>
+<ul>
+<li><p>全局限流</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211202182601520.png" srcset="/img/loading.gif" lazyload alt="image-20211202182601520"></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>限流规则生效的前提条件：服务列表上有 “在线” 状态的微服务。</p>
+</li>
+<li><p>具体操作步骤：</p>
+<ul>
+<li>登录 TSF 控制台。</li>
+<li>在左侧导航栏，单击【服务治理】。</li>
+<li>在服务列表页，单击服务名，进入服务详情页。</li>
+<li>选择服务限流标签页，单击【新建限流规则】按钮。</li>
+<li>填写限流规则信息。</li>
+</ul>
+</li>
+</ul>
+<h6 id="3-3-3-新建限流规则并启用（续）"><a href="#3-3-3-新建限流规则并启用（续）" class="headerlink" title="3.3.3 新建限流规则并启用（续）"></a>3.3.3 新建限流规则并启用（续）</h6><ul>
+<li><p>步骤三：</p>
+<ul>
+<li><p>新建限流规则并启用：</p>
+<ul>
+<li><p>基于标签限流</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211202182751252.png" srcset="/img/loading.gif" lazyload alt="image-20211202182751252"></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>填写参数说明：</p>
+<ul>
+<li>规则名：填写规则名</li>
+<li>限流粒度：<ul>
+<li>全局限流：不区分限流来源，统计所有请求</li>
+<li>基于标签限流：根据标签规则设置限流</li>
+</ul>
+</li>
+<li>单位时间：正整数，单位：秒</li>
+<li>请求数：正整数，单位：次</li>
+<li>生效状态：是否立即启用限流规则</li>
+<li>描述：填写描述信息</li>
+</ul>
+</li>
+</ul>
+<h6 id="3-3-4-查看限流效果"><a href="#3-3-4-查看限流效果" class="headerlink" title="3.3.4 查看限流效果"></a>3.3.4 查看限流效果</h6><ul>
+<li>步骤四：<ul>
+<li>查看限流效果：<ul>
+<li>如果请求数达到了限流阈值，任何到达的请求都会被限流模块处理</li>
+<li>如果该服务上的配额已经消耗完，会对请求返回 HTTP 429 （Too Many Requests）；否则 会正常放行。用户可以在限流 规则列表下方的请求数-时间图中查看到被限制的请求数或者被限制请求率-时间图中查看到被限 制请求率（计算公式 被限制请求率 = 被限制的请求数 / 请求数）随时间的变化。</li>
+</ul>
+</li>
+<li>可以在浏览器访问接口查看限流效果。</li>
+</ul>
+</li>
+<li>效果查看地址：TSF控制台-》服务治理-》进入具体某个服务-》进入服务限流标签页-》在限流规 则列表的下方可以查看限流效果</li>
+</ul>
+<h4 id="第四章-服务路由基本原理"><a href="#第四章-服务路由基本原理" class="headerlink" title="第四章 服务路由基本原理"></a>第四章 服务路由基本原理</h4><p>接下来我们来看一下TSF的服务路由功能</p>
+<h5 id="4-1-服务路由概述"><a href="#4-1-服务路由概述" class="headerlink" title="4.1 服务路由概述"></a>4.1 服务路由概述</h5><ul>
+<li><p>服务路由：</p>
+<ul>
+<li>符合特定要求的属性来选择服务的提供者，对服务间流量的分配起到掌控的作用</li>
+<li>常见使用场景：<ul>
+<li>灰度发布</li>
+<li>部分账号内测</li>
+<li>按照IP配置流量分配（如本地机房优先规则）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>用户在使用 TSF 运行自己的业务时，由于业务的复杂程度，常常需要部署数目庞大的服务运行在现网环境中。这些服务运行在属性不同的实例上、部署在不同的地域中，用户经常需要选择符合自己特定要求的属性来选择服务的提供者，对服务间流量的分配起到掌控的作用。</p>
+</li>
+<li><p>同时，在微服务的场景下，用户研发新版本上线的迭代周期越来越快，稳定敏捷的上线新版本需 要微服务框架能够支持灰度发布、金丝雀发布、滚动发布等发布方式。通过服务路由功能，用户可以配置流量分配权重，设置某些权重的流量被分配到某个版本号中，为灰度发布等上线模式提供了无需终止服务的底层能力支持。为了保证满足客户的定制化需求，TSF 支持用户定制自己的 路由标签，并支持选择不同的逻辑形式配置标签值，定向分配流量。 总而言之，服务路由功能的主要作用是将调用流量按照自己的需求进行分配。</p>
+</li>
+</ul>
+<h5 id="4-2-服务路由功能"><a href="#4-2-服务路由功能" class="headerlink" title="4.2 服务路由功能"></a>4.2 服务路由功能</h5><ul>
+<li><p>TSF 配置服务路由功能支持以下三种配置来源：</p>
+<ol>
+<li><strong>按照权重方式配置路由规则</strong>。<ul>
+<li>在需要配置服务路由的服务下面，用户可以选择配置流量的权重， 将部分权重的请求流量分配到服务提供方的某个版本下或某个部署组下。</li>
+</ul>
+</li>
+<li><strong>按照系统自带标签的方式进行配置路由规则</strong>。<ul>
+<li>每一个 TSF 上运行的服务都已经被预先设置好了某 些标签，如发起请求的服务消费方所在的部署组、IP、服务发起方的版本号等等。用户可以选择 这些标签，并配置标签值的特定规则，分配带有某些流量的标签到服务提供方的某个部署组上进行处理。在标签值的配置上，用户可以填写“包含、不包含”，“等于、不等于”，正则表达式 等等灵活的规则。</li>
+</ul>
+</li>
+<li><strong>按照用户自定义的标签进行配置路由规则</strong>。<ul>
+<li>TSF提供了用户配置自定义标签的SDK，在实际的使 用中，如果系统自带标签不能保证用户使用的场景，用户可以自定义标签内容，在SDK中进行配 置，并在控制台上配置相同的标签，控制服务消费方提供的流量按照配置的方式流入服务提供方。</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<h5 id="4-3-服务路由使用方法（Spring-Cloud）"><a href="#4-3-服务路由使用方法（Spring-Cloud）" class="headerlink" title="4.3 服务路由使用方法（Spring Cloud）"></a>4.3 服务路由使用方法（Spring Cloud）</h5><ul>
+<li><p>服务路由功能实现步骤：</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211202183633682.png" srcset="/img/loading.gif" lazyload alt="image-20211202183633682"></p>
+</li>
+<li><p>Spring Cloud项目服务路由的实现步骤如上图：</p>
+</li>
+</ul>
+<h6 id="4-3-1-添加依赖"><a href="#4-3-1-添加依赖" class="headerlink" title="4.3.1 添加依赖"></a>4.3.1 添加依赖</h6><ul>
+<li><p>步骤一：</p>
+<ul>
+<li><p>Spring Cloud项目根目录中pom.xml配置文件中添加依赖：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>		<span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.tencent.tsf<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>		<span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-tsf-route<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<h6 id="4-3-2-添加路由启动注解"><a href="#4-3-2-添加路由启动注解" class="headerlink" title="4.3.2 添加路由启动注解"></a>4.3.2 添加路由启动注解</h6><ul>
+<li><p>步骤二：</p>
+<ul>
+<li><p>Spring Cloud项目启动类中添加@EnableTsfRoute注解（开启服务路由功能）：</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211202183931960.png" srcset="/img/loading.gif" lazyload alt="image-20211202183931960"></p>
+</li>
+</ul>
+</li>
+</ul>
+<h6 id="4-3-3-新建路由规则"><a href="#4-3-3-新建路由规则" class="headerlink" title="4.3.3 新建路由规则"></a>4.3.3 新建路由规则</h6><ul>
+<li><p>步骤三：</p>
+<ul>
+<li><p>新建路由规则：</p>
+<ul>
+<li><p>进入服务路由规则界面</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211202184047378.png" srcset="/img/loading.gif" lazyload alt="image-20211202184047378"></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211202184058901.png" srcset="/img/loading.gif" lazyload alt="image-20211202184058901"></p>
+<ul>
+<li>具体操作步骤如下：<ul>
+<li>登录 TSF 控制台。</li>
+<li>选择左侧菜单中【服务治理】菜单项。</li>
+<li>选择需要配置服务路由规则的服务，单击服务名称，进入服务详情页。</li>
+<li>选择服务路由选项，单击【新建路由规则】。</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211202184212849.png" srcset="/img/loading.gif" lazyload alt="image-20211202184212849"></p>
+<ul>
+<li><h6 id="在1-0-10之后的版本中，用户可以混合配置权重和标签，更加精细的控制流量"><a href="#在1-0-10之后的版本中，用户可以混合配置权重和标签，更加精细的控制流量" class="headerlink" title="在1.0.10之后的版本中，用户可以混合配置权重和标签，更加精细的控制流量"></a>在1.0.10之后的版本中，用户可以混合配置权重和标签，更加精细的控制流量</h6></li>
+</ul>
+<h6 id="4-3-3-新建路由规则（续）"><a href="#4-3-3-新建路由规则（续）" class="headerlink" title="4.3.3 新建路由规则（续）"></a>4.3.3 新建路由规则（续）</h6><ul>
+<li>系统标签说明：<ul>
+<li>主调方服务名或应用名：拉取全量服务、应用列表。用途：设置不同主调服务、应用访问不同 版本或者部署组</li>
+<li>主调应用版本号或主调部署组：设置不同版本、不同部署组的调用流量导入不同目的地。用途： 同一个主调服务下细分流量分配</li>
+<li>主调方ip：用户可以使用正则表达式划分ip区间，实现按发起方ip配置流量分配。用途：就近 访问、同地域访问</li>
+<li>被调方api和http method：实现api级别服务路由</li>
+</ul>
+</li>
+</ul>
+<h6 id="4-3-3-新建路由规则（续）-1"><a href="#4-3-3-新建路由规则（续）-1" class="headerlink" title="4.3.3 新建路由规则（续）"></a>4.3.3 新建路由规则（续）</h6><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment">* 设置多个 tag。如果有某个 tag 之前已经被设置过，那么它的</span><br><span class="hljs-comment">值会被覆盖。</span><br><span class="hljs-comment">*/</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">putTags</span><span class="hljs-params">(Map&lt;String, String&gt; tagMap,</span></span><br><span class="hljs-params"><span class="hljs-function">Tag.ControlFlag... flags)</span> </span>&#123;&#125;<br><span class="hljs-comment">/**</span><br><span class="hljs-comment">* 设置单个 tag。如果该 key 之前已经被设置过，那么它的值会</span><br><span class="hljs-comment">被覆盖。</span><br><span class="hljs-comment">*/</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">putTag</span><span class="hljs-params">(String key, String value,</span></span><br><span class="hljs-params"><span class="hljs-function">Tag.ControlFlag... flags)</span> </span>&#123;&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>自定义标签说明<ul>
+<li>自定义标签需要用户代码中设置</li>
+<li>用户代码中需要依赖route，用途：设置用户自定义标签值，如用户账号等信息。</li>
+</ul>
+</li>
+</ul>
+<h6 id="4-3-3-新建路由规则（续）-2"><a href="#4-3-3-新建路由规则（续）-2" class="headerlink" title="4.3.3 新建路由规则（续）"></a>4.3.3 新建路由规则（续）</h6><ul>
+<li>目的地配置：不设置标签的路由流量分配方法：<ul>
+<li>标签设置为空</li>
+<li>所属应用下拉选项为服务绑定的应用。当选择更多 应用时，展示为目前tsf平台下所有应用列表。</li>
+<li>目的地类型：选择部署组表示流量按照部署组进行 导流。选择版本号表示，希望将流量按照不同的版 本进行分配。选择的部署组和版本号都是所在应用 下对应的部署组和版本号</li>
+<li>权重之和必须为100。</li>
+</ul>
+</li>
+<li>常见应用：灰度发布</li>
+</ul>
+<h6 id="4-3-3-新建路由规则（续）-3"><a href="#4-3-3-新建路由规则（续）-3" class="headerlink" title="4.3.3 新建路由规则（续）"></a>4.3.3 新建路由规则（续）</h6><ul>
+<li><p>其他说明</p>
+<ul>
+<li><p>用户可以在同一个路由规则中设置多 个子规则，规则同时生效。</p>
+</li>
+<li><p>用户可以设置子规则优先级。设置优 先级的目的是当一条请求满足多个子 规则时，优先匹配规则的优先级。</p>
+</li>
+<li><p>路由规则列表页面，同时生效一条规则。最多创建10条。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h6 id="4-3-4-服务路由结果展示"><a href="#4-3-4-服务路由结果展示" class="headerlink" title="4.3.4 服务路由结果展示"></a>4.3.4 服务路由结果展示</h6><ul>
+<li>步骤四：<ul>
+<li>服务路由结果展示：</li>
+<li>下图在20：16分开启服务路由，可以看到几分钟内生效效果</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211202184943788.png" srcset="/img/loading.gif" lazyload alt="image-20211202184943788"></p>
+<ul>
+<li>服务路由图形结果展示如上图</li>
+<li>效果查看地址：TSF控制台-》服务治理-》进入具体某个服务-》进入服务路由标签页-》在路由规 则列表的下方可以查看上图流量效果。</li>
+</ul>
+<h5 id="4-4-服务路由容错保护"><a href="#4-4-服务路由容错保护" class="headerlink" title="4.4 服务路由容错保护"></a>4.4 服务路由容错保护</h5><ul>
+<li><p>容错保护开关</p>
+<ul>
+<li>当用户开启容错保护时，流量目的地发生故障时，流量会随机分配给服务下其他部署 组，保证可用性。</li>
+<li>当用户关闭容错保护时，流量目的地发生故障时，流量不会分配其他部署组，会直接报错</li>
+</ul>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211202185051639.png" srcset="/img/loading.gif" lazyload alt="image-20211202185051639"></p>
+</li>
+<li><p>可以通过上图中红色框中按钮开启容错保护</p>
+</li>
+</ul>
+<h4 id="第五章-服务路由最佳实践"><a href="#第五章-服务路由最佳实践" class="headerlink" title="第五章 服务路由最佳实践"></a>第五章 服务路由最佳实践</h4><p>接下来我们来看一下TSF中服务路由的最佳实践</p>
+<h5 id="5-1-灰度发布"><a href="#5-1-灰度发布" class="headerlink" title="5.1 灰度发布"></a>5.1 灰度发布</h5><p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211203100311394.png" srcset="/img/loading.gif" lazyload alt="image-20211203100311394"></p>
+<ul>
+<li>可以通过TSF控制台-》服务治理-》服务路由 然后新建路由规则实现灰度发布，参考4.3内容</li>
+</ul>
+<h5 id="5-1-灰度发布（续）"><a href="#5-1-灰度发布（续）" class="headerlink" title="5.1 灰度发布（续）"></a>5.1 灰度发布（续）</h5><ul>
+<li><p>配置单个服务不同版本的权重规则</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211203100510558.png" srcset="/img/loading.gif" lazyload alt="image-20211203100510558"></p>
+</li>
+<li><p>如上是配置单个服务的不同版本的路由权重规则实现灰度发布，参考4.3.3内容</p>
+</li>
+</ul>
+<h5 id="5-2-同地机房优先"><a href="#5-2-同地机房优先" class="headerlink" title="5.2 同地机房优先"></a>5.2 同地机房优先</h5><p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211203100632559.png" srcset="/img/loading.gif" lazyload alt="image-20211203100632559"></p>
+<ul>
+<li>同地机房优先访问主要是为了解决在异地跨机房调用出现的网络延迟问题，通过路由配置把访问路由到最近的服务器，提高系统的响应速度</li>
+</ul>
+<h5 id="5-2-同地机房优先-续"><a href="#5-2-同地机房优先-续" class="headerlink" title="5.2 同地机房优先(续)"></a>5.2 同地机房优先(续)</h5><p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211203100742051.png" srcset="/img/loading.gif" lazyload alt="image-20211203100742051"></p>
+<ul>
+<li>如上图配置，首先在group1中放相同目的地部署组，然后把主调方ip为192.87开头的访问都路 由到group1中</li>
+</ul>
+<h5 id="5-3-部分帐号内测"><a href="#5-3-部分帐号内测" class="headerlink" title="5.3 部分帐号内测"></a>5.3 部分帐号内测</h5><p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211203100921263.png" srcset="/img/loading.gif" lazyload alt="image-20211203100921263"></p>
+<ul>
+<li> 部分账号内测主要是为了开启部分账号进行服务内测。</li>
+</ul>
+<h5 id="5-3-部分帐号内测（续）"><a href="#5-3-部分帐号内测（续）" class="headerlink" title="5.3 部分帐号内测（续）"></a>5.3 部分帐号内测（续）</h5><ul>
+<li><p>代码中设置puttag为用户userId</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211203101056321.png" srcset="/img/loading.gif" lazyload alt="image-20211203101056321"></p>
+</li>
+<li><p>如上图所示配置，把userid 为10001-200006的账号全部路由到版本号为20181019133223的部 署组中。</p>
+</li>
+</ul>
+<h4 id="第六章-服务熔断"><a href="#第六章-服务熔断" class="headerlink" title="第六章 服务熔断"></a>第六章 服务熔断</h4><p>接下来我们来看一下TSF中服务熔断</p>
+<h5 id="6-1-服务熔断概述"><a href="#6-1-服务熔断概述" class="headerlink" title="6.1 服务熔断概述"></a>6.1 服务熔断概述</h5><ul>
+<li>当下游的服务因为某种原因导致服务不可用或响应过慢时，上游服务为了保证自己整体服务的可用性，不再继续调用目标服务，直接返回。当下游服务恢复后，上游服务会恢复调用。</li>
+<li>服务发现通俗的讲就是不同服务查找发现其它服务的过程。</li>
+<li>微服务框架，如Spring Cloud,Dubbo,TSF都提供了服务注册中心。通过服务注册中心微服务可以很简单的发现其它服务。</li>
+</ul>
+<h5 id="6-1-服务熔断概述（续）"><a href="#6-1-服务熔断概述（续）" class="headerlink" title="6.1 服务熔断概述（续）"></a>6.1 服务熔断概述（续）</h5><ul>
+<li><p>TSF 服务治理支持可视化熔断规则管理，支持设置服务、实例、API 三种隔离级别的熔断规则。</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211203101336698.png" srcset="/img/loading.gif" lazyload alt="image-20211203101336698"></p>
+</li>
+</ul>
+<h5 id="6-2-服务熔断原理"><a href="#6-2-服务熔断原理" class="headerlink" title="6.2 服务熔断原理"></a>6.2 服务熔断原理</h5><ul>
+<li><p>服务熔断中涉及到关键概念熔断器，熔断器的状态转化如下：</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211203103734571.png" srcset="/img/loading.gif" lazyload alt="image-20211203103734571"></p>
+</li>
+<li><p>熔断器的工作原理如下</p>
+<ul>
+<li>最开始处于closed状态，一旦检测到错误（或慢响应）达到一定阈值，便转为open状态，此时不再调用下游目标服务。</li>
+<li>等待一段时间后，会转化为half open状态，尝试放行一部分请求到下游服务。</li>
+<li>一旦检测到响应成功，回归到closed状态，也即恢复服务；否则回到open状态。</li>
+</ul>
+</li>
+<li><p>其中熔断器从close变为open状态要同时满足以下2个条件：</p>
+<ul>
+<li>前提条件：在滑动时间窗口内至少有一定数量的请求（即最少请求数）</li>
+<li>指标达到阈值：在滑动时间窗口内统计的错误请求率或慢请求率达到一定阈值</li>
+</ul>
+</li>
+</ul>
+<h5 id="6-3-服务熔断使用方法"><a href="#6-3-服务熔断使用方法" class="headerlink" title="6.3 服务熔断使用方法"></a>6.3 服务熔断使用方法</h5><ul>
+<li><p>服务熔断功能实现步骤：</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211203105140575.png" srcset="/img/loading.gif" lazyload alt="image-20211203105140575"></p>
+</li>
+<li><p>目前 TSF 支持 Spring Cloud 应用的服务熔断，Mesh 应用的熔断功能将于近期发布。</p>
+</li>
+<li><p>Spring Cloud 熔断开发指南参考<a target="_blank" rel="noopener" href="https://cloud.tencent.com/document/product/649/55488">链接名称</a>，注意 Spring Cloud 应用的服务熔断功能需要使用 1.19.0 版本及以上的 SDK，参考 <a target="_blank" rel="noopener" href="https://cloud.tencent.com/document/product/649/38982">SDK 版本更新日志</a>。</p>
+</li>
+<li><p>不同于服务限流、路由和鉴权规则在被调服务上设置，服务熔断规则是在<strong>主调方服务</strong>上设置。</p>
+</li>
+<li><p>Spring Cloud项目服务熔断的实现步骤如上图：</p>
+</li>
+</ul>
+<h6 id="6-3-1-添加依赖"><a href="#6-3-1-添加依赖" class="headerlink" title="6.3.1 添加依赖"></a>6.3.1 添加依赖</h6><ul>
+<li><p>步骤一：</p>
+<ul>
+<li><p>Spring Cloud项目根目录中pom.xml配置文件中添加依赖：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span> <br>		<span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.tencent.tsf<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>		<span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-tsf-starter<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<h6 id="6-3-2-添加服务熔断的注解"><a href="#6-3-2-添加服务熔断的注解" class="headerlink" title="6.3.2 添加服务熔断的注解"></a>6.3.2 添加服务熔断的注解</h6><ul>
+<li><p>步骤二：</p>
+<ul>
+<li><p>Spring Cloud项目启动类中添加@EnableTsf注解：</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211203110549101.png" srcset="/img/loading.gif" lazyload alt="image-20211203110549101"></p>
+</li>
+</ul>
+</li>
+</ul>
+<h6 id="6-3-3-关闭Hystrix"><a href="#6-3-3-关闭Hystrix" class="headerlink" title="6.3.3 关闭Hystrix"></a>6.3.3 关闭Hystrix</h6><ul>
+<li><p>步骤三：</p>
+<ul>
+<li><p>在yaml配置文件中关闭 Hystrix：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">feign:</span><br>  <span class="hljs-attr">hystrix:</span><br>    <span class="hljs-attr">enabled:</span> <span class="hljs-literal">false</span><br></code></pre></td></tr></table></figure></li>
+<li><p>使用 TSF 熔断功能需要将 Hystrix 关闭（默认是关闭的，如果之前有打开还请关闭）。相关的容错功能请参考<a target="_blank" rel="noopener" href="https://cloud.tencent.com/document/product/649/40582">服务容错</a>。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h6 id="6-3-4-进行熔断配置"><a href="#6-3-4-进行熔断配置" class="headerlink" title="6.3.4 进行熔断配置"></a>6.3.4 进行熔断配置</h6><ul>
+<li><p>步骤四：</p>
+<ul>
+<li>进行熔断配置，目前支持两种方式的熔断配置：<ul>
+<li>方式一：在线动态配置下发。</li>
+<li>方式二：本地静态配置（适合本地联调使用，如果线上使用会被在线配置覆盖，请谨慎使用）， 配置在 yaml 配置文件中。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>新建并启用熔断规则（假设用户希望在consumer-demo上针对下游服务provider-demo设置一个熔断策略）</p>
+</li>
+<li><p>登录 TSF 控制台，在左侧导航栏单击【服务治理】，单击consumer-demo服务进入服务详情页。</p>
+</li>
+<li><p>切换至【服务熔断】标签页，单击【新建熔断规则】，在创建熔断规则对话框中填写熔断规则：</p>
+<ul>
+<li>下游服务： 选择当前 provider-demo 所在命名空间和服务名。</li>
+<li>隔离级别：根据业务场景需求设置隔离级别<ul>
+<li>服务：选择服务隔离级别后，设置熔断策略各参数。</li>
+<li>实例：选择实例隔离级别后，设置熔断策略各参数和最大熔断实例比率。</li>
+<li>API：选择 API 隔离级别后，可选择不同的 API 设置熔断策略，熔断策略中各参数适用于 选中的每个 API。</li>
+</ul>
+</li>
+<li>滑动时间窗口：用于统计熔断器关闭时的请求结果。</li>
+<li>最少请求次数：配置熔断器可以计算错误率之前的最小请求数。</li>
+<li>触发条件（满足以下任一条件触发熔断）：<ul>
+<li>失败请求率：在滑动时间窗口内统计的失败请求占所有请求比率（失败请求是指响应状态 码为4XX和5XX，以及抛出异常的请求）。</li>
+<li>慢请求率：在滑动时间窗口内统计的慢响应的请求占所有请求比率，其中「慢响应」的时 长支持配置</li>
+</ul>
+</li>
+<li>开启到半开间隔：熔断器从 open 状态等待一段时间后变为 half-open 状态，尝试放行一部 分请求到下游服务。</li>
+<li>最大熔断实例比率：该参数仅适用于实例隔离级别，用于控制最大熔断实例个数百分比，避免 下游服务所有实例被熔断导致级联雪崩。例如当下游服务有20个实例且最大熔断实例比率为50%，熔断器最多熔断10个实例。</li>
+</ul>
+</li>
+<li><p>单击【完成】，跳转至熔断规则列表。</p>
+</li>
+<li><p>在熔断规则列表上，单击熔断规则的【启用】，启用该规则。</p>
+</li>
+</ul>
+<h5 id="6-4-服务路由结果展示"><a href="#6-4-服务路由结果展示" class="headerlink" title="6.4 服务路由结果展示"></a>6.4 服务路由结果展示</h5><ul>
+<li><p>服务路由结果展示：</p>
+<ul>
+<li><p>下图在20：16分开启服务路由，可以看到几分钟内生效效果</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211203111741031.png" srcset="/img/loading.gif" lazyload alt="image-20211203111741031"></p>
+</li>
+</ul>
+</li>
+<li><p>服务路由图形结果展示如上图</p>
+</li>
+<li><p>效果查看地址：TSF控制台-》服务治理-》进入具体某个服务-》进入服务路由标签页-》在路由规 则列表的下方可以查看上图流量效果。</p>
+</li>
+</ul>
+<h4 id="思考题"><a href="#思考题" class="headerlink" title="思考题"></a>思考题</h4><ul>
+<li>TSF的服务治理主要包含哪些功能？</li>
+<li>TSF服务治理的基本开发操作是怎么样？</li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%95%99%E7%A8%8B/">教程</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/TSF/">TSF</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">微服务</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/12/03/%E5%8D%81%E3%80%81TSF%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">十、TSF配置管理</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/11/30/%E5%85%AD%E3%80%81TSF%E5%B9%B3%E5%8F%B0%E7%AE%A1%E7%90%86%E8%83%BD%E5%8A%9B/">
+                        <span class="hidden-mobile">六、TSF平台管理能力</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

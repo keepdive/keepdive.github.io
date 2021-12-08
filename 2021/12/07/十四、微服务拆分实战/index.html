@@ -1,0 +1,925 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="微服务的粒度是难点，也常常是争论的焦点。应当使用合理的粒度划分微服务，而不是一味将服务做小。代码量的多少不能作为微服务划分的依据，因为不同的服务本身的业务复杂性不同，代码量也不同。在微服务的设计阶段，就应确定其边界。微服务之间应该相对独立并保持松耦合。">
+  <meta name="author" content="Mike">
+  <meta name="keywords" content="">
+  <meta name="description" content="微服务的粒度是难点，也常常是争论的焦点。应当使用合理的粒度划分微服务，而不是一味将服务做小。代码量的多少不能作为微服务划分的依据，因为不同的服务本身的业务复杂性不同，代码量也不同。在微服务的设计阶段，就应确定其边界。微服务之间应该相对独立并保持松耦合。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="十四、微服务拆分实战">
+<meta property="og:url" content="http://example.com/2021/12/07/%E5%8D%81%E5%9B%9B%E3%80%81%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%8B%86%E5%88%86%E5%AE%9E%E6%88%98/index.html">
+<meta property="og:site_name" content="KeepDive">
+<meta property="og:description" content="微服务的粒度是难点，也常常是争论的焦点。应当使用合理的粒度划分微服务，而不是一味将服务做小。代码量的多少不能作为微服务划分的依据，因为不同的服务本身的业务复杂性不同，代码量也不同。在微服务的设计阶段，就应确定其边界。微服务之间应该相对独立并保持松耦合。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211207180528638.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211207183212807.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211207183604537.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211207183855917.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211207184254939.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211207184908984.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211207185728789.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211207190149421.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211207190509906.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211207190808861.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211207193957597.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211207194709364.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211207195420039.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211207201337952.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211208100411806.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211208100733569.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211208104144154.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211208111851277.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211208113548173.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211208113949162.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211208114051727.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211208114146782.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211208122505589.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211208155038765.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211208155924913.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211208160127228.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211208160334965.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211208160438048.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211208160850054.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211208160706518.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211208161102156.png">
+<meta property="article:published_time" content="2021-12-07T09:54:40.000Z">
+<meta property="article:modified_time" content="2021-12-08T08:15:16.469Z">
+<meta property="article:author" content="Mike">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211207180528638.png">
+  
+  <title>十四、微服务拆分实战 - KeepDive</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>KeepDive</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="十四、微服务拆分实战">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-author" aria-hidden="true"></i>
+      Mike
+    </span>
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-12-07 17:54" pubdate>
+        2021年12月7日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      9.8k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      31 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">十四、微服务拆分实战</h1>
+            
+            <div class="markdown-body">
+              <h3 id="十四、微服务拆分实战"><a href="#十四、微服务拆分实战" class="headerlink" title="十四、微服务拆分实战"></a>十四、微服务拆分实战</h3><ul>
+<li>前面已经介绍了TSF的基本功能以及使用，接下来我们再回到微服务上面来；</li>
+<li>微服务的粒度是难点，也常常是争论的焦点。应当使用合理的粒度划分微服务，而不是一味将服务做小。代码量的多少不能作为微服务划分的依据，因为不同的服务本身的业务复杂性不同，代码量也不同。在微服务的设计阶段，就应确定其边界。微服务之间应该相对独立并保持松耦合。接下来我们看一下基于TSF的微服务拆分方法。</li>
+</ul>
+<h4 id="学习目标"><a href="#学习目标" class="headerlink" title="学习目标"></a>学习目标</h4><p>通过本文的学习，你将可以：</p>
+<ul>
+<li>了解微服务的拆分原则</li>
+<li>掌握运用DDD（Domain Driven Design）方法进行领域建模</li>
+</ul>
+<h4 id="第一章-违反拆分介绍"><a href="#第一章-违反拆分介绍" class="headerlink" title="第一章 违反拆分介绍"></a>第一章 违反拆分介绍</h4><h5 id="1-1-微服务拆分简介"><a href="#1-1-微服务拆分简介" class="headerlink" title="1.1 微服务拆分简介"></a>1.1 微服务拆分简介</h5><ul>
+<li><strong>企业什么时候引入微服务</strong></li>
+</ul>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211207180528638.png" srcset="/img/loading.gif" lazyload alt="image-20211207180528638"></p>
+<ul>
+<li>一般来说，项目第一阶段的主要目标是快速开发和验证想法，证明产品思路是否可行。这个阶段功能设计一般不会太复杂，开发采取快速迭代的方式，架构也不适合过度设计。所以将所有功能打包部署在一起，集中地进行开发、测试和运维，对于项目起步阶段，是最高效也是最节省成本的方式。当可行性验证通过，功能进一步迭代，就可以加入越来越多的新特性。</li>
+<li>一般情况下，这个时候就需要大规模地扩张开发人员，以支撑多个功能的开发。如果这个时候继续采用单体应用架构，多个功能模块混杂在一起开发、测试和部署的话，就会导致不同功能之间相互影响，一次打包部署需要所有的功能都测试OK才能上线。不仅如此，多个功能模块混部在一起，对线上服务的稳定性也是个巨大的挑战，比如A开发的一个功能由于代码编写考虑不够全面，上线后产生了内存泄漏，运行一段时间后进程异常推出，那么部署在这个服务池中的所有功能都不可访问。</li>
+<li>所以，什么时候需要引入微服务呢？如上图所示，系统刚构建的时候，软件的复杂度并不高，这时候使用单体开发模式的效率很高。而微服务有额外成本的，需要搭建框架、发布、监控等基础设施。但是随着业务越来越复杂，我们的系统也越来越复杂，这时候单体应用的开发效率开始降低，微服务开发方式的效率优势开始凸显。</li>
+<li><strong>综上所述，初创和小规模团队不建议采用微服务。主要决定因素是系统复杂性和团队规模，当到达一个点，单体架构严重影响效率才考虑。另外补充一点，微服务还和组织和团队有关，而不仅仅是技术。</strong></li>
+</ul>
+<ul>
+<li><p><strong>如何将单体架构应用拆分为微服务架构</strong></p>
+<ul>
+<li><p>识别业务领域及边界</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211207183212807.png" srcset="/img/loading.gif" lazyload alt="image-20211207183212807"></p>
+</li>
+</ul>
+</li>
+<li><p>如何进行微服务的拆分呢？</p>
+<ul>
+<li>首先，我们需要对业务进行建模，识别业务领域及边界。</li>
+<li>首先需要将客户、体验设计师、业务分析师、技术人员集结在一起对业务需求进行沟通， 随后对其进行领域划分，确定限界上下文(Boundary Context)，也称战略建模。</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p><strong>微服务的拆分策略</strong></p>
+<ul>
+<li>绞杀者策略<ul>
+<li>指在遗留系统外围，将新功能用新的方式构建为新的服务。随着时间的推移，新的服务逐渐“绞杀”老的遗留系统。对于那些老旧庞大难以更改的遗留系统，推荐采用绞杀者模式。</li>
+</ul>
+</li>
+<li>修饰者策略<ul>
+<li>就如修房或修路一样，将老旧待修缮的部分进行隔离，用新的方式对其进行单独修复。修复的同时，需保证与其他部分仍能协同功能。</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211207183604537.png" srcset="/img/loading.gif" lazyload alt="image-20211207183604537"></p>
+</li>
+</ul>
+<h6 id="1-1-1-微服务拆分的维度"><a href="#1-1-1-微服务拆分的维度" class="headerlink" title="1.1.1 微服务拆分的维度"></a>1.1.1 微服务拆分的维度</h6><p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211207183855917.png" srcset="/img/loading.gif" lazyload alt="image-20211207183855917"></p>
+<ul>
+<li>那么服务化拆分具体该如何实施呢？一个最有效的手段就是将不同的功能模块服务化，独立部署和运维。以社交 App 为例，你可以认为消息通知是一个服务，好友圈评论是一个服务，个人主页也是一个服务。</li>
+<li>这种服务化拆分方式是纵向拆分，是从业务维度进行拆分。标准是按照业务的关联程度来决定， 关联比较密切的业务适合拆分为一个微服务，而功能相对比较独立的业务适合单独拆分为一个微服务。</li>
+<li>还有一种服务化拆分方式是横向拆分，是从公共且独立功能维度拆分。标准是按照是否有公共的被多个其他服务调用，且依赖的资源独立不与其他业务耦合。</li>
+<li>继续以前面提到的社交 App 举例，无论是首页信息流、评论、消息箱还是个人主页，都需要显示用户的昵称。假如用户的昵称功能有产品需求的变更，你需要上线几乎所有的服务，这个成本就有点高了。显而易见，如果我把用户的昵称功能单独部署成一个独立的服务，那么有什么变更我只需要上线这个服务即可，其他服务不受影响，开发和上线成本就大大降低了。</li>
+<li>还有其他拆分的维度，比如说：<ul>
+<li>业务的角度 </li>
+<li>人员的角度  </li>
+<li>架构的角度 </li>
+<li>发展的角度</li>
+</ul>
+</li>
+</ul>
+<h6 id="1-1-2-微服务拆分的粒度"><a href="#1-1-2-微服务拆分的粒度" class="headerlink" title="1.1.2 微服务拆分的粒度"></a>1.1.2 微服务拆分的粒度</h6><ul>
+<li>微服务拆分时需要考虑如下因素：</li>
+</ul>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211207184254939.png" srcset="/img/loading.gif" lazyload alt="image-20211207184254939"></p>
+<h5 id="1-2-康威定律与微服务拆分"><a href="#1-2-康威定律与微服务拆分" class="headerlink" title="1.2 康威定律与微服务拆分"></a>1.2 康威定律与微服务拆分</h5><ul>
+<li>康威定律第一定律<ul>
+<li>设计系统的组织，其产生的设计等同于组织之内、组织之间的沟通结构</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211207184908984.png" srcset="/img/loading.gif" lazyload alt="image-20211207184908984"></p>
+<p>​                                                                         马努.科内特的”组织架构图“</p>
+<ul>
+<li>微服务架构是一种非常流行的新概念，即便可供以借鉴的经验比较少，当然不能阻挡它成为热门话题与研究对象。令人惊讶地是，其实微服务的概念早在五十多年前就已经被提出，多年来，研究表明了这些观点的准确性。这就是本文所介绍的——康威定律。现在已经有很多企业正在尝试 使用它创建高效的微服务架构。</li>
+<li>康威定律用通俗的说法就是：组织形式等同系统设计。</li>
+<li>如上图所示，不同的公司采用了不同的组织结构</li>
+</ul>
+<ul>
+<li><p>康威定律第二定律</p>
+<ul>
+<li><p>时间再多一件事也不可能做的完美，但总有时间做完一件事情</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211207185728789.png" srcset="/img/loading.gif" lazyload alt="image-20211207185728789"></p>
+</li>
+</ul>
+</li>
+<li><p>Eric Hollnagel是敏捷开发社区的泰斗之一，在他《Efficiency-Effectiveness Trade Offs》 一书 中解释了类似的论点</p>
+<ul>
+<li>Problem too complicated? Ignore details</li>
+<li>Not enough resources?Give up features.</li>
+</ul>
+</li>
+<li><p>系统越做越复杂，功能越来越多，外部市场的竞争越来越剧烈，投资人的期待越来越高。但人的智力是有上限的，即使能力再强的人，融到钱再多也不一定招到足够多合适的人。对于一个非常复杂的系统，我们永远无法考虑周全。Eric认为，这个时候最好的解决办法竟然是——“破罐子破摔”。</p>
+</li>
+<li><p>其实我们在日常开发中也经常碰到。产品经理的需求太复杂了？适当忽略一些细节，先抓主线。 产品经理的需求太多了？放弃一些功能。</p>
+</li>
+<li><p>对于一个分布式系统，我们几乎永远不可能找到并修复所有的bug，单元测试覆盖1000%也没有用，错误流淌在分布式系统的血液里。解决方法不是消灭这些问题，而是容忍这些问题，在问题发生时，能自动回复，微服务组成的系统，每一个微服务都可能挂掉，这是常态，我们只要有足够的冗余和备份即可。即所谓的弹性设计（Resilience） 或者叫高可用设计（High Availability）。</p>
+</li>
+</ul>
+<ul>
+<li><p>康威定律第三定律</p>
+<ul>
+<li><p>线型系统和线型组织架构间有潜在的异质同态特性</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211207190149421.png" srcset="/img/loading.gif" lazyload alt="image-20211207190149421"></p>
+</li>
+</ul>
+</li>
+<li><p>这是康威第一定律组织和设计间内在关系的一个具体应用。更直白的说，你想要什么样的系统， 就搭建什么样的团队。如果你的团队分成前端团队，Java后台开发团队，DBA团队，运维团队， 你的系统就会变成上图左边的样子。</p>
+</li>
+<li><p>相反，如果你的系统是按照业务边界划分的，大家按照一个业务目标去把自己的模块做出小系统， 小产品的话，你的大系统就会变成上图右边的样子，即微服务的架构。</p>
+</li>
+</ul>
+<ul>
+<li><p>康威定律第四定律</p>
+<ul>
+<li><p>大的系统组织总是比小的系统更倾向于分解</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211207190509906.png" srcset="/img/loading.gif" lazyload alt="image-20211207190509906"></p>
+</li>
+</ul>
+</li>
+<li><p>前面说了，人是复杂的社会动物，人与人的通过非常复杂。但是当我们面对复杂系统时，又往往只能通过增加人力来解决。这时，我们的组织一般是如何解决这个沟通问题的呢？Divide and conquer,分而治之。大家看看自己的公司的组织，是不是一个一线经理一般都是管理15个人以下的？二线经理再管理更少的一线？三线再管理更少的，以此类推。（这里完全没有暗示开发经理比开发工程师更难管理）</p>
+</li>
+</ul>
+<ul>
+<li><p>康威定律总结</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211207190808861.png" srcset="/img/loading.gif" lazyload alt="image-20211207190808861"></p>
+</li>
+<li><p>了解了康威定律是什么，再来看看他如何在半个世纪前就奠定了微服务架构的理论基础。</p>
+<ul>
+<li>再对应下衡量微服务的标准，我们很容易会发现他们之间的密切关系：<ul>
+<li>分布式服务组成的系统</li>
+<li>按照业务而不是技术来划分组织</li>
+<li>做有生命的产品而不是项目</li>
+<li>Smart endpoints and dumb pipes（我的理解是强服务个体和弱通信）</li>
+<li>自动化运维（DevOps）</li>
+<li>容错</li>
+<li>快速演化</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="第二章-DDD与微服务拆分"><a href="#第二章-DDD与微服务拆分" class="headerlink" title="第二章 DDD与微服务拆分"></a>第二章 DDD与微服务拆分</h4><h5 id="2-1-微服务与DDD"><a href="#2-1-微服务与DDD" class="headerlink" title="2.1 微服务与DDD"></a>2.1 微服务与DDD</h5><h6 id="2-1-1-如何建模微服务"><a href="#2-1-1-如何建模微服务" class="headerlink" title="2.1.1 如何建模微服务"></a>2.1.1 如何建模微服务</h6><ul>
+<li><p><strong>什么样的微服务是设计良好的微服务</strong></p>
+<ul>
+<li><p>松耦合</p>
+<ul>
+<li>如果做到了服务之间的松耦合，那么修改一个服务就不需要修改另一个服务。使用微服务最重要的一点是能够独立修改及部署单个服务而不需要修改系统的其它部分。</li>
+</ul>
+</li>
+<li><p>高内聚</p>
+<ul>
+<li>我们希望把相关的行为聚集在一起，把不相关的行为放在别处。为什么呢？因为如果你要改变某个行为的话，最好能够只在一个地方进行修改，然后就可以尽快地发布。如果需要在很多不同的地方做这些修改，那么可能就需要同时发布多个微服务才能交付这个功能。在多个不同的地方进行修改会很慢，同时部署多个服务风险也很高，这两者都是我们想要避免的。</li>
+</ul>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211207193957597.png" srcset="/img/loading.gif" lazyload alt="image-20211207193957597"></p>
+</li>
+</ul>
+</li>
+<li><p>比如我们要设计一个电商系统，可以按照功能分成库存、订单、商品这几个服务，每个服务之间利用HTTP请求的方式通信，当一个服务重写或者重构后只要保持接口的一致性是不会影响其他服务的逻辑的，我们就说这几个服务是松耦合的。</p>
+</li>
+</ul>
+<ul>
+<li><p><strong>微服务设计和拆分的困境</strong></p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211207194709364.png" srcset="/img/loading.gif" lazyload alt="image-20211207194709364"></p>
+</li>
+<li><p>进入微服务架构时代以后，微服务确实也解决了原来采用集中式架构的单体应用的很多问题，比如扩展性、弹性伸缩能力、小规模团队的敏捷开发等等。</p>
+</li>
+<li><p>但是看到这些好处的同时，微服务实践过程中也产生了不少的争论和疑惑；微服务的粒度应该多大呀？微服务到底应该如何拆分和设计呢？微服务的边界应该在哪里？如何保持业务和系统的一致性</p>
+</li>
+<li><p>可以说，很久以来都没有一套系统的理论和方法可以指导微服务的拆分，包括微服务架构模式的提出者Martin fowler在提出微服务架构的时候，也没有告诉我们究竟应该如何拆分微服务。</p>
+</li>
+<li><p>那么如何拆分微服务，是否有相关理论或知识体系支撑呢？答案是肯定的，其中最主要的一种方法论就是<strong>DDD-领域驱动设计</strong>。</p>
+</li>
+</ul>
+<ul>
+<li><p><strong>微服务拆分中最重要的步骤</strong></p>
+<ul>
+<li><p>限界上下文，限界上下文确定了微服务的边界</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211207195420039.png" srcset="/img/loading.gif" lazyload alt="image-20211207195420039"></p>
+</li>
+</ul>
+</li>
+<li><p>EricEvans的《领域驱动设计》一书主要专注于如何对现实世界的领域进行建模。该书中有很多非常棒的想法，比如通用语言、仓储、抽象等。其中Evans引入的一个很重要的概念是限界上下文（bounded context）。他认为任何一个给定的领域都包含多个限界上下文，每个限界上下文中的东西（Eric Evans更常使用模型这个词，应该比”东西“好”得多）分成两部分，一部分不需要与外部通信，另一部分则需要。每个上下文都有明确的接口，该接口决定了它会暴露哪些模型给其他的上下文。</p>
+</li>
+<li><p>限界上下文强调显示的边界。如果你想要从一个限界上下文中获取信息，或者向其发起请求，需要使用模型和它的显式边界进行通信。在这本书中，<strong>Evans使用细胞作比喻；“细胞之所以会存在，是因为细胞膜定义了什么在细胞内，什么在细胞外，并且确定了什么物质可以通过细胞膜。”</strong></p>
+</li>
+<li><p>有时候，同一个名字在不同的上下文中有着往前不同的含义。比如，退货表示的是客户退回的一些东西，在客户的上下文中，退货意味着填写邮寄信息、寄送包裹，然后等待退款。在仓库的上下文中，退货表示的是一个即将到来的包裹，而且这个包裹会重新入库。退货这个概念会与将要执行的任务相关，比如我们可能会发起一个重新入库的请求。这个退货的共享模型会在多个不同的进程中使用，并且在每个限界上下文中都会存在相应的实体，不过，这些实体仅仅是在每个山下文内部表示而已。再举个例子，比如电商里面的商品，在销售阶段是商品，在运输阶段是货物，用户使用起来是工具。</p>
+</li>
+</ul>
+<h6 id="2-1-2-DDD介绍"><a href="#2-1-2-DDD介绍" class="headerlink" title="2.1.2 DDD介绍"></a>2.1.2 DDD介绍</h6><ul>
+<li><p>DDD（领域驱动设计）是一种设计方法，围绕业务概念构建领域模型，并通过分离技术实现的复杂性，从而控制软件演化的复杂度。领域驱动设计解决的两个核心问题是：</p>
+<ol>
+<li>业务架构如何合理的设计划分？</li>
+<li>技术架构与业务架构如何保持一致？</li>
+</ol>
+</li>
+</ul>
+<h6 id="2-1-3-DDD与微服务的关系"><a href="#2-1-3-DDD与微服务的关系" class="headerlink" title="2.1.3 DDD与微服务的关系"></a>2.1.3 DDD与微服务的关系</h6><p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211207201337952.png" srcset="/img/loading.gif" lazyload alt="image-20211207201337952"></p>
+<ul>
+<li>DDD 是一种架构设计方法，微服务是一种架构风格，两者从本质上都是为了追求高响应力，而从业务视角去分离应用系统建设复杂度的手段。两者都强调从业务出发，其核心要义是强调根据业务发展，合理划分领域边界，持续调整现有架构，优化现有代码，以保持架构和代码的生命力， 也就是我们常说的演进式架构。</li>
+<li><strong>DDD 主要关注：从业务领域视角划分领域边界，构建通用语言进行高效沟通，通过业务抽象， 建立领域模型，维持业务和代码的逻辑一致性。</strong></li>
+<li>微服务主要关注：运行时的进程间通信、容错和故障隔离，实现去中心化数据管理和去中心化服务治理，关注微服务的独立开发、测试、构建和部署。</li>
+<li>通过DDD战略设计可以建立领域模型，划定领域边界，解决微服务设计过程中，边界难以划定的难题。如果你的业务焦点在领域和领域逻辑，那么你就可以选择DDD作为微服务的设计方法！</li>
+</ul>
+<h6 id="2-1-4-DDD建模微服务的两个阶段"><a href="#2-1-4-DDD建模微服务的两个阶段" class="headerlink" title="2.1.4 DDD建模微服务的两个阶段"></a>2.1.4 DDD建模微服务的两个阶段</h6><p>![image-20211208095538050](/Users/mike/Library/Application Support/typora-user-images/image-20211208095538050.png)</p>
+<ul>
+<li><p>战略设计主要从业务视角出发，建立业务领域模型，划分领域边界，建立通用语言的限界上下文， 限界上下文可以作为微服务设计的参考边界。</p>
+<ul>
+<li>DDD 战略设计会建立领域模型，领域模型可以用于指导微服务的设计和拆分。事件风暴是建立领域模型的主要方法，它是一个从发散到收敛的过程。它通常采用用例分析、场景分析和用户旅程分析，尽可能全面不遗漏地分解业务领域，并梳理领域对象之间的关系，这是一个发散的过程。事件风暴过程会产生很多的实体、命令、事件等领域对象，我们将这些领域对象从不同的维度进行聚类，形成如聚合、限界上下文等边界，建立领域模型，这就是一个收敛的过程。</li>
+</ul>
+</li>
+<li><p>战术设计则从技术视角出发，侧重于领域模型的技术实现，完成软件开发和落地，包括：聚合根、 实体、值对象、领域服务、应用服务和资源库等代码逻辑的设计和实现。</p>
+</li>
+<li><p><strong>DDD 之战略设计</strong></p>
+<ul>
+<li><p>通过战略设计得到的领域及限界上下文</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211208100411806.png" srcset="/img/loading.gif" lazyload alt="image-20211208100411806"></p>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p><strong>DDD 之战术设计</strong>：从技术角度出发</p>
+<ul>
+<li><p>侧重于领域模型的技术实现，完成软件开发和落地，包括：聚合根、实体、值对象、领域服务、应用服务和资源库等代码逻辑的设计和实现。</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211208100733569.png" srcset="/img/loading.gif" lazyload alt="image-20211208100733569"></p>
+</li>
+</ul>
+</li>
+</ul>
+<h6 id="2-1-5-DDD的优势"><a href="#2-1-5-DDD的优势" class="headerlink" title="2.1.5 DDD的优势"></a>2.1.5 DDD的优势</h6><ul>
+<li>领域驱动设计的优势<ul>
+<li>业务导向</li>
+<li>业务逻辑内聚，应用边界清晰</li>
+<li>建立领域模型优先</li>
+<li>分析、设计、代码和数据有机结合</li>
+<li>代码即设计</li>
+<li>扩展性好</li>
+</ul>
+</li>
+</ul>
+<h5 id="2-2-DDD核心概念"><a href="#2-2-DDD核心概念" class="headerlink" title="2.2 DDD核心概念"></a>2.2 DDD核心概念</h5><ul>
+<li>关于领域：研究对象<ul>
+<li>子域：<ul>
+<li>核心域：核心子域</li>
+<li>通用域：被多个子域使用的通用功能子域</li>
+<li>支撑域：其它子域</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>在领域不断划分的过程中，领域会细分为不同的子域，子域可以根据自身重要性和功能属性划分为三类子域，它们分别是：核心域、通用域和支撑域。</li>
+<li>决定产品和公司核心竞争力的子域是核心域，它是业务成功的主要因素和公司的核心竞争力。没有太多个性化的诉求，同时被多个子域使用的通用功能子域是通用域。还有一种功能子域是必需的，但既不包含决定产品和公司核心竞争力的功能，也不包含通用功能的子域，它就是支撑域。</li>
+<li>这三类子域相较之下，核心域是最重要的，我们下面讲目的的时候还会以核心域为例详细介绍。 通用域和支撑域如果对应到企业系统，举例来说的话，通用域则是你需要用到的通用系统，比如认证、权限等等，这类应用很容易买到，没有企业特点限制，不需要做太多的定制化。而支撑域则具有企业特性，但不具有通用性，例如数据代码类的数据字典等系统。</li>
+<li>总结来说，领域的核心思想就是将问题域逐级细分，来降低业务理解和系统实现的复杂度。通过领域细分，逐步缩小微服务需要解决的问题域，构建合适的领域模型，而<strong>领域模型映射成系统就是微服务了</strong>。</li>
+<li>核心域、支撑域和通用域的主要目标是：通过领域划分，区分不同子域在公司内的不同功能属性和重要性，从而公司可对不同子域采取不同的资源投入和建设策略，其关注度也会不一样。</li>
+<li>以电商场景为例，这里电商即是我们研究的领域<ul>
+<li>核心域</li>
+<li>通用域</li>
+<li>支撑域</li>
+</ul>
+</li>
+<li>子域的划分本质上是公司战略方向的体现</li>
+</ul>
+<h5 id="2-2-DDD核心概念-（续）"><a href="#2-2-DDD核心概念-（续）" class="headerlink" title="2.2 DDD核心概念 （续）"></a>2.2 DDD核心概念 （续）</h5><ul>
+<li>在 DDD 领域建模和系统建设过程中，有很多的参与者，包括领域专家、产品经理、项目经理、 架构师、开发经理和测试经理等。对同样的领域知识，不同的参与角色可能会有不同的理解，那大家交流起来就会有障碍，怎么办呢？因此，在 DDD 中就出现了“通用语言”和“限界上下文” 这两个重要的概念。</li>
+<li>这两者相辅相成，通用语言定义上下文含义，限界上下文则定义领域边界，以确保每个上下文含义在它特定的边界内都具有唯一的含义，领域模型则存在于这个边界之内。</li>
+<li>关于通用语言<ul>
+<li>在事件风暴过程中，通过团队交流达成共识的，能够简单、清晰、准确描述业务涵义和规则的语言就是通用语言。也就是说，通用语言是团队统一的语言，不管你在团队中承担什么角色， 在同一个领域的软件生命周期里都使用统一的语言进行交流。</li>
+<li>那么，通用语言的价值也就很明了了，它可以解决交流障碍这个问题，使领域专家和开发人员能够协同合作，从而确保业务需求的正确表达。</li>
+<li>通用语言包含术语和用例场景，并且能够直接反映在代码中。通用语言中的名词可以给领域对象命名，如商品、订单等，对应实体对象；而动词则表示一个动作或事件，如商品已下单、订单已付款等，对应领域事件或者命令。</li>
+</ul>
+</li>
+<li>关于限界上下文<ul>
+<li>为了避免同样的概念或语义在不同的上下文环境中产生歧义，DDD 在战略设计上提出了“限 界上下文”这个概念，用来确定语义所在的领域边界。</li>
+</ul>
+</li>
+</ul>
+<h5 id="2-2-DDD核心概念-（续）-1"><a href="#2-2-DDD核心概念-（续）-1" class="headerlink" title="2.2 DDD核心概念 （续）"></a>2.2 DDD核心概念 （续）</h5><ul>
+<li>关于实体<ul>
+<li>拥有唯一标识符，且标识符在历经各种状态变更后仍能保持一致。</li>
+</ul>
+</li>
+<li>关于值对象<ul>
+<li>通过对象属性值来识别的对象，它将多个相关属性组合为一个概念整体。</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211208104144154.png" srcset="/img/loading.gif" lazyload alt="image-20211208104144154"></p>
+<ul>
+<li>实体值对象Entities Value Objects：在一个软件系统中，实体表示哪些具有生命周期并且会在其生命周期中发生改变的东西；而值对象则表示起描述性作用的并且可以相互替换的概念。</li>
+<li>在 DDD 不同的设计过程中，实体的形态是不同的。在战略设计时，实体是领域模型的一个重要对象。领域模型中的实体是多个属性、操作或行为的载体。在事件风暴中，我们可以根据命令、 操作或者事件，找出产生这些行为的业务实体对象，进而按照一定的业务规则将依存度高和业务关联紧密的多个实体对象和值对象进行聚类，形成聚合。你可以这么理解，<strong>实体和值对象是组成领域模型的基础单元</strong>。</li>
+<li>实体<ul>
+<li>在 DDD 中有这样一类对象，它们拥有唯一标识符，且标识符在历经各种状态变更后仍能保持 一致。对这些对象而言，重要的不是其属性，而是其延续性和标识，对象的延续性和标识会跨越甚至超出软件的生命周期。我们把这样的对象称为实体。</li>
+</ul>
+</li>
+<li>值对象：<ul>
+<li>《实现领域驱动设计》一书中对值对象的定义：通过对象属性值来识别的对象，它将多个相关属性组合为一个概念整体。在 DDD 中用来描述领域的特定方面，并且是一个没有标识符的对象，叫作值对象。 </li>
+<li>如上图所示：人员实体原本包括：姓名、年龄、性别以及人员所在的省、市、县和街道等属性。这样显示地址相关的属性就很零碎了对不对？现在，我们可以将“省、市、县和街道等 属性”拿出来构成一个“地址属性集合”，这个集合就是值对象了。</li>
+</ul>
+</li>
+<li>实体和值对象的关系<ul>
+<li>实体和值对象是微服务底层的最基础的对象，一起实现实体最基本的核心领域逻辑。值对象和实体在某些场景下可以互换，很多 DDD 专家在这些场景下，其实也很难判断到底将领域对象设计成实体还是值对象？可以说，值对象在某些场景下有很好的价值，但是并不是所有的场景都适合值对象。你需要根据团队的设计和开发习惯，以及上面的优势和局限分析， 选择最适合的方法。</li>
+</ul>
+</li>
+</ul>
+<h5 id="2-2-DDD核心概念-（续）-2"><a href="#2-2-DDD核心概念-（续）-2" class="headerlink" title="2.2 DDD核心概念 （续）"></a>2.2 DDD核心概念 （续）</h5><ul>
+<li>在 DDD 中，实体和值对象是很基础的领域对象。实体一般对应业务对象，它具有业务属性和业务行为；而值对象主要是属性集合，对实体的状态和特征进行描述。但实体和值对象都只是个体化的对象，它们的行为表现出来的是个体的能力。</li>
+<li>关于聚合<ul>
+<li>域模型内的实体和值对象就好比个体，而能让实体和值对象协同工作的组织就是聚合，它用来确保这些领域对象在实现共同的业务逻辑时，能保证数据的一致性。</li>
+</ul>
+</li>
+<li>关于聚合根<ul>
+<li>聚合根的主要目的是为了避免由于复杂数据模型缺少统一的业务规则控制，而导致聚合、实体之间数据不一致性的问题。</li>
+</ul>
+</li>
+<li>如果把聚合比作组织，那聚合根就是这个组织的负责人。聚合根也称为根实体，它不仅是实体， 还是聚合的管理者。</li>
+<li>以电商为例：<ul>
+<li>电商里面比较典型的几个聚合根，比如：库存、商品、订单等等。以订单为例，订单在聚合里是聚合根，与订单关联的有订单明细和收货地址。订单明细包括商品ID,商品名称，价格以及数量等信息，由于订单明细是多个，它是一个集合，它被设计为实体，被订单引用。而订单只有一个收货地址，这个收货地址的值来源于你个人中心维护的收货地址，收货地址只能被整体替换，所以它被设计为值对象。</li>
+</ul>
+</li>
+</ul>
+<h5 id="2-3-DDD实践流程"><a href="#2-3-DDD实践流程" class="headerlink" title="2.3 DDD实践流程"></a>2.3 DDD实践流程</h5><ul>
+<li><p>如何落地DDD？</p>
+<ul>
+<li>事件风暴[Event Storming]是一种快速探索复杂业务领域的方法</li>
+</ul>
+</li>
+<li><p>事件风暴有如下特征</p>
+<ul>
+<li><p>Effective：可以让实践者在数小时内理解复杂业务模型</p>
+</li>
+<li><p>Engaging：带着问题的和拥有答案的人一起来构建模型</p>
+</li>
+<li><p>Efficient：能快速发现限界上下文以及相关的聚合根等</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211208111851277.png" srcset="/img/loading.gif" lazyload alt="image-20211208111851277"></p>
+</li>
+</ul>
+</li>
+<li><p>事件风暴是一项团队活动，领域专家与项目团队通过头脑风暴的形式，罗列出领域中所有的领域事件，整合之后形成最终的领域事件集合，然后对每一个事件，标注出导致该事件的命令，再为 每一个事件标注出命令发起方的角色。命令可以是用户发起，也可以是第三方系统调用或者定时器触发等，最后对事件进行分类，整理出实体、聚合、聚合根以及限界上下文。而事件风暴正是 DDD 战略设计中经常使用的一种方法，它可以快速分析和分解复杂的业务领域，完成领域建模。</p>
+</li>
+<li><p>事件风暴需要准备些什么</p>
+</li>
+<li><p>产品愿景:产品愿景的主要目的是对产品顶层价值的设计，使产品目标用户、核心价值、差异化竞争点等信息达成一致，避免产品偏离方向。</p>
+<ul>
+<li>产品愿景的参与角色：领域专家、业务需求方、架构师和开发经理。</li>
+<li>在建模之前，项目团队要思考这些点：</li>
+<li>这个过程也是明确用户中台建设方向和统一团队思想的过程。参与者要对每一个点（发表意见，用水笔写在贴纸上，贴在黄色贴纸的位置。这个过程会让参与者充分发表意见，最后会将发散的意见统一为通用语言，建立产品愿景墙。如果你的团队的产品愿景和目标已经很清晰了，那这个步骤你可以忽略。</li>
+</ul>
+</li>
+</ul>
+<h5 id="2-3-DDD实践流程-（续）"><a href="#2-3-DDD实践流程-（续）" class="headerlink" title="2.3 DDD实践流程 （续）"></a>2.3 DDD实践流程 （续）</h5><ul>
+<li><p>如何使用事件风暴</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211208113548173.png" srcset="/img/loading.gif" lazyload alt="image-20211208113548173"></p>
+</li>
+<li><p>统一语言（也叫通用语言）：定义业务和技术之间沟通的专用术语，避免产生歧义</p>
+</li>
+<li><p>业务流程梳理：领域专家介绍业务，参与者可以任意提问，大家在理解业务的基础上梳理出业务流。</p>
+</li>
+<li><p>寻找事件：任何的业务都会以数据的形式留下足迹。我们对于数据的追溯可以通过对事件的追溯来完成。当把这些事件按照时间顺序排列起来，几乎可以清晰的推测出在过往的一段时间内到底 发生了什么数据变化。</p>
+</li>
+<li><p>寻找命令：命令代表了外部系统或者用户触发的动作、以及内部的定时行为</p>
+</li>
+<li><p>寻找聚合：寻找业务中的关键事件</p>
+</li>
+<li><p>划分子域&amp;界限</p>
+</li>
+<li><p><strong>最后得到的限界上下文约等于微服务</strong></p>
+</li>
+</ul>
+<h5 id="2-4-DDD案例解析"><a href="#2-4-DDD案例解析" class="headerlink" title="2.4 DDD案例解析"></a>2.4 DDD案例解析</h5><ul>
+<li><p>我们以腾讯云课程报名为例，通过DDD构建领域模型。在这个业务中不同用户的需求。</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211208113949162.png" srcset="/img/loading.gif" lazyload alt="image-20211208113949162"></p>
+</li>
+<li><p>通过事件风暴理清需求，快速探索业务领域</p>
+</li>
+</ul>
+<h6 id="2-4-1-用户访谈"><a href="#2-4-1-用户访谈" class="headerlink" title="2.4.1 用户访谈"></a>2.4.1 用户访谈</h6><ul>
+<li>通过用户访谈，了解当前的业务流程：</li>
+</ul>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211208114051727.png" srcset="/img/loading.gif" lazyload alt="image-20211208114051727"></p>
+<ul>
+<li>总结核心的业务问题，识别子领域，限界上下文就是子领域功能和模型的边界。</li>
+</ul>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211208114146782.png" srcset="/img/loading.gif" lazyload alt="image-20211208114146782"></p>
+<h6 id="2-4-2-进行领域建模"><a href="#2-4-2-进行领域建模" class="headerlink" title="2.4.2 进行领域建模"></a>2.4.2 进行领域建模</h6><ul>
+<li><p>排课领域-建模</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211208122505589.png" srcset="/img/loading.gif" lazyload alt="image-20211208122505589"></p>
+</li>
+<li><p>报名缴费领域-建模</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211208155038765.png" srcset="/img/loading.gif" lazyload alt="image-20211208155038765"></p>
+</li>
+</ul>
+<ul>
+<li><p>课程评价领域-建模</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211208155924913.png" srcset="/img/loading.gif" lazyload alt="image-20211208155924913"></p>
+</li>
+</ul>
+<ul>
+<li><p>进行上下文映射</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211208160127228.png" srcset="/img/loading.gif" lazyload alt="image-20211208160127228"></p>
+</li>
+</ul>
+<h4 id="第三章-微服务设计实战"><a href="#第三章-微服务设计实战" class="headerlink" title="第三章 微服务设计实战"></a>第三章 微服务设计实战</h4><h5 id="3-1-微服务设计实战介绍"><a href="#3-1-微服务设计实战介绍" class="headerlink" title="3.1 微服务设计实战介绍"></a>3.1 微服务设计实战介绍</h5><h6 id="3-1-1-微服务的拆分应该考虑哪些方面"><a href="#3-1-1-微服务的拆分应该考虑哪些方面" class="headerlink" title="3.1.1 微服务的拆分应该考虑哪些方面"></a>3.1.1 微服务的拆分应该考虑哪些方面</h6><p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211208160334965.png" srcset="/img/loading.gif" lazyload alt="image-20211208160334965"></p>
+<h6 id="3-1-2-微服务设计实战流程"><a href="#3-1-2-微服务设计实战流程" class="headerlink" title="3.1.2 微服务设计实战流程"></a>3.1.2 微服务设计实战流程</h6><ul>
+<li><p>微服务设计实战流程如下所示：</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211208160438048.png" srcset="/img/loading.gif" lazyload alt="image-20211208160438048"></p>
+</li>
+</ul>
+<h5 id="3-2-微服务拆分流程"><a href="#3-2-微服务拆分流程" class="headerlink" title="3.2 微服务拆分流程"></a>3.2 微服务拆分流程</h5><ul>
+<li><p>战略设计：从业务视角出发</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211208160850054.png" srcset="/img/loading.gif" lazyload alt="image-20211208160850054"></p>
+<ul>
+<li><p>通过事件风暴从错综复杂的业务领域中分析并构建领域模型，划分领域边界。建立通用语言的限界上下文，限界上下文可以作为微服务设计的参考边界。</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211208160706518.png" srcset="/img/loading.gif" lazyload alt="image-20211208160706518"></p>
+</li>
+<li><p>事件风暴是一项团队活动，领域专家与项目团队通过头脑风暴的形式，罗列出领域中所有的领域事件，整合之后形成最终的领域事件集合，然后对每一个事件，标注出导致该事件的命令，再为 每一个事件标注出命令发起方的角色。命令可以是用户发起，也可以是第三方系统调用或者定时器触发等，最后对事件进行分类，整理出实体、聚合、聚合根以及限界上下文。而事件风暴正是 DDD 战略设计中经常使用的一种方法，它可以快速分析和分解复杂的业务领域，完成领域建模。</p>
+</li>
+</ul>
+</li>
+<li><p><strong>战术设计：从技术角度出发，将战略设计的结果落地</strong></p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211208161102156.png" srcset="/img/loading.gif" lazyload alt="image-20211208161102156"></p>
+</li>
+</ul>
+<h5 id="3-3-小组讨论"><a href="#3-3-小组讨论" class="headerlink" title="3.3 小组讨论"></a>3.3 小组讨论</h5><ul>
+<li>规则<ul>
+<li>每4名学员一组</li>
+<li>每组构想一个业务场景</li>
+<li>利用DDD战略设计对业务场景进行领域建模，确定限界上下文</li>
+<li>根据限界上下文确定微服务系统的形态</li>
+<li>小组合作开发完成微服务</li>
+<li>将开发完成的微服务部署到TSF平台</li>
+<li>对微服务镜像服务治理和运维的操作</li>
+</ul>
+</li>
+<li>分小组进行微服务设计实战</li>
+</ul>
+<h5 id="3-4-汇报总结"><a href="#3-4-汇报总结" class="headerlink" title="3.4 汇报总结"></a>3.4 汇报总结</h5><ul>
+<li>汇报内容<ul>
+<li>业务场景介绍</li>
+<li>微服务拆分过程介绍</li>
+<li>微服务展示</li>
+</ul>
+</li>
+<li>成果汇报</li>
+</ul>
+<h4 id="课程总结"><a href="#课程总结" class="headerlink" title="课程总结"></a>课程总结</h4><ul>
+<li>本文主要讲述了如下内容：<ul>
+<li>康威定律和微服务</li>
+<li>DDD介绍</li>
+<li>利用DDD思想拆分微服务</li>
+</ul>
+</li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%95%99%E7%A8%8B/">教程</a>
+                    
+                  </div>
+                
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/12/06/%E5%8D%81%E4%B8%89%E3%80%81%E5%BE%AE%E6%9C%8D%E5%8A%A1%E8%AE%BE%E8%AE%A1%E7%9A%84%E5%8E%9F%E5%88%99%E5%8F%8A%E4%BB%B7%E5%80%BC/">
+                        <span class="hidden-mobile">十三、微服务设计的原则及价值</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

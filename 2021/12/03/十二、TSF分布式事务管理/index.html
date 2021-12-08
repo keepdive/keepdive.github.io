@@ -1,0 +1,837 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="随着微服务的增多，业务上不可避免的出现了多个服务（不同服务可能使用的是不同的数据库）之间协作的问题，这时候多个服务涉及的操作要么同时都成功，要么同时都失败，这就是分布式事务。">
+  <meta name="author" content="Mike">
+  <meta name="keywords" content="">
+  <meta name="description" content="随着微服务的增多，业务上不可避免的出现了多个服务（不同服务可能使用的是不同的数据库）之间协作的问题，这时候多个服务涉及的操作要么同时都成功，要么同时都失败，这就是分布式事务。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="十二、TSF分布式事务管理">
+<meta property="og:url" content="http://example.com/2021/12/03/%E5%8D%81%E4%BA%8C%E3%80%81TSF%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86/index.html">
+<meta property="og:site_name" content="KeepDive">
+<meta property="og:description" content="随着微服务的增多，业务上不可避免的出现了多个服务（不同服务可能使用的是不同的数据库）之间协作的问题，这时候多个服务涉及的操作要么同时都成功，要么同时都失败，这就是分布式事务。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211203164433250.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211206111426768.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211206113454881.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211206113618989.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211206114401308.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211206120547855.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211206155714357.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211206160010473.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211206164733490.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211206165720423.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211206170132844.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211206170234965.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211206170318675.png">
+<meta property="article:published_time" content="2021-12-03T08:27:45.000Z">
+<meta property="article:modified_time" content="2021-12-06T09:07:13.988Z">
+<meta property="article:author" content="Mike">
+<meta property="article:tag" content="TSF">
+<meta property="article:tag" content="分布式事务">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211203164433250.png">
+  
+  <title>十二、TSF分布式事务管理 - KeepDive</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>KeepDive</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="十二、TSF分布式事务管理">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-author" aria-hidden="true"></i>
+      Mike
+    </span>
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-12-03 16:27" pubdate>
+        2021年12月3日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      9.4k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      29 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">十二、TSF分布式事务管理</h1>
+            
+            <div class="markdown-body">
+              <h3 id="十二、TSF分布式事务管理"><a href="#十二、TSF分布式事务管理" class="headerlink" title="十二、TSF分布式事务管理"></a>十二、TSF分布式事务管理</h3><p>随着微服务的增多，业务上不可避免的出现了多个服务（不同服务可能使用的是不同的数据库） 之间协作的问题（比如：跨行转账，2个账户数据在不同的地方，一个账户扣钱，另一个账户收 钱，这2个操作必须同时成功或者失败），这时候多个服务涉及的操作要么同时都成功，要么同 时都失败，这就是分布式事务。接下来我们看一下TSF的分布式事务管理功能。</p>
+<h4 id="学习目标"><a href="#学习目标" class="headerlink" title="学习目标"></a>学习目标</h4><p>通过本文的学习，你将可以：</p>
+<ul>
+<li>了解本地事务与分布式事务</li>
+<li>了解分布式事务典型场景</li>
+<li>掌握二阶段提交、三阶段提交和TCC</li>
+<li>掌握使用TSF管理和监控分布式事务</li>
+</ul>
+<h4 id="第一章-本地事务与分布式事务简介"><a href="#第一章-本地事务与分布式事务简介" class="headerlink" title="第一章 本地事务与分布式事务简介"></a>第一章 本地事务与分布式事务简介</h4><h5 id="1-1-事务简介"><a href="#1-1-事务简介" class="headerlink" title="1.1 事务简介"></a>1.1 事务简介</h5><ul>
+<li><p>事务(Transaction)是访问并可能更新数据库中各种数据项的一个程序执行单元(unit)。在关系数据库中，一个事务由一组SQL语句组成。</p>
+</li>
+<li><p>事务属性通常称为<strong>ACID</strong>特性,分别为：</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211203164433250.png" srcset="/img/loading.gif" lazyload alt="image-20211203164433250"></p>
+</li>
+<li><p>事务(Transaction)是访问并可能更新数据库中各种数据项的一个程序执行单元(unit)。事务由事务开始(begin transaction)和事务结束(commit transaction或 rollback transaction)之间执行 的全体操作组成，通常由高级数据库操纵语言或编程语言（如SQL，C++或Java）书写的用户程序的执行所引起。</p>
+</li>
+<li><p>一个逻辑工作单元要成为事务，必须满足所谓的ACID(原子性、一致性、隔离性和持久性)属性。</p>
+</li>
+<li><p>原子性（atomicity）：一个事务是一个不可分割的工作单位，事务中包括的诸操作要么都做，要么都不做。</p>
+</li>
+<li><p>一致性（consistency）：事务在完成时，必须使所有的数据都保持一致状态，即保持数据的完整性（在存储或传输信息的过程中，原始的信息不能允许被随意更改）</p>
+</li>
+<li><p>隔离性（isolation）：由并发事务所作的修改必须与任何其它并发事务所作的修改隔离。</p>
+</li>
+<li><p>持久性（durability）：持续性也称永久性（permanence），指一个事务一旦提交，它对数据库 中数据的改变就应该是永久性的。</p>
+</li>
+</ul>
+<h5 id="1-2-本地事务"><a href="#1-2-本地事务" class="headerlink" title="1.2 本地事务"></a>1.2 本地事务</h5><ul>
+<li><p>大多场景下，我们的应用都只需操作单一的数据库，这种情况下的事务称之为本地事务(Local Transaction)。</p>
+</li>
+<li><p>本地事务的ACID特性是数据库直接提供支持。</p>
+</li>
+<li><p>本地事务应用架构如下所示：</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211206111426768.png" srcset="/img/loading.gif" lazyload alt="image-20211206111426768"></p>
+</li>
+<li><p>在JDBC编程中，我们通过java.sql.Connection对象来开启、关闭或者提交事务。</p>
+</li>
+<li><p>很多java应用都整合了spring，并使用其声明式事务管理功能来完成事务功能。一般使用的步骤如下：</p>
+<ul>
+<li>配置事务管理器。spring提供了一个PlatformTransactionManager接口，其有2个重要的实现类：<ul>
+<li>DataSourceTransactionManager：用于支持本地事务，其内部通过操作java.sql.Connection来开启、提交和回滚事务。</li>
+<li>JtaTransactionManager：用于支持分布式事务，其实现了JTA规范，使用XA协议进行两阶段提交。需要注意的是，这只是一个代理，我们需要为其提供一个JTA provider，一般 是Java EE容器提供的事务协调器(Java EE server’s transaction coordinator)，也可以不 依赖容器，配置一个本地的JTA provider。</li>
+</ul>
+</li>
+<li>在需要开启的事务的bean的方法上添加@Transitional注意，可以看到，spring除了支持本地事务，也支持分布式事务，下面我们先对分布式事务的典型应用场景进行介绍。</li>
+</ul>
+</li>
+</ul>
+<h5 id="1-3-分布式事务"><a href="#1-3-分布式事务" class="headerlink" title="1.3 分布式事务"></a>1.3 分布式事务</h5><ul>
+<li><p>分布式事务</p>
+<ul>
+<li>顾名思义就是在分布式环境下运行的事务。</li>
+<li>对于分布式事务来说，事务的每个操作步骤是运行在不同机器上服务的。</li>
+<li>分布式事务处理的关键是必须有一种方法可以知道事务在任何地方所做的所有动作， 提交或回滚事务的决定必须产生统一的结果（全部提交或全部回滚）。</li>
+</ul>
+</li>
+<li><p>在现如今的大型互联网平台中，基本上都是采用分布式的SOA架构，所以分布式事务是非常常见的。比如一个电商平台的下单场景，一般对于用户下单会有两个步骤，一是订单业务采取下订单操作，二是库存业务采取减库存操作，但在大型电子商务平台上这两个业务一般会运行在不同的 机器上，这就是一个典型的分布式事务场景。还有一个常见的场景就是支付宝向余额宝转账，而支付宝和余额宝不是一个系统，怎么保证这两个系统之间的一致性就是分布式事务所关注的问题。</p>
+</li>
+</ul>
+<h4 id="第二章-分布式事务典型场景"><a href="#第二章-分布式事务典型场景" class="headerlink" title="第二章 分布式事务典型场景"></a>第二章 分布式事务典型场景</h4><h5 id="2-1-跨库事务"><a href="#2-1-跨库事务" class="headerlink" title="2.1 跨库事务"></a>2.1 跨库事务</h5><ul>
+<li><p>跨库事务：一个应用某个功能需要操作多个库，不同的库中存储不同的业 务数据。</p>
+</li>
+<li><p>在相对复杂的业务场景中，一个业务可能同时操作9个库。</p>
+</li>
+<li><p>下图为一个服务同时操作2个库的情况：</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211206113454881.png" srcset="/img/loading.gif" lazyload alt="image-20211206113454881"></p>
+</li>
+</ul>
+<h5 id="2-2-分库分表"><a href="#2-2-分库分表" class="headerlink" title="2.2 分库分表"></a>2.2 分库分表</h5><ul>
+<li><p>通常一个库数据量较大或者预期未来的数据量较大时，会进行水平拆分，也就是分库分表。</p>
+<ul>
+<li><p>如下图，将数据库B拆分成了2个库：</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211206113618989.png" srcset="/img/loading.gif" lazyload alt="image-20211206113618989"></p>
+</li>
+</ul>
+</li>
+<li><p>对于分库分表的情况，一般开发人员都会使用一些数据库中间件来降低sql操作的复杂性。如，对于sql：insert into user(id,name) values (1,”tianshouzhi”),(2,”wangxiaoxiao”)。这条sql是操 单库的语法，单库情况下，可以保证事务的一致性。</p>
+</li>
+<li><p>但是由于现在进行了分库分表，开发人员希望将1号记录插入分库1，2号记录插入分库2。所以数 、据库中间件要将其改写为2条sql，分别插入两个不同的分库，此时要保证两个库要不都成功，要不都失败，因此基本上所有的数据库中间件都面临着分布式事务的问题。</p>
+</li>
+</ul>
+<h5 id="2-3-服务化-SOA"><a href="#2-3-服务化-SOA" class="headerlink" title="2.3 服务化(SOA)"></a>2.3 服务化(SOA)</h5><ul>
+<li><p>某应用同时操作9个库业务逻辑非常复杂，对于开发人员是极大的挑战，应 拆分成不同的独立服务，以简化业务逻辑。拆分后，独立服务之间通过 RPC框架来进行远程调用，实现彼此的通信。</p>
+</li>
+<li><p>下图为3个服务之间彼此调用的架构：</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211206114401308.png" srcset="/img/loading.gif" lazyload alt="image-20211206114401308"></p>
+</li>
+<li><p>Service A完成某个功能需要直接操作数据库，同时需要调用Service B和Service C，而Service B 又同时操作了2个数据库，Service C也操作了一个库。需要保证这些跨服务的对多个数据库的操作要不都成功，要不都失败，实际上这可能是最典型的分布式事务场景。</p>
+</li>
+<li><p>小结：上述讨论的分布式事务场景中，无一例外的都直接或者间接的操作了多个数据库。如何保证事务的ACID特性，对于分布式事务实现方案而言，是非常大的挑战。同时，分布式事务实现方 案还必须要考虑性能的问题，如果为了严格保证ACID特性，导致性能严重下降，那么对于一些要 求快速响应的业务，是无法接受的。</p>
+</li>
+</ul>
+<h4 id="第三章-二阶段提交、三阶段提交和TCC"><a href="#第三章-二阶段提交、三阶段提交和TCC" class="headerlink" title="第三章 二阶段提交、三阶段提交和TCC"></a>第三章 二阶段提交、三阶段提交和TCC</h4><h5 id="3-1-二阶段提交"><a href="#3-1-二阶段提交" class="headerlink" title="3.1 二阶段提交"></a>3.1 二阶段提交</h5><ul>
+<li><p>两阶段提交协议（Two Phase Commit）不是在XA规范中提出，但是XA 规范对其进行了优化，因此统一放到这里进行讲解。而从字面意思来理解 ，Two Phase Commit，就是将提交(commit)过程划分为2个阶段(Phase) ：</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211206120547855.png" srcset="/img/loading.gif" lazyload alt="image-20211206120547855"></p>
+</li>
+<li><p>阶段1：</p>
+<ul>
+<li>TM（Transaction Manager，事务管理器）通知各个RM（Resource Manager，资源管理器）准备提交它们的事务分支。如果RM判断自己进行的工作可以被提交，那就对工作内容进行持久化，再给TM肯定答复；要是发生了其他情况，那给TM的都是否定答复。 在发送了否定答复并回滚了已经的工作后，RM就可以丢弃这个事务分支信息。</li>
+<li>以mysql数据库为例，在第一阶段，事务管理器向所有涉及到的数据库服务器发出prepare”准备提交”请求，数据库收到请求后执行数据修改和日志记录等处理，处理完成后只是把事务的状态改成”可以提交”,然后把结果返回给事务管理器。</li>
+</ul>
+</li>
+<li><p>阶段2</p>
+<ul>
+<li>TM根据阶段1各个RM prepare的结果，决定是提交还是回滚事务。如果所有的RM都 prepare成功，那么TM通知所有的RM进行提交；如果有RM prepare失败的话，则TM通知所有RM回滚自己的事务分支。</li>
+<li>以mysql数据库为例，如果第一阶段中所有数据库都prepare成功，那么事务管理器向数据库服务器发出”确认提交”请求，数据库服务器把事务的”可以提交”状态改为”提交完成”状态，然后返回应答。如果在第一阶段内有任何一个数据库的操作发生了错误，或者事务管理器收不到某个数据库的回应，则认为事务失败，回撤所有数据库的事务。数据库服务器收不到第二阶段的确认提交请求，也会把”可以提交”的事务回撤。</li>
+</ul>
+</li>
+<li><p>二阶段提交看起来确实能够提供原子性的操作，但是不幸的是，二阶段提交还是有几个缺点的：</p>
+<ol>
+<li>同步阻塞问题</li>
+<li>单点故障</li>
+<li>数据不一致</li>
+</ol>
+</li>
+</ul>
+<h5 id="3-2-三阶段提交"><a href="#3-2-三阶段提交" class="headerlink" title="3.2 三阶段提交"></a>3.2 三阶段提交</h5><ul>
+<li><p>三阶段提交（3PC)，是二阶段提交（2PC）的改进版本。</p>
+</li>
+<li><p>与两阶段提交不同的是，三阶段提交有两个改动点。</p>
+<ul>
+<li>引入超时机制。同时在协调者和参与者中都引入超时机制。</li>
+<li>在第一阶段和第二阶段中插入一个准备阶段。保证了在最后提交阶段之前各参与节点的状态是一致的。</li>
+</ul>
+</li>
+<li><p>三阶段提交有：CanCommit、PreCommit、DoCommit三个阶段。</p>
+</li>
+<li><p>三阶段提交协议在协调者和参与者中都引入超时机制，并且把两阶段提交协议的第一个阶段拆分成了两步：询问，然后再锁资源，最后真正提交。</p>
+</li>
+<li><p>CanCommit阶段:3PC的CanCommit阶段其实和2PC的准备阶段很像。协调者向参与者发送 commit请求，参与者如果可以提交就返回Yes响应，否则返回No响应</p>
+</li>
+<li><p>PreCommit阶段:根据反应情况来决定是否可以继续事务的PreCommit操作</p>
+<ul>
+<li>如果响应全部yes，则进行事务预执行</li>
+<li>如果有一个响应为no，或者等待超时，那么就中断事务，发送中断请求</li>
+</ul>
+</li>
+<li><p>DoCommit阶段：该阶段进行真正的事务提交，也可以分为以下两种情况：</p>
+<ul>
+<li>执行提交</li>
+<li>中断事务</li>
+</ul>
+</li>
+<li><p>对于协调者(Coordinator)和参与者(Cohort)都设置了超时机制（在2PC中，只有协调者拥有超时机制，即如果在一定时间内没有收到cohort的消息则默认失败），在2PC的准备阶段和提交阶段之间，插入预提交阶段，使3PC拥有CanCommit、PreCommit、DoCommit三个阶段。 PreCommit是一个缓冲，保证了在最后提交阶段之前各参与节点的状态是一致的</p>
+</li>
+</ul>
+<h5 id="3-3-TCC"><a href="#3-3-TCC" class="headerlink" title="3.3 TCC"></a>3.3 TCC</h5><ul>
+<li>TCC 模式是应用层的两阶段提交：<ul>
+<li>先 try, 再执行 confirm；若 try 失败，则执行cancel。</li>
+</ul>
+</li>
+<li>TCC 模式解决的问题包括但不限于：<ul>
+<li>数据库的两阶段并发性能差。</li>
+<li>数据库对XA协议的支持可能不完善。</li>
+<li>在分布式架构下，主业务系统并非直接操作数据库，而是调用从业务系统的服务接口 。</li>
+</ul>
+</li>
+<li><strong>TCC 模式是一种补偿性分布式事务</strong>。其中TCC 三个字母分别对应Try、Confirm、Cancel三种操 作。其中Try 阶段预留业务资源，Confirm 阶段确认执行业务操作，cancel 阶段取消执行业务操作。TCC 模式解决了跨服务操作的原子性问题，对数据库的操作是一阶段提交，性能较好。因此， TCC 模式是现今被广泛应用的一种分布式事务模式。</li>
+<li>Try: 尝试执行业务<ul>
+<li>完成所有业务检查(一致性)</li>
+<li>预留必须业务资源(准隔离性)</li>
+</ul>
+</li>
+<li>Confirm:确认执行业务<ul>
+<li>真正执行业务</li>
+<li>不作任何业务检查</li>
+<li>只使用Try阶段预留的业务资源</li>
+<li>Confirm操作要满足幂等性</li>
+</ul>
+</li>
+<li>Cancel: 取消执行业务<ul>
+<li>释放Try阶段预留的业务资源</li>
+<li>Cancel操作要满足幂等性</li>
+</ul>
+</li>
+</ul>
+<h4 id="第四章-分布式事务应用持续开发指南"><a href="#第四章-分布式事务应用持续开发指南" class="headerlink" title="第四章 分布式事务应用持续开发指南"></a>第四章 分布式事务应用持续开发指南</h4><h5 id="4-1-名词解释"><a href="#4-1-名词解释" class="headerlink" title="4.1 名词解释"></a>4.1 名词解释</h5><p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211206155714357.png" srcset="/img/loading.gif" lazyload alt="image-20211206155714357"></p>
+<ul>
+<li><p>事务：事务是指作为单个逻辑工作单元执行的一系列操作。事务的执行有一致性。同一个事务只能同时被操作或不被操作。</p>
+</li>
+<li><p>主事务：主事务是事务的发起者。同一个事务只能有一个主事务。</p>
+</li>
+<li><p>子事务：子事务是同一个主事务下的分支。</p>
+</li>
+<li><p>事务管理器：事务管理器是一个协调分布式事务、管理事务执行状态的独立服务。</p>
+</li>
+</ul>
+<h5 id="4-2-开发指南-场景描述"><a href="#4-2-开发指南-场景描述" class="headerlink" title="4.2  开发指南-场景描述"></a>4.2  开发指南-场景描述</h5><ul>
+<li><p>场景描述：</p>
+<ul>
+<li><p>两台虚拟机，分别命令为node1、node2，每台虚拟机上都安装了MySQL数据库，现在向node1上的数据库更新用户账户信息，向node2上的数据库新增用户消费信息。</p>
+</li>
+<li><p>基本流程如下：</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211206160010473.png" srcset="/img/loading.gif" lazyload alt="image-20211206160010473"></p>
+</li>
+</ul>
+</li>
+<li><p>接下来以如上场景来说明TCC的事务开发步骤，以SprigCloud项目为例</p>
+</li>
+<li><p>基本开发流程如上图</p>
+</li>
+</ul>
+<h6 id="4-2-1-开发指南-配置TCC事务"><a href="#4-2-1-开发指南-配置TCC事务" class="headerlink" title="4.2.1 开发指南-配置TCC事务"></a>4.2.1 开发指南-配置TCC事务</h6><ul>
+<li><p>配置TCC事务</p>
+<ul>
+<li><p>通过Maven引入依赖，在项目的pom文件添加下述配置项：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>		<span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.tencent.tsf.transaction<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>		<span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>tsf-transaction-core<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>		<span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>0.0.5-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<h6 id="4-2-2-开发指南-添加注解"><a href="#4-2-2-开发指南-添加注解" class="headerlink" title="4.2.2 开发指南-添加注解"></a>4.2.2 开发指南-添加注解</h6><ul>
+<li><p>启用Tcc事务在Spring Cloud的启动类加入注解@EnableTcc: </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@SpringBootApplication</span><br><span class="hljs-meta">@EnableTcc</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">App</span> </span>&#123;<br>  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[]args)</span></span>&#123;<br>  	SpringApplication.run(App.class);<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h6 id="4-2-2-开发指南-添加注解（续）"><a href="#4-2-2-开发指南-添加注解（续）" class="headerlink" title="4.2.2 开发指南-添加注解（续）"></a>4.2.2 开发指南-添加注解（续）</h6><ul>
+<li>在事务的入口函数上添加@TsfTcc注解，TsfTcc注解有如下属性：<ul>
+<li>serviceName：事务所属的服务名，必选。</li>
+<li>type：事务类型，TransactionType.ROOT表示主事务，TransactionType.BRANCH 表示子事务，默认值为Root，可选。</li>
+<li>timeout_ms：事务的超时时间，属性可选，默认为60秒，可选。</li>
+<li>confirmMethodName：confirm方法名，主事务可选，子事务必选。</li>
+<li>cancelMethodName：cancel方法名，主事务可选，子事务必选。</li>
+<li>autoRetry: 事务超时后，是否由服务器托管继续自动重试。</li>
+</ul>
+</li>
+<li>建议注解加在接口定义的方法上</li>
+</ul>
+<h6 id="4-2-3-开发指南-定义主事务"><a href="#4-2-3-开发指南-定义主事务" class="headerlink" title="4.2.3 开发指南-定义主事务"></a>4.2.3 开发指南-定义主事务</h6><ul>
+<li><p>定义主事务</p>
+<ul>
+<li><p>主事务函数只需要定义一个事务入口函数即可。type选择Root类型；函数抛出 Throwable异常，返回值没有特殊要求；建议业务将所需的参数都封装成一个对象， 只使用这一个对象作为入参即可（所有的参数必须实现Serializable接口），一个主事务函数定义的样例如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MainTransaction</span> </span>&#123;<br><br>	<span class="hljs-meta">@TsfTcc(serviceName = &quot;myTcc&quot;, type = TransactionType.ROOT, timeout_ms = 60000)</span><br>	<span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">beginTcc</span><span class="hljs-params">(MyParams params)</span> <span class="hljs-keyword">throws</span> Throwable </span>&#123;<br>	<span class="hljs-comment">//这里写业务逻辑，调用子事务函数</span><br>		&#125;<br>&#125;<br></code></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<h6 id="4-2-4-开发指南-定义子事务"><a href="#4-2-4-开发指南-定义子事务" class="headerlink" title="4.2.4 开发指南-定义子事务"></a>4.2.4 开发指南-定义子事务</h6><ul>
+<li>定义子事务<ul>
+<li>一个完整的子事务需要定义3个方法：Try，Confirm，Cancel。</li>
+<li>其中只有Try方法才需要加TsfTcc注解，在TsfTcc标签中指定对应Confirm和Cancel方法名即可。</li>
+<li>子事务函数定义约束如下：<ul>
+<li>Try，Confirm，Cancel的前两个参数必须为String txId和long branchId(在主事务调用子事务的时候，这两个参数分别为null和0即可)，其中txId为主事务Id，全局唯一；branchId为子事务Id，用于区分子事务的父子关系和子事务之间的调用顺序。</li>
+<li>Try函数返回Throwable异常；Try函数的返回值为void，Tcc通过异常返回失败结果。</li>
+<li>Confirm和Cancel函数返回值为boolean类型，操作成功返回true，操作失败返回False。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h6 id="4-2-6-开发指南-事务函数样例"><a href="#4-2-6-开发指南-事务函数样例" class="headerlink" title="4.2.6 开发指南-事务函数样例"></a>4.2.6 开发指南-事务函数样例</h6><ul>
+<li>一个子事务函数定义的样例如下：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">SubService</span></span>&#123;<br>  <br>  <span class="hljs-meta">@TsfTcc(serviceName = &quot;subService&quot;, type = TransactionType.BRANCH, confirmMethodName = &quot;subConfirm&quot;, cancelMethodName = &quot;subCancel&quot;)</span><br>  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">subTry</span><span class="hljs-params">(String txId, <span class="hljs-keyword">long</span> branchId, MyParams Params)</span> <span class="hljs-keyword">throws</span> Throwable</span>;<br>  <br>  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">subConfirm</span><span class="hljs-params">(String txId, <span class="hljs-keyword">long</span> branchId, MyParams Params)</span> <span class="hljs-keyword">throws</span> Throwable</span>;<br>  <br>  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">subCancel</span><span class="hljs-params">(String txId, <span class="hljs-keyword">long</span> branchId, MyParams Params)</span> <span class="hljs-keyword">throws</span> Throwable</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><p>主事务与子事务结合样例如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MainTransaction</span></span>&#123;<br>  	<br>  	SubService subService;<br>  <br>  	<span class="hljs-meta">@TsfTcc(serviceName = &quot;myTcc&quot;, type = Transaction.ROOT, timeout_ms = 600000)</span><br>  	<span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">beginTcc</span><span class="hljs-params">(MyParams params)</span> <span class="hljs-keyword">throws</span> Throwable</span>&#123;<br>      	subService.subTry(<span class="hljs-keyword">null</span>, <span class="hljs-number">0</span>, params);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h5 id="4-3-分布式事务应用程序开发常见问题"><a href="#4-3-分布式事务应用程序开发常见问题" class="headerlink" title="4.3 分布式事务应用程序开发常见问题"></a>4.3 分布式事务应用程序开发常见问题</h5><ul>
+<li>如何保证全局事务的正确执行</li>
+<li>子事务如何访问外部服务</li>
+<li>业务需要处理什么类型的异常</li>
+<li>业务什么时候会进行回滚</li>
+<li>分布式事务的超时、重试机制</li>
+</ul>
+<ul>
+<li>如何保证全局事务的正确执行<ul>
+<li>Tcc通过主事务函数作为入口，协调控制多个跨库/跨服务的子事务的执行流程。因此，Tcc保证的是在各个子事务之间的事务特性，一次性Confirm或者Cancel所有的子事务。然而Tcc不能够保证每个子事务内部的事务性质，<strong>因此在使用Tcc时的最佳实践应该是在每个子事务内部需要自己执行本地事务</strong>。</li>
+</ul>
+</li>
+<li>子事务如何访问外部服务<ul>
+<li>在SpringCloud中，可以通过集成FeignClient去访问外部的服务，再次以上述的子事务为例， 假如子事务需要调用一个代金券服务的相关接口，则配置如下:<ul>
+<li>在接口上增加了如下注解：<ul>
+<li>@FeignClient(value = “couponService”)，value的值为外部服务在服务注册中心注册的服务名</li>
+<li>@RequestMapping(value = “/api/v6/data/couponService”)，value的值为外部服务的根URL</li>
+</ul>
+</li>
+<li>在方法上增加了如下注解：<ul>
+<li>@RequestMapping(value = “/try”, method = RequestMethod.POST)，value的值为外部 服务的api的URL以及请求方式。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>业务需要处理什么类型的异常<ul>
+<li>主事务函数中主要需要捕获两个异常：TransactionCancelledException异常表示事务失败 cancelled，TransactionTimeoutException异常表示事务超时。运行时业务抛出的异常会被包装在这两个异常中，可以通过getCause()方法获取业务真正的运行时异常。</li>
+</ul>
+</li>
+<li>业务什么时候会进行回滚<ul>
+<li>当前业务只有在子事务Try失败的时候进行cancel操作,当进入confirm阶段之后，confirm失败只会继续重试confirm，直到超时为止。</li>
+</ul>
+</li>
+<li>分布式事务的超时、重试机制<ul>
+<li>用户可以在主事务的注释中定义超时时间，默认超时时间为60秒，此时的超时时间为整个事务的超时时间。当事务超时后，事务管理器对事务进行接管，以每5秒一次的重试频率自动触发重试，重试频率逐渐增长，直到600秒。用户可以在控制台上控制中断这一重试过程，也可以手动触发重试。7天后，重试自动终止。对于未超时的事务，Try 阶段自动重试3次，3次重试不成功自动触发 Cancel 进行回滚。对于 Confirm 或者 Cancel 阶段始终不能执行成功的情况，会重试直到超时。超时后由事务管理器接管。</li>
+</ul>
+</li>
+</ul>
+<h4 id="第五章-使用TSF管理和监控分布式事务"><a href="#第五章-使用TSF管理和监控分布式事务" class="headerlink" title="第五章 使用TSF管理和监控分布式事务"></a>第五章 使用TSF管理和监控分布式事务</h4><h5 id="5-1-使用TSF管理和监控分布式事务"><a href="#5-1-使用TSF管理和监控分布式事务" class="headerlink" title="5.1 使用TSF管理和监控分布式事务"></a>5.1 使用TSF管理和监控分布式事务</h5><ul>
+<li>腾讯云TSF框架，提供基于TCC（Try-Confirm-Cancel）的事务方案，解决跨服务的一致性问题。<ul>
+<li>第一阶段：主业务服务分别调用所有从业务服务的 try 操作，并在活动管理器中记录所有从业务服务。当所有从业务服务 try 成功或者某个从业务服务 try 失败时，进入第二阶段</li>
+<li>第二阶段：活动管理器根据第一阶段从业务服务的 try 结果来执行 confirm 或 cancel 操作。如果第一阶段所有从业务服务都 try 成功，则协作者调用所有从业务服务的 confirm 操作，否则，调用所有从业务服务的 cancel 操作。（confirm操作，需要业务满足幂等）</li>
+</ul>
+</li>
+<li>前面我们已经介绍了二阶段提交，三阶段提交以及TCC提交方式，在TSF中使用的是TCC分布式事务方案</li>
+</ul>
+<h5 id="5-1-使用TSF管理和监控分布式事务（续）"><a href="#5-1-使用TSF管理和监控分布式事务（续）" class="headerlink" title="5.1 使用TSF管理和监控分布式事务（续）"></a>5.1 使用TSF管理和监控分布式事务（续）</h5><ul>
+<li><p>在第二阶段中，confirm 和 cancel 同样存在失败情况，所以需要对这两种情况做异常处理以保证数据一致性。</p>
+<ul>
+<li>Confirm /Cancel失败：会一直重试对应的Confirm或者Cancel操作直到成功，因此需要保证业务是幂等的。</li>
+</ul>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211206164733490.png" srcset="/img/loading.gif" lazyload alt="image-20211206164733490"></p>
+</li>
+<li><p>try 阶段：尝试执行，完成所有业务检查（一致性），预留必需业务资源（准隔离性）。</p>
+</li>
+<li><p>Confirm 阶段：确认真正执行业务，不作任何业务检查，只使用 Try 阶段预留的业务资源， Confirm 操作满足幂等性。要求具备幂等设计，Confirm 失败后需要进行重试。</p>
+</li>
+<li><p>Cancel 阶段：取消执行，释放 Try 阶段预留的业务资源，Cancel 操作满足幂等性。Cancel 阶段的异常和 Confirm 阶段异常处理方案基本上一致。</p>
+</li>
+</ul>
+<h4 id="第六章-TSF分布式事务最佳实践"><a href="#第六章-TSF分布式事务最佳实践" class="headerlink" title="第六章 TSF分布式事务最佳实践"></a>第六章 TSF分布式事务最佳实践</h4><h5 id="6-1-TSF分布式配置"><a href="#6-1-TSF分布式配置" class="headerlink" title="6.1 TSF分布式配置"></a>6.1 TSF分布式配置</h5><ul>
+<li><p>腾讯云TSF框架，提供精准掌握事务流程，包括：</p>
+<ul>
+<li><p>不同状态的事务筛选</p>
+</li>
+<li><p>事务IP、服务名、方法名</p>
+</li>
+<li><p>子事务列表</p>
+</li>
+<li><p>参数列表</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211206165720423.png" srcset="/img/loading.gif" lazyload alt="image-20211206165720423"></p>
+</li>
+</ul>
+</li>
+<li><p>在TSF控制台中提供了“事务管理”功能：</p>
+<ol>
+<li>打开TSF控制台。</li>
+<li>点击【事务管理】功能。</li>
+<li>控制台上选择需要查看的事务时间段，选择需要查看的事务状态，并填写关键词。关键词可 以选择事务相关的服务名、方法名称。</li>
+<li>点击查询，将展示事务id、起始节点、超时时长等等相关信息，查询界面如上图。</li>
+</ol>
+</li>
+</ul>
+<h5 id="6-1-TSF分布式配置（续）"><a href="#6-1-TSF分布式配置（续）" class="headerlink" title="6.1 TSF分布式配置（续）"></a>6.1 TSF分布式配置（续）</h5><ul>
+<li><p>查看子事务</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211206170132844.png" srcset="/img/loading.gif" lazyload alt="image-20211206170132844"></p>
+</li>
+<li><p>点击上一页中的主事务id，可以查看主事务下的子事务运行状态，包含子事务的方法名、服务名、 节点、状态、起止时间等信息。每一次子事务发起的请求都会记录在子事务列表中，包含子事务的确认、取消、重试等等。当子事务发生重试时，可以查看子事务重试是由主事务触发、由事务管理器启动发起重试还是由用户在控制台上进行手动触发。</p>
+</li>
+</ul>
+<h5 id="6-1-TSF分布式配置（续）-1"><a href="#6-1-TSF分布式配置（续）-1" class="headerlink" title="6.1 TSF分布式配置（续）"></a>6.1 TSF分布式配置（续）</h5><p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211206170234965.png" srcset="/img/loading.gif" lazyload alt="image-20211206170234965"></p>
+<ul>
+<li>点击子事务列表右侧的“查看事务参数”，可以查看每条子事务的参数内容，如上图：</li>
+</ul>
+<h5 id="6-2-TSF分布式事务最佳实践"><a href="#6-2-TSF分布式事务最佳实践" class="headerlink" title="6.2 TSF分布式事务最佳实践"></a>6.2 TSF分布式事务最佳实践</h5><p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20211206170318675.png" srcset="/img/loading.gif" lazyload alt="image-20211206170318675"></p>
+<ul>
+<li>已超时事务处理：<ul>
+<li>当主事务的处理时间超过了SDK中设置的超时时限后，认为事务已处于超时状态。针对超时事务， TSF 提供了两种重试渠道：自动重试和手动重试。当事务超时时，框架自动重试，重试时间间隔 从5秒一次倍速递增直到600秒一次，当超时时间超过7天后，自动停止重试。手动重试是指用户可以在控制台上通过点击的方式触发重试</li>
+</ul>
+</li>
+<li>操作步骤：<ol>
+<li>打开TSF控制台。</li>
+<li>点击【事务管理】功能。</li>
+<li>批量选择需要进行手动重试或需要停止/触发自动重试的事务，点击启动操作，如上图。</li>
+</ol>
+</li>
+</ul>
+<h4 id="思考题"><a href="#思考题" class="headerlink" title="思考题"></a>思考题</h4><ul>
+<li>开发TSF分布式事务的主要流程是怎么样的？</li>
+<li>分布式事务的主要场景有哪些？</li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%95%99%E7%A8%8B/">教程</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/TSF/">TSF</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/">分布式事务</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/12/06/%E5%8D%81%E4%B8%89%E3%80%81%E5%BE%AE%E6%9C%8D%E5%8A%A1%E8%AE%BE%E8%AE%A1%E7%9A%84%E5%8E%9F%E5%88%99%E5%8F%8A%E4%BB%B7%E5%80%BC/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">十三、微服务设计的原则及价值</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/12/03/%E5%8D%81%E4%B8%80%E3%80%81TSF%E4%B8%8EAPI%E7%BD%91%E5%85%B3/">
+                        <span class="hidden-mobile">十一、TSF与API网关</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
