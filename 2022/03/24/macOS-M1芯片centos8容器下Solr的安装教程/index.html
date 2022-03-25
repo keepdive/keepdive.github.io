@@ -23,8 +23,20 @@
 <meta property="og:site_name" content="KeepDive">
 <meta property="og:description" content="macOS M1芯片,Docekr centos8容器下安装Solr胎教级教程。">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20220324144831133.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20220324151005517.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20220325102017713.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20220325105515737.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20220325150255552.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20220325150400917.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20220325101740273.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20220325101814835.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20220325104706336.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20220325105133087.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20220325105145784.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20220325112215891.png">
 <meta property="article:published_time" content="2022-03-24T06:19:20.000Z">
-<meta property="article:modified_time" content="2022-03-24T06:38:21.493Z">
+<meta property="article:modified_time" content="2022-03-25T07:20:09.724Z">
 <meta property="article:author" content="Mike">
 <meta property="article:tag" content="Docker">
 <meta property="article:tag" content="Linux">
@@ -34,6 +46,7 @@
 <meta property="article:tag" content="ARM架构">
 <meta property="article:tag" content="Solr">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20220324144831133.png">
   
   <title>macOS M1芯片centos8容器下Solr的安装教程(单机版) - KeepDive</title>
 
@@ -207,7 +220,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      473 字
+      5.6k 字
     </span>
   
 
@@ -216,7 +229,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      1 分钟
+      17 分钟
     </span>
   
 
@@ -255,7 +268,7 @@
 <p><strong>JDK 版本</strong>：jdk-8u321-linux-aarch64</p>
 <p><strong>Solr 版本</strong>：solr-8.11.1.tgz</p>
 <p><strong>Zookeeper版本</strong>：使用solr自带3.6.2版本。</p>
-<h5 id="2-2-安装solr需要的软件"><a href="#2-2-安装solr需要的软件" class="headerlink" title="2.2 安装solr需要的软件"></a>2.2 安装solr需要的软件</h5><table>
+<h4 id="1-2-安装solr需要的软件"><a href="#1-2-安装solr需要的软件" class="headerlink" title="1.2 安装solr需要的软件"></a>1.2 安装solr需要的软件</h4><table>
 <thead>
 <tr>
 <th><strong>软件</strong></th>
@@ -279,7 +292,76 @@
 <td>使用Solr自带的zk</td>
 </tr>
 </tbody></table>
-<h3 id="二、-下载安装"><a href="#二、-下载安装" class="headerlink" title="二、 下载安装"></a>二、 下载安装</h3><h4 id="2-1-下载"><a href="#2-1-下载" class="headerlink" title="2.1 下载"></a>2.1 下载</h4><p>在<a target="_blank" rel="noopener" href="https://solr.apache.org/guide/8_11/solr-tutorial.html">官网</a> 下载所需版本的 Solr，这里我下载的版本为<a target="_blank" rel="noopener" href="https://dlcdn.apache.org/lucene/solr/8.11.1/solr-8.11.1.tgz">Solr-8.11.1</a> </p>
+<h3 id="二、-下载安装"><a href="#二、-下载安装" class="headerlink" title="二、 下载安装"></a>二、 下载安装</h3><p>Solr 采用 Java开发，是建立在 Apache Lucene™上的流行的、快速的开源企业搜索平台。</p>
+<p>Solr 具有高度可靠、可伸缩和容错能力，提供分布式索引、复制和负载平衡查询、自动故障转移和恢复、集中配置等功能。</p>
+<h4 id="2-2-下载安装JDK"><a href="#2-2-下载安装JDK" class="headerlink" title="2.2 下载安装JDK"></a>2.2 下载安装JDK</h4><p>安装JDK请参考<a target="_blank" rel="noopener" href="https://blog.keepdive.com/2022/03/24/macOS-M1%E8%8A%AF%E7%89%87centos8%E5%AE%B9%E5%99%A8%E4%B8%8BJDK%E7%9A%84%E5%AE%89%E8%A3%85/">macOS M1芯片centos8容器下JDK的安装</a>这篇文章。 </p>
+<h4 id="2-2-下载安装Solr"><a href="#2-2-下载安装Solr" class="headerlink" title="2.2 下载安装Solr"></a>2.2 下载安装Solr</h4><h5 id="2-2-1-下载solr安装包物料"><a href="#2-2-1-下载solr安装包物料" class="headerlink" title="2.2.1 下载solr安装包物料"></a>2.2.1 下载solr安装包物料</h5><p>在<a target="_blank" rel="noopener" href="https://solr.apache.org/guide/8_11/solr-tutorial.html">官网</a> 下载所需版本的 Solr，这里我下载的版本为<a target="_blank" rel="noopener" href="https://dlcdn.apache.org/lucene/solr/8.11.1/solr-8.11.1.tgz">Solr-8.11.1</a> </p>
+<h5 id="2-2-2-上传solr物料到容器"><a href="#2-2-2-上传solr物料到容器" class="headerlink" title="2.2.2 上传solr物料到容器"></a>2.2.2 上传solr物料到容器</h5><p>使用finalshell登陆服务器后，进入/usr/local目录，把物料上传到此目录。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#进入/usr/local目录</span><br><span class="hljs-built_in">cd</span> /usr/<span class="hljs-built_in">local</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20220324144831133.png" srcset="/img/loading.gif" lazyload alt="image-20220324144831133"></p>
+<h5 id="2-2-3-解压solr"><a href="#2-2-3-解压solr" class="headerlink" title="2.2.3 解压solr"></a>2.2.3 解压solr</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#解压solr</span><br>tar -zxvf solr-8.11.1.tgz<br></code></pre></td></tr></table></figure>
+
+
+
+<h5 id="2-2-4-修改启动脚本solr-in-sh"><a href="#2-2-4-修改启动脚本solr-in-sh" class="headerlink" title="2.2.4  修改启动脚本solr.in.sh"></a>2.2.4  修改启动脚本solr.in.sh</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#注意调整为你自己的solr安装目录</span><br>vim /usr/<span class="hljs-built_in">local</span>/solr-8.11.1/bin/solr.in.sh<br></code></pre></td></tr></table></figure>
+
+<p>solr.in.sh脚本详情</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">#</span><span class="bash">JDK的安装路径</span><br>SOLR_JAVA_HOME=&quot;/usr/local/jdk8/jdk1.8.0_321/&quot;<br><span class="hljs-meta">#</span><span class="bash">设置stack的大小。不然启动会报错</span><br>SOLR_JAVA_STACK_SIZE=&quot;-Xss512k&quot;<br><span class="hljs-meta">#</span><span class="bash">设置时区</span><br>SOLR_TIMEZONE=&quot;GMT+08&quot;<br><span class="hljs-meta">#</span><span class="bash">Solr端口，默认端口号为8983</span><br>SOLR_PORT=&quot;8983&quot;<br></code></pre></td></tr></table></figure>
+
+<p>创建Solr日志目录</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">mkdir -p /data/md/solr/solrlog/<br></code></pre></td></tr></table></figure>
+
+
+
+<h5 id="2-2-5-solrcloud模式启动solr"><a href="#2-2-5-solrcloud模式启动solr" class="headerlink" title="2.2.5 solrcloud模式启动solr"></a>2.2.5 solrcloud模式启动solr</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#进入solr-8.11.1的目录</span><br><span class="hljs-built_in">cd</span> /usr/<span class="hljs-built_in">local</span>/solr-8.11.1<br><span class="hljs-comment">#使用solrcloud模式启动solr</span><br>bin/solr start -c -force  <br></code></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20220324151005517.png" srcset="/img/loading.gif" lazyload alt="image-20220324151005517"></p>
+<h4 id="2-3-检测"><a href="#2-3-检测" class="headerlink" title="2.3 检测"></a>2.3 检测</h4><h5 id="2-3-1查看状态"><a href="#2-3-1查看状态" class="headerlink" title="2.3.1查看状态"></a>2.3.1<strong>查看状态</strong></h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#查看solr状态</span><br>bin/solr status<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20220325102017713.png" srcset="/img/loading.gif" lazyload alt="image-20220325102017713"></p>
+<h5 id="2-3-2查看日志"><a href="#2-3-2查看日志" class="headerlink" title="2.3.2查看日志"></a>2.3.2<strong>查看日志</strong></h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">cat /usr/<span class="hljs-built_in">local</span>/solr-8.11.1/server/logs/solr-8983-console.log<br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="三、solr测试"><a href="#三、solr测试" class="headerlink" title="三、solr测试"></a>三、solr测试</h3><p>打开solr管理界面：宿主机ip+端口。</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20220325105515737.png" srcset="/img/loading.gif" lazyload alt="image-20220325105515737"></p>
+<h4 id="3-1创建collection"><a href="#3-1创建collection" class="headerlink" title="3.1创建collection"></a>3.1创建collection</h4><h5 id="3-1-1-使用页面创建collection"><a href="#3-1-1-使用页面创建collection" class="headerlink" title="3.1.1 使用页面创建collection"></a>3.1.1 使用页面创建collection</h5><p>进入Solr Admin后台，点击Collections菜单，进入Collection添加页面：</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20220325150255552.png" srcset="/img/loading.gif" lazyload alt="image-20220325150255552"></p>
+<p>点击Add Collection按钮，输入配置，点击保存，完成Collection的创建。    </p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20220325150400917.png" srcset="/img/loading.gif" lazyload alt="image-20220325150400917">    </p>
+<h5 id="3-1-1-使用命令创建collection"><a href="#3-1-1-使用命令创建collection" class="headerlink" title="3.1.1 使用命令创建collection"></a>3.1.1 使用命令创建collection</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#创建集合</span><br>bin/solr create -c mycollection -force<br><span class="hljs-comment">#创建集合帮助</span><br>bin/solr create_collection -<span class="hljs-built_in">help</span><br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="四、-问题汇总"><a href="#四、-问题汇总" class="headerlink" title="四、 问题汇总"></a>四、 问题汇总</h3><h4 id="4-1-solr-启动报错"><a href="#4-1-solr-启动报错" class="headerlink" title="4.1 solr 启动报错"></a>4.1 solr 启动报错</h4><p>问题描述：solr启动报错</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">Error: VM option &#x27;UseG1GC&#x27; is experimental and must be enabled via -XX:+UnlockExperimentalVMOptions.<br>Error: Could not create the Java Virtual Machine.<br>Error: A fatal exception has occurred. Program will exit.<br></code></pre></td></tr></table></figure>
+
+<p>问题原因：报错VM option ‘UseG1GC’ is experimental and must be enabled via -XX:+UnlockExperimentalVMOptions</p>
+<p>解决方案：换个版本的JDK，JDK8或以上。或者把/usr/local/solr-8.11.1/bin/solr文件中把GC_TUNE变量中有关UseG1GC删除掉。</p>
+<p>删除前：</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20220325101740273.png" srcset="/img/loading.gif" lazyload alt="image-20220325101740273"></p>
+<p>删除后：</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20220325101814835.png" srcset="/img/loading.gif" lazyload alt="image-20220325101814835"></p>
+<h4 id="4-2-solr首页无法打开"><a href="#4-2-solr首页无法打开" class="headerlink" title="4.2 solr首页无法打开"></a>4.2 solr首页无法打开</h4><p>问题描述：solr无法打开首页</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20220325104706336.png" srcset="/img/loading.gif" lazyload alt="image-20220325104706336"></p>
+<p>问题原因：centos容器之前只映射了5022端口。</p>
+<p>解决方案：基于之前的镜像，重新制作镜像。在重新创建容器的时候，增加端口映射。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#制作镜像 格式：docker commit -m &quot;镜像描述&quot;   -a &quot;制作者&quot;  容器名 镜像名</span><br>docker commit -m <span class="hljs-string">&quot;test make dockerimage&quot;</span> -a<span class="hljs-string">&quot;mike&quot;</span> centos8 centos8:solr<br><span class="hljs-comment">#重新创建容器</span><br>docker run -d -p 5004:22 -p 8983:8983 -p 2128:2128 --name centos8solr --privileged=<span class="hljs-literal">true</span>  centos8:solr /usr/sbin/init<br><span class="hljs-comment">#进入容器</span><br>docker <span class="hljs-built_in">exec</span> -it centos8solr bash<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20220325105133087.png" srcset="/img/loading.gif" lazyload alt="image-20220325105133087"></p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20220325105145784.png" srcset="/img/loading.gif" lazyload alt="image-20220325105145784"></p>
+<h4 id="4-3-solr-启动报错"><a href="#4-3-solr-启动报错" class="headerlink" title="4.3 solr 启动报错"></a>4.3 solr 启动报错</h4><p>问题描述：打开首页和查看solr状态时提示404.</p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20220325112215891.png" srcset="/img/loading.gif" lazyload alt="image-20220325112215891"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs text">ERROR: Failed to get system information from http://localhost:8983/solr due to: org.apache.solr.common.SolrException: Parse error : &lt;html&gt;<br>&lt;head&gt;<br>&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html;charset=ISO-8859-1&quot;/&gt;<br>&lt;title&gt;Error 404 javax.servlet.UnavailableException: Error processing the request. CoreContainer is either not initialized or shutting down.&lt;/title&gt;<br>&lt;/head&gt;<br>&lt;body&gt;&lt;h2&gt;HTTP ERROR 404 javax.servlet.UnavailableException: Error processing the request. CoreContainer is either not initialized or shutting down.&lt;/h2&gt;<br>&lt;table&gt;<br>&lt;tr&gt;&lt;th&gt;URI:&lt;/th&gt;&lt;td&gt;/solr/admin/info/system&lt;/td&gt;&lt;/tr&gt;<br>&lt;tr&gt;&lt;th&gt;STATUS:&lt;/th&gt;&lt;td&gt;404&lt;/td&gt;&lt;/tr&gt;<br>&lt;tr&gt;&lt;th&gt;MESSAGE:&lt;/th&gt;&lt;td&gt;javax.servlet.UnavailableException: Error processing the request. CoreContainer is either not initialized or shutting down.&lt;/td&gt;&lt;/tr&gt;<br>&lt;tr&gt;&lt;th&gt;SERVLET:&lt;/th&gt;&lt;td&gt;default&lt;/td&gt;&lt;/tr&gt;<br>&lt;tr&gt;&lt;th&gt;CAUSED BY:&lt;/th&gt;&lt;td&gt;javax.servlet.ServletException: javax.servlet.UnavailableException: Error processing the request. CoreContainer is either not initialized or shutting down.&lt;/td&gt;&lt;/tr&gt;<br>&lt;tr&gt;&lt;th&gt;CAUSED BY:&lt;/th&gt;&lt;td&gt;javax.servlet.UnavailableException: Error processing the request. CoreContainer is either not initialized or shutting down.&lt;/td&gt;&lt;/tr&gt;<br>&lt;/table&gt;<br>&lt;h3&gt;Caused by:&lt;/h3&gt;&lt;pre&gt;javax.servlet.ServletException: javax.servlet.UnavailableException: Error processing the request. CoreContainer is either not initialized or shutting down.<br>	at org.eclipse.jetty.server.handler.HandlerCollection.handle(HandlerCollection.java:162)<br>	at org.eclipse.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:127)<br>	at org.eclipse.jetty.rewrite.handler.RewriteHandler.handle(RewriteHandler.java:322)<br>	at org.eclipse.jetty.server.handler.gzip.GzipHandler.handle(GzipHandler.java:763)<br>	at org.eclipse.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:127)<br>	at org.eclipse.jetty.server.Server.handle(Server.java:516)<br>	at org.eclipse.jetty.server.HttpChannel.lambda$handle$1(HttpChannel.java:400)<br>	at org.eclipse.jetty.server.HttpChannel.dispatch(HttpChannel.java:645)<br>	at org.eclipse.jetty.server.HttpChannel.handle(HttpChannel.java:392)<br>	at org.eclipse.jetty.server.HttpConnection.onFillable(HttpConnection.java:277)<br>	at org.eclipse.jetty.io.AbstractConnection$ReadCallback.succeeded(AbstractConnection.java:311)<br>	at org.eclipse.jetty.io.FillInterest.fillable(FillInterest.java:105)<br>	at org.eclipse.jetty.io.ChannelEndPoint$1.run(ChannelEndPoint.java:104)<br>	at org.eclipse.jetty.util.thread.QueuedThreadPool.runJob(QueuedThreadPool.java:883)<br>	at org.eclipse.jetty.util.thread.QueuedThreadPool$Runner.run(QueuedThreadPool.java:1034)<br>	at java.lang.Thread.run(Thread.java:748)<br>Caused by: javax.servlet.UnavailableException: Error processing the request. CoreContainer is either not initialized or shutting down.<br></code></pre></td></tr></table></figure>
+
+<p>问题原因：zookeeper没有启动</p>
+<p>解决方案：检查zk配置文件，查看zk是否启动。</p>
+<h4 id="4-4-bin-solr-stop-all-无法关闭solr应用"><a href="#4-4-bin-solr-stop-all-无法关闭solr应用" class="headerlink" title="4.4 bin/solr stop -all 无法关闭solr应用"></a>4.4 bin/solr stop -all 无法关闭solr应用</h4><p>问题描述：bin/solr stop -all 无法关闭solr应用 </p>
+<p>问题原因：使用bin/solr stop -all命令无法关闭solr自定义端口。因为是关闭的默认端口8983</p>
+<p>解决方案：指定端口关闭</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#关闭指定端口</span><br>bin/solr stop -p 5002<br></code></pre></td></tr></table></figure>
+
 
             </div>
             <hr>
