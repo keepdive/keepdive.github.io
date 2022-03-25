@@ -13,15 +13,15 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
   <meta name="theme-color" content="#2f4154">
-  <meta name="description" content="">
+  <meta name="description" content="MySQL是一个关系型数据库管理系统。本教程主要是讲述了MySQL在ARM架构中使用源码安装的步骤">
   <meta name="author" content="Mike">
   <meta name="keywords" content="">
-  <meta name="description" content="源码方式安装MySQL（ARM架构）一、软件介绍MySQL是一个关系型数据库管理系统。 二、环境要求mysql-5.7.28版本 三、配置编译环境步骤一：检查cmake是否安装1rpm -qa |grep cmake   如果未安装，需要安装： 1wget https:&#x2F;&#x2F;cmake.org&#x2F;files&#x2F;v3.12&#x2F;cmake-3.12.1.tar.gz 解压cmake 1tar -xvf cma">
+  <meta name="description" content="MySQL是一个关系型数据库管理系统。本教程主要是讲述了MySQL在ARM架构中使用源码安装的步骤">
 <meta property="og:type" content="article">
-<meta property="og:title" content="KeepDive">
-<meta property="og:url" content="http://example.com/2021/12/28/ARM%E6%9E%B6%E6%9E%84%E4%B8%8B%E6%BA%90%E7%A0%81%E6%96%B9%E5%BC%8F%E5%AE%89%E8%A3%85MySQL/index.html">
+<meta property="og:title" content="ARM架构源码安装MySQL数据库教程">
+<meta property="og:url" content="http://example.com/2022/03/25/ARM%E6%9E%B6%E6%9E%84%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85MySQL%E6%95%B0%E6%8D%AE%E5%BA%93%E6%95%99%E7%A8%8B/index.html">
 <meta property="og:site_name" content="KeepDive">
-<meta property="og:description" content="源码方式安装MySQL（ARM架构）一、软件介绍MySQL是一个关系型数据库管理系统。 二、环境要求mysql-5.7.28版本 三、配置编译环境步骤一：检查cmake是否安装1rpm -qa |grep cmake   如果未安装，需要安装： 1wget https:&#x2F;&#x2F;cmake.org&#x2F;files&#x2F;v3.12&#x2F;cmake-3.12.1.tar.gz 解压cmake 1tar -xvf cma">
+<meta property="og:description" content="MySQL是一个关系型数据库管理系统。本教程主要是讲述了MySQL在ARM架构中使用源码安装的步骤">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211228190757494.png">
 <meta property="og:image" content="http://www.adapt-center.com/upload/editor/20210726/thumb_70945b3a1798e5a561c0bd2c7ae92c27_1200_0.jpg">
@@ -37,13 +37,15 @@
 <meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211231101208174.png">
 <meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211231103507742.png">
 <meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211231103808839.png">
-<meta property="article:published_time" content="2021-12-28T09:40:41.552Z">
-<meta property="article:modified_time" content="2022-01-14T07:01:53.265Z">
+<meta property="article:published_time" content="2022-03-25T07:25:13.000Z">
+<meta property="article:modified_time" content="2022-03-25T08:06:13.062Z">
 <meta property="article:author" content="Mike">
+<meta property="article:tag" content="MySQL">
+<meta property="article:tag" content="ARM">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20211228190757494.png">
   
-  <title>KeepDive</title>
+  <title>ARM架构源码安装MySQL数据库教程 - KeepDive</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -189,7 +191,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="">
+            <span class="h2" id="subtitle" title="ARM架构源码安装MySQL数据库教程">
               
             </span>
 
@@ -204,8 +206,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-12-28 17:40" pubdate>
-        2021年12月28日 下午
+      <time datetime="2022-03-25 15:25" pubdate>
+        2022年3月25日 下午
       </time>
     </span>
   
@@ -215,7 +217,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      6.7k 字
+      6.6k 字
     </span>
   
 
@@ -253,11 +255,11 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none"></h1>
+            <h1 style="display: none">ARM架构源码安装MySQL数据库教程</h1>
             
             <div class="markdown-body">
-              <h2 id="源码方式安装MySQL（ARM架构）"><a href="#源码方式安装MySQL（ARM架构）" class="headerlink" title="源码方式安装MySQL（ARM架构）"></a>源码方式安装MySQL（ARM架构）</h2><h3 id="一、软件介绍"><a href="#一、软件介绍" class="headerlink" title="一、软件介绍"></a><strong>一、软件介绍</strong></h3><p>MySQL是一个关系型数据库管理系统。</p>
-<h3 id="二、环境要求"><a href="#二、环境要求" class="headerlink" title="二、环境要求"></a><strong>二、环境要求</strong></h3><p>mysql-5.7.28版本</p>
+              <h3 id="一、软件介绍"><a href="#一、软件介绍" class="headerlink" title="一、软件介绍"></a><strong>一、软件介绍</strong></h3><p>MySQL是一个关系型数据库管理系统。</p>
+<h3 id="二、环境信息"><a href="#二、环境信息" class="headerlink" title="二、环境信息"></a><strong>二、环境信息</strong></h3><p>mysql-5.7.28版本</p>
 <h3 id="三、配置编译环境"><a href="#三、配置编译环境" class="headerlink" title="三、配置编译环境"></a><strong>三、配置编译环境</strong></h3><h4 id="步骤一：检查cmake是否安装"><a href="#步骤一：检查cmake是否安装" class="headerlink" title="步骤一：检查cmake是否安装"></a><strong>步骤一：检查cmake是否安装</strong></h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">rpm -qa |grep cmake<br></code></pre></td></tr></table></figure>
 
 <ul>
@@ -563,6 +565,15 @@
               <div class="post-metas mb-3">
                 
                 
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/MySQL/">MySQL</a>
+                    
+                      <a class="hover-with-bg" href="/tags/ARM/">ARM</a>
+                    
+                  </div>
+                
               </div>
               
                 <p class="note note-warning">
@@ -576,18 +587,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/03/23/macOS%20M1%E8%8A%AF%E7%89%87DockerDeskTop%E5%AE%89%E8%A3%85CentOS%E8%83%8E%E6%95%99%E7%BA%A7%E6%95%99%E7%A8%8B/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">macOS M1芯片DockerDeskTop安装CentOS胎教级教程</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2021/12/07/%E5%8D%81%E5%9B%9B%E3%80%81%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%8B%86%E5%88%86%E5%AE%9E%E6%88%98/">
-                        <span class="hidden-mobile">十四、微服务拆分实战</span>
+                      <a href="/2022/03/25/Solr%E4%BD%BF%E7%94%A8DataImport%E5%8A%9F%E8%83%BD%E4%B8%8A%E4%BC%A0MySQL%E6%95%B0%E6%8D%AE%E5%BA%93%E6%95%B0%E6%8D%AE%E6%95%99%E7%A8%8B/">
+                        <span class="hidden-mobile">Solr使用DataImport功能上传MySQL数据库数据教程</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
