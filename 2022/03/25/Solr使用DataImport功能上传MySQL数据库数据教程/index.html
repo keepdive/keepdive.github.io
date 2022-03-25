@@ -23,8 +23,8 @@
 <meta property="og:site_name" content="KeepDive">
 <meta property="og:description" content="通过DataImport功能手动导入MySql的数据至Solr数据库">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://docimg9.docs.qq.com/image/30Hd1PuY02y_PkfkIRFBEg.png?w=1280&h=147.93339862879532">
-<meta property="og:image" content="https://docimg7.docs.qq.com/image/PsSI8iKI64iLNVfqdzKZkA.png?w=1280&h=348.85771543086173">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20220325161022419.png">
+<meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20220325161102322.png">
 <meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20220325154711442.png">
 <meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20220325154745184.png">
 <meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20220325154839418.png">
@@ -34,12 +34,12 @@
 <meta property="og:image" content="https://docimg9.docs.qq.com/image/H_Y7RIXpr88VpqRgtQhOcA.png?w=1280&h=193.83356070941338">
 <meta property="og:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20220325155503716.png">
 <meta property="article:published_time" content="2022-03-25T07:25:13.000Z">
-<meta property="article:modified_time" content="2022-03-25T07:56:00.744Z">
+<meta property="article:modified_time" content="2022-03-25T08:11:12.559Z">
 <meta property="article:author" content="Mike">
 <meta property="article:tag" content="Solr">
 <meta property="article:tag" content="DIH">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://docimg9.docs.qq.com/image/30Hd1PuY02y_PkfkIRFBEg.png?w=1280&h=147.93339862879532">
+<meta name="twitter:image" content="https://gitee.com/divemaven/git-project/raw/master/image-20220325161022419.png">
   
   <title>Solr使用DataImport功能上传MySQL数据库数据教程 - KeepDive</title>
 
@@ -301,7 +301,7 @@
 <p>**找到*<em>field name=”id”*<em>这一段配置，在其下添加如下配置：</em></em></p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">field</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;id&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;string&quot;</span> <span class="hljs-attr">indexed</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">stored</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">required</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">multiValued</span>=<span class="hljs-string">&quot;false&quot;</span> /&gt;</span><br><br><br><span class="hljs-comment">&lt;!-- custom fields --&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">field</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;title&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;string&quot;</span> <span class="hljs-attr">indexed</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">stored</span>=<span class="hljs-string">&quot;true&quot;</span>/&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">field</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;article&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text_general&quot;</span> <span class="hljs-attr">indexed</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">stored</span>=<span class="hljs-string">&quot;true&quot;</span>/&gt;</span><br></code></pre></td></tr></table></figure>
 
-<p>​                 <img src="https://docimg9.docs.qq.com/image/30Hd1PuY02y_PkfkIRFBEg.png?w=1280&h=147.93339862879532" srcset="/img/loading.gif" lazyload alt="img">        </p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20220325161022419.png" srcset="/img/loading.gif" lazyload alt="image-20220325161022419">        </p>
 <p><strong>对上述配置进行简单讲解：</strong></p>
 <p><strong>name=”title”：</strong>name属性即Solr的字段名，一定要与news-data-config.xml的相关配置一一对应。</p>
 <p><strong>type=”string”：</strong>type属性即字段类型，其中string类型的字段为精确检索，text_general类型的字段为solr自带的分词检索。</p>
@@ -313,7 +313,7 @@
 <p>找到**requestHandler name=”/select”**所在行代码，在其上添加如下内容：</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!--data import from mysql config --&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">requestHandler</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;/dataimport&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;org.apache.solr.handler.dataimport.DataImportHandler&quot;</span>&gt;</span>  <br>      <span class="hljs-tag">&lt;<span class="hljs-name">lst</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;defaults&quot;</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">str</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;config&quot;</span>&gt;</span>news-data-config.xml<span class="hljs-tag">&lt;/<span class="hljs-name">str</span>&gt;</span><br>      <span class="hljs-tag">&lt;/<span class="hljs-name">lst</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">requestHandler</span>&gt;</span><br><br><br>  <span class="hljs-tag">&lt;<span class="hljs-name">requestHandler</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;/select&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;solr.SearchHandler&quot;</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
-<p>​                 <img src="https://docimg7.docs.qq.com/image/PsSI8iKI64iLNVfqdzKZkA.png?w=1280&h=348.85771543086173" srcset="/img/loading.gif" lazyload alt="img">        </p>
+<p><img src="https://gitee.com/divemaven/git-project/raw/master/image-20220325161102322.png" srcset="/img/loading.gif" lazyload alt="image-20220325161102322">        </p>
 <p><strong>注意：</strong>如果已有requestHandler name=”/dataimport”**的相关配置，则不用再添加。只是需要注意将news-data-config.xml添加到配置中即可。</p>
 <h3 id="5-添加数据驱动jar包"><a href="#5-添加数据驱动jar包" class="headerlink" title="5. 添加数据驱动jar包"></a><strong>5.</strong> <strong>添加数据驱动jar包</strong></h3><p><strong>下载MySql的驱动jar包：</strong></p>
 <p><a target="_blank" rel="noopener" href="https://dev.mysql.com/downloads/connector/j/">https://dev.mysql.com/downloads/connector/j/</a></p>
